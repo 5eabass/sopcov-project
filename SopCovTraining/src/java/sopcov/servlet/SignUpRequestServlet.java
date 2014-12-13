@@ -34,6 +34,7 @@ public class SignUpRequestServlet extends HttpServlet {
             String email = (String) request.getAttribute("email");
             String password = (String) request.getAttribute("password");
 
+            out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Sign Up</title>");
@@ -41,6 +42,9 @@ public class SignUpRequestServlet extends HttpServlet {
             out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
             out.println("</head>");
             out.println("<body>");
+            out.println("<h1>SopCov</h1>");
+            out.println("<h2>Welcome " + email.split("@")[0] + "</h2>");
+            out.println("<p>");
             out.println("<form id=\"signInUpForm\" method=\"post\" action=\"/SopCovTraining/SignUpServlet.do\">");
             out.println("<table style=\"width=100%\">");
             out.println("<tr>");
@@ -85,7 +89,11 @@ public class SignUpRequestServlet extends HttpServlet {
             out.println("<td>Je veux être notifié par mail</td>");
             out.println("<td><input type=\"checkbox\" name=\"notif\" value=\"false\"></td>");
             out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td><input type=\"submit\" name=\"SaveBtn\" value=\"save data\"></td>");
+            out.println("</tr>");
             out.println("</table>");
+            out.println("</p>");
             out.println("</form>");
             out.println("</body>");
             out.println("</html>");
