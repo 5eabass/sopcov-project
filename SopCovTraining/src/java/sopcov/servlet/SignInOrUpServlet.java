@@ -50,7 +50,7 @@ public class SignInOrUpServlet extends HttpServlet {
                 dispatcher = request.getRequestDispatcher("/SignInServlet.do");
                 dispatcher.forward(request, response);
             } else if (btnClicked[0].equals("SignUpBtn")) {
-                dispatcher = request.getRequestDispatcher("/SignUpServlet.do");
+                dispatcher = request.getRequestDispatcher("/SignUpRequestServlet.do");
                 dispatcher.forward(request, response);
             } //Something is wrong there are only two buttons
             else {

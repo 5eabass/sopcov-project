@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author gb
  */
-public class MainServlet extends HttpServlet {
+public class SignUpRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,34 +31,65 @@ public class MainServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+            String email = (String) request.getAttribute("email");
+            String password = (String) request.getAttribute("password");
+
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>SopCov - Sign In or Sign Up</title>");            
+            out.println("<title>Sign Up</title>");
+            out.println("<meta charset=\"UTF-8\">");
+            out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>SopCov</h1>");
-            out.println("</body>");
-            out.println("<form id=\"signInUpForm\" method=\"post\" action=\"/SopCovTraining/SignInOrUpServlet.do\">");
+            out.println("<form id=\"signInUpForm\" method=\"post\" action=\"/SopCovTraining/SignUpServlet.do\">");
             out.println("<table style=\"width=100%\">");
             out.println("<tr>");
-            out.println("<td>Adresse Email :</td>");
-            out.println("<td><input type=\"email\" name=\"email\"></td>");
+            out.println("<td>Prénom</td>");
+            out.println("<td><input type=\"text\" name=\"name\" value=\"name\"></td>");
+            out.println("<td>Lieu de travail</td>");
+            out.println("<td>");
+            out.println("<select name=\"wPlace\">");
+            out.println("<option>SopraOption1</option>");
+            out.println("<option selected>SopraOption2</option>");
+            out.println("<option>SopraOption3</option>");
+            out.println("</select>");
+            out.println("</td>");
             out.println("</tr>");
             out.println("<tr>");
-            out.println("<td>Password :</td>");
-            out.println("<td><input type=\"password\" name=\"pswd\"></td>");
+            out.println("<td>Nom</td>");
+            out.println("<td><input type=\"text\" name=\"lastname\" value=\"lastname\"></td>");
+            out.println("<td>Heure de départ</td>");
+            out.println("<td><input type=\"time\" name=\"depTime\" value=\"08:00\"></td>");
             out.println("</tr>");
             out.println("<tr>");
-            out.println("<td></td>");
-            out.println("<td><input type=\"submit\" name=\"choiceBtn\" value=\"SignInBtn\">");
-            out.println("<input type=\"submit\" name=\"choiceBtn\" value=\"SignUpBtn\"></td>");
+            out.println("<td>Téléphone</td>");
+            out.println("<td><input type=\"tel\" name=\"phone\" value=\"06\"></td>");
+            out.println("<td>Heure de retour</td>");
+            out.println("<td><input type=\"time\" name=\"retTime\" value=\"08:00\"></td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td>Adresse</td>");
+            out.println("<td><input type=\"text\" name=\"hAddress\" value=\"123 rue paradis\"></td>");
+            out.println("<td>Jour de travail</td>");
+            out.println("<td><input type=\"week\" name=\"workDays\"></td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td>Commune</td>");
+            out.println("<td><input type=\"text\" name=\"commune\" value=\"Toulouse\"></td>");
+            out.println("<td>Je serai conducteur</td>");
+            out.println("<td><input type=\"checkbox\" name=\"driver\" value=\"false\"></td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td>Code Postal</td>");
+            out.println("<td><input type=\"text\" name=\"pCode\" value=\"31000\"></td>");
+            out.println("<td>Je veux être notifié par mail</td>");
+            out.println("<td><input type=\"checkbox\" name=\"notif\" value=\"false\"></td>");
             out.println("</tr>");
             out.println("</table>");
             out.println("</form>");
             out.println("</body>");
             out.println("</html>");
+
         }
     }
 
@@ -74,7 +105,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**
