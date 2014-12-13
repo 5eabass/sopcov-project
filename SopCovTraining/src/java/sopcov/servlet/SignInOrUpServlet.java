@@ -7,6 +7,7 @@ package sopcov.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author gb
  */
-public class MainServlet extends HttpServlet {
+public class SignInOrUpServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,36 +30,36 @@ public class MainServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>SopCov - Sign In or Sign Up</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>SopCov</h1>");
-            out.println("</body>");
-            out.println("<form id=\"signInUpForm\" method=\"post\" action=\"/SopCovTraining/SignInOrUpServlet.do\">");
-            out.println("<table style=\"width=100%\">");
-            out.println("<tr>");
-            out.println("<td>Adresse Email :</td>");
-            out.println("<td><input type=\"text\" name=\"email\"></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>Password :</td>");
-            out.println("<td><input type=\"password\" name=\"pswd\"></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td></td>");
-            out.println("<td><input type=\"submit\" name=\"choiceBtn\" value=\"SignInBtn\">");
-            out.println("<input type=\"submit\" name=\"choiceBtn\" value=\"SignUpBtn\"></td>");
-            out.println("</tr>");
-            out.println("</table>");
-            out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
+        //get the parameter that were posted
+        //to know wether the user wanted to sign in or up
+        String email = request.getParameter("email");
+        String password = request.getParameter("pswd");
+        String[] btnClicked = request.getParameterValues("choiceBtn");
+
+        //the dispatcher that will forward the request to the good servlet
+        RequestDispatcher dispatcher;
+
+        //If we have one btn clicked everything is normal else someone is messing around
+        if (btnClicked.length == 1) {
+
+            request.setAttribute("email", email);
+            request.setAttribute("password", password);
+
+            //Going to sign in or up options
+            if (btnClicked[0].equals("SignInBtn")) {
+                dispatcher = request.getRequestDispatcher("/SignInServlet.do");
+                dispatcher.forward(request, response);
+            } else if (btnClicked[0].equals("SignUpBtn")) {
+                dispatcher = request.getRequestDispatcher("/SignUpServlet.do");
+                dispatcher.forward(request, response);
+            } //Something is wrong there are only two buttons
+            else {
+                dispatcher = request.getRequestDispatcher("/MainServlet.do");
+                dispatcher.forward(null, null);
+            }
+        } else {
+            dispatcher = request.getRequestDispatcher("/MainServlet.do");
+            dispatcher.forward(null, null);
         }
     }
 
@@ -74,7 +75,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**

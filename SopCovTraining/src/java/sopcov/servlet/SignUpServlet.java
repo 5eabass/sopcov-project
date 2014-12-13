@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author gb
  */
-public class MainServlet extends HttpServlet {
+public class SignUpServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,28 +35,18 @@ public class MainServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>SopCov - Sign In or Sign Up</title>");            
+            out.println("<title>Servlet SignUpServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>SopCov</h1>");
-            out.println("</body>");
-            out.println("<form id=\"signInUpForm\" method=\"post\" action=\"/SopCovTraining/SignInOrUpServlet.do\">");
-            out.println("<table style=\"width=100%\">");
-            out.println("<tr>");
-            out.println("<td>Adresse Email :</td>");
-            out.println("<td><input type=\"text\" name=\"email\"></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>Password :</td>");
-            out.println("<td><input type=\"password\" name=\"pswd\"></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td></td>");
-            out.println("<td><input type=\"submit\" name=\"choiceBtn\" value=\"SignInBtn\">");
-            out.println("<input type=\"submit\" name=\"choiceBtn\" value=\"SignUpBtn\"></td>");
-            out.println("</tr>");
-            out.println("</table>");
-            out.println("</form>");
+            out.println("<h1>Sign Up Page</h1>");
+            out.println("<p>");
+            out.println("Email is : ");
+            out.println(request.getAttribute("email"));
+            out.println("<br/>");
+            out.println("Password is : ");
+            out.println(request.getAttribute("password"));
+            out.println("<br/>");
+            out.println("</p>");
             out.println("</body>");
             out.println("</html>");
         }
