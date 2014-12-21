@@ -39,7 +39,7 @@
         <servlet-name>SignUpRequestServlet</servlet-name>
         <url-pattern>/SignUpRequestServlet.do</url-pattern>
     </servlet-mapping>
-    
+       
     <session-config>
         <session-timeout>
             30
