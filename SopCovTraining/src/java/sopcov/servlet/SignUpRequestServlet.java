@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,9 +32,16 @@ public class SignUpRequestServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            //Retreiving email and password from the form
             String email = (String) request.getAttribute("email");
             String password = (String) request.getAttribute("password");
 
+            //Saving the email and the password into a session we are having with the current user
+            HttpSession session = request.getSession();
+            session.setAttribute("email", email);
+            session.setAttribute("password", password);
+
+            //Printing the personal data form
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -75,7 +83,26 @@ public class SignUpRequestServlet extends HttpServlet {
             out.println("<td>Adresse</td>");
             out.println("<td><input type=\"text\" name=\"hAddress\" value=\"123 rue paradis\"></td>");
             out.println("<td>Jour de travail</td>");
-            out.println("<td><input type=\"week\" name=\"workDays\"></td>");
+            out.println("<td>");
+            out.println("<table>");
+            out.println("<tr>");
+            out.println("<td><input type=\"checkbox\" name=\"Lundi\" value=\"false\"></td><td>Lundi</td>");
+            out.println("<td><input type=\"checkbox\" name=\"Mardi\" value=\"false\"></td><td>Mardi</td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td><input type=\"checkbox\" name=\"Mercredi\" value=\"false\"></td><td>Mercredi</td>");
+            out.println("<td><input type=\"checkbox\" name=\"Jeudi\" value=\"false\"></td><td>Jeudi</td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td><input type=\"checkbox\" name=\"Vendredi\" value=\"false\"></td><td>Vendredi</td>");
+            out.println("<td><input type=\"checkbox\" name=\"Samedi\" value=\"false\"></td><td>Samedi</td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("<td><input type=\"checkbox\" name=\"Dimanche\" value=\"false\"></td><td>Dimanche</td>");
+            out.println("<td></td>");
+            out.println("</tr>");
+            out.println("</table>");
+            out.println("</td>");
             out.println("</tr>");
             out.println("<tr>");
             out.println("<td>Commune</td>");
@@ -97,7 +124,6 @@ public class SignUpRequestServlet extends HttpServlet {
             out.println("</form>");
             out.println("</body>");
             out.println("</html>");
-
         }
     }
 
