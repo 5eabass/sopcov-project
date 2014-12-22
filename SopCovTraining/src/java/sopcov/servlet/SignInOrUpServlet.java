@@ -6,12 +6,12 @@
 package sopcov.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,34 +33,33 @@ public class SignInOrUpServlet extends HttpServlet {
         //get the parameter that were posted
         //to know wether the user wanted to sign in or up
         String email = request.getParameter("email");
-        String password = request.getParameter("pswd");
+        String pswd = request.getParameter("pswd");
         String[] btnClicked = request.getParameterValues("choiceBtn");
 
+        //Getting the session
+        HttpSession s = request.getSession();
+        s.setAttribute("email", email);
+        s.setAttribute("pswd", pswd);
+        
         //the dispatcher that will forward the request to the good servlet
         RequestDispatcher dispatcher;
+
+        //By default, we are going back to the sign in page
+        String destination = "index.jsp";
 
         //If we have one btn clicked everything is normal else someone is messing around
         if (btnClicked.length == 1) {
 
-            request.setAttribute("email", email);
-            request.setAttribute("password", password);
-
             //Going to sign in or up options
             if (btnClicked[0].equals("SignInBtn")) {
-                dispatcher = request.getRequestDispatcher("/SignInServlet.do");
-                dispatcher.forward(request, response);
+                destination = "SignInServlet.do";
             } else if (btnClicked[0].equals("SignUpBtn")) {
-                dispatcher = request.getRequestDispatcher("/SignUpRequestServlet.do");
-                dispatcher.forward(request, response);
-            } //Something is wrong there are only two buttons
-            else {
-                dispatcher = request.getRequestDispatcher("/MainServlet.do");
-                dispatcher.forward(null, null);
+                destination = "SignUpRequestServlet.do";
             }
-        } else {
-            dispatcher = request.getRequestDispatcher("/MainServlet.do");
-            dispatcher.forward(null, null);
         }
+
+        dispatcher = request.getRequestDispatcher("/" + destination);
+        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
