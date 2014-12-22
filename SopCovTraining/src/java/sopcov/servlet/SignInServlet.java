@@ -81,14 +81,17 @@ public class SignInServlet extends HttpServlet {
                     //Sending the query 
                     // /!\ should be done by the model actually
                     ResultSet res = dbm.ExecuteResultSet(query);
-                    res.next();
-                    
-                    //Testing if the password match, normally there is just one row
-                    if (res.getString("pswd").equals(pswd)) {
-                        System.out.println("In SignInServlet : Password match");
-                        destination = "userPage.jsp";
-                    } else {
-                        System.out.println("In SignInServlet : Password do not match");
+                    if (res.next()) {
+                        //Testing if the password match, normally there is just one row
+                        if (res.getString("pswd").equals(pswd)) {
+                            System.out.println("In SignInServlet : Password match");
+                            destination = "userPage.jsp";
+                        } else {
+                            System.out.println("In SignInServlet : Password do not match");
+                        }
+                    }
+                    else {
+                        System.out.println("In SignInServlet : No user with " + email);
                     }
                 } catch (SQLException ex) {
                     System.err.println("Error in SignInServlet : " + ex.getLocalizedMessage());
