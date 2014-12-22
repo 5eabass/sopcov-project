@@ -15,7 +15,7 @@
         <%@include file="header.jsp" %>
 
         <!-- Here is the Sign Up Form -->
-        <form id="signInUpForm" method="post" action="/SopCovTraining/SignUpServlet.do">
+        <form id="signInUpForm" method="post" action="/SopCov/SignUpServlet.do">
             <table>
                 <tr>
                     <td>Prénom</td>

@@ -13,7 +13,7 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
-        <form id="signInUpForm" method="post" action="/SopCovTraining/SignInOrUpServlet.do">
+        <form id="signInUpForm" method="post" action="/SopCov/SignInOrUpServlet.do">
             <table>
                 <tr>
                     <td>Adresse Email :</td>
