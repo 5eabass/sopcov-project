@@ -51,11 +51,11 @@ public class SignInServlet extends HttpServlet {
 
             //retreive the database informations from the context
             String dbname = getServletContext().getInitParameter("dbuserid");
-            String dbpswd = getServletContext().getInitParameter("dbuserpswd");
+            String dbpwd = getServletContext().getInitParameter("dbuserpwd");
             String dbcatalog = getServletContext().getInitParameter("dbcatalog");
 
             //set the dbi for mysql
-            DBI dbi = new MySQLDBI(dbname, dbpswd, dbcatalog);
+            DBI dbi = new MySQLDBI(dbname, dbpwd, dbcatalog);
             System.out.println(dbi.getConnectionDetails());
             System.out.println(dbi.getConnectionURL());
 
@@ -76,14 +76,14 @@ public class SignInServlet extends HttpServlet {
             } else {
                 try {
                     //Creating the query
-                    String query = "select pswd from utilisateur where email = '" + email + "'";
+                    String query = "select pwd from utilisateur where email = '" + email + "'";
 
                     //Sending the query 
                     // /!\ should be done by the model actually
                     ResultSet res = dbm.ExecuteResultSet(query);
                     if (res.next()) {
                         //Testing if the password match, normally there is just one row
-                        if (res.getString("pswd").equals(pswd)) {
+                        if (res.getString("pwd").equals(pswd)) {
                             System.out.println("In SignInServlet : Password match");
                             destination = "userPage.jsp";
                         } else {

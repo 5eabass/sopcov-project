@@ -31,7 +31,12 @@
         <h2>Bonjour <%=login%> </h2>
         <p>
             Bonjour, vous nous avez donné cet email : <%=email%>
-            et ce mot de passe : <%=pswd%>
+            et ce mot de passe : <%=pswd%>     
+            
+            <br>
+               <a href="editProfilePage.jsp">Edit Profile</a>
+            </br>
+            
         </p>
         <%@include file="footer.jsp" %>
     </body>
