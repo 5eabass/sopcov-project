@@ -20,6 +20,24 @@
         <servlet-class>sopcov.servlet.SignUpRequestServlet</servlet-class>
     </servlet>
     
+     <servlet>
+        <servlet-name>ShowCovoiturage</servlet-name>
+        <servlet-class>sopcov.servlet.ShowCovoiturage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchRoute</servlet-name>
+        <servlet-class>sopcov.servlet.SearchRoute</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ShowCovoiturage</servlet-name>
+        <url-pattern>/ShowCovoiturage</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>SearchRoute</servlet-name>
+        <url-pattern>/SearchRoute</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/MainServlet.do</url-pattern>

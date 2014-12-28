@@ -16,9 +16,9 @@ public abstract class DBUserInfo {
     private String cat;
 
     public DBUserInfo() {
-        name="";
+        name="root";
         pswd="";
-        cat="";
+        cat="sopcov";
     }
 
     public DBUserInfo(String name, String pswd, String cat) {
