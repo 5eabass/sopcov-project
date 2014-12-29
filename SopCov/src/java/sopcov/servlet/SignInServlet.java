@@ -40,20 +40,23 @@ public class SignInServlet extends HttpServlet {
         HttpSession s = request.getSession();
         String email = null;
         String pswd = null;
-        if (s != null && !s.isNew()) {
+        if (s != null) {
+            //System.out.println("In SignInServlet : La session n'est pas null et pas nouvelle");
             email = (String) s.getAttribute("email");
             pswd = (String) s.getAttribute("password");
         }
+        //System.out.println("In SignInServlet : email : " + email + " & pswd : " + pswd);
 
         if (email != null && !email.isEmpty() && pswd != null && !pswd.isEmpty()) {
             DBInterface dbi = new DB();
             dbi.connect();
             String pswd_attendu = dbi.getPassword(email);
+            //System.out.println("In SignInServlet : Le mot de passe reçu de la base de données est : " + pswd);
             if (pswd_attendu.equals(pswd)) {
-                System.out.println("In SignInServlet : Les mots de passe ne concorde pas");
+                System.out.println("In SignInServlet : Les mots de passe concorde");
                 destination = "userPage.jsp";
             } else {
-                System.out.println("In SignInServlet : Les mots de passe concorde");
+                System.out.println("In SignInServlet : Les mots de passe ne concorde pas");
             }
         }
 

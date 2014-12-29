@@ -43,6 +43,7 @@ public class DB implements DBInterface {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
         } catch (Exception e) {
+            System.err.println("In DB : " + e.getLocalizedMessage() );
         }
 
     }
@@ -241,7 +242,7 @@ public class DB implements DBInterface {
         String pass = "";
         connect();
         String sql;
-        sql = "SELECT password FROM users WHERE email='" + email + "'";
+        sql = "SELECT password FROM utilisateurs WHERE email='" + email + "'";
         //System.out.println(sql);
         ResultSet rs;
         try {
@@ -393,15 +394,18 @@ public class DB implements DBInterface {
 //test addUser, ShowDatabase,deleteUSer...
     public static void main(String[] args) {
         DB dbHelper = new DB();
+        dbHelper.connect();
+        String password = dbHelper.getPassword("simpleuser@test.com");
+        System.out.println("Password is " + password);
         //dbHelper.showDatabase();
         //dbHelper.deleteUser(1, "Om", "GH");
         //System.out.println("\n\n");
-        dbHelper.addNewUser(0, "Ernesto", "Exposito", "ernesto", "0712345678", "exposito@etud.insa-toulouse.fr", "135 av.R", "Paris", 31400, "Bordeaux", 8, 19, "Lundi,Mardi,Jeudi,Vendredi", 1, 1);
+        //dbHelper.addNewUser(0, "Ernesto", "Exposito", "ernesto", "0712345678", "exposito@etud.insa-toulouse.fr", "135 av.R", "Paris", 31400, "Bordeaux", 8, 19, "Lundi,Mardi,Jeudi,Vendredi", 1, 1);
         //dbHelper.setPassword("so@so.fr","abo");
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
         //System.out.println(dbHelper.userExists("so@so.fr", "12345"));
         //System.out.println(dbHelper.getPassword("so@so.fr"));
-        dbHelper.listData();
+        //dbHelper.listData();
     }//end main
 
 }
