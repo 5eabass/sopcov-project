@@ -23,10 +23,10 @@ public class DB implements DBInterface {
 
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/sopcov";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/sopcov";
     // Database credentials
-    static final String USER = "root";
-    static final String PASS = "";
+    static final String USER = "prog";
+    static final String PASS = "prog";
     Connection conn = null;
     Statement stmt = null;
 

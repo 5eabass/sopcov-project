@@ -47,6 +47,7 @@ public class SignInServlet extends HttpServlet {
 
         if (email != null && !email.isEmpty() && pswd != null && !pswd.isEmpty()) {
             DBInterface dbi = new DB();
+            dbi.connect();
             String pswd_attendu = dbi.getPassword(email);
             if (pswd_attendu.equals(pswd)) {
                 System.out.println("In SignInServlet : Les mots de passe ne concorde pas");
