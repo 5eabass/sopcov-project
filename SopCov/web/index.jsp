@@ -37,9 +37,9 @@
 
                             <div class="form-group">
                                 <div class="col-md-offset-4 col-md-4">
-                                    <input class="btn btn-success btn btn-success" type="submit" value="Connexion"/>
+                                    <input class="btn btn-success btn btn-success" type="submit" name="BoutonIndex" value="Connexion"/>
                                     <span style="margin:0 5px 0 5px"></span>
-                                    <input class="btn btn-success btn btn-success" type="submit" value="Inscription"/>
+                                    <input class="btn btn-success btn btn-success" type="submit" name="BoutonIndex" value="Inscription"/>
                                 </div>
                             </div>
                         </form>

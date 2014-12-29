@@ -33,13 +33,13 @@ public class SignInOrUpServlet extends HttpServlet {
         //get the parameter that were posted
         //to know wether the user wanted to sign in or up
         String email = request.getParameter("email");
-        String pswd = request.getParameter("pswd");
-        String[] btnClicked = request.getParameterValues("choiceBtn");
+        String pswd = request.getParameter("password");
+        String[] btnClicked = request.getParameterValues("BoutonIndex");
 
         //Getting the session
         HttpSession s = request.getSession();
         s.setAttribute("email", email);
-        s.setAttribute("pswd", pswd);
+        s.setAttribute("password", pswd);
         
         //the dispatcher that will forward the request to the good servlet
         RequestDispatcher dispatcher;
@@ -51,13 +51,14 @@ public class SignInOrUpServlet extends HttpServlet {
         if (btnClicked.length == 1) {
 
             //Going to sign in or up options
-            if (btnClicked[0].equals("SignInBtn")) {
+            if (btnClicked[0].equals("Connexion")) {
                 destination = "SignInServlet.do";
-            } else if (btnClicked[0].equals("SignUpBtn")) {
+            } else if (btnClicked[0].equals("Inscription")) {
                 destination = "SignUpRequestServlet.do";
             }
         }
 
+        System.out.println("In SignInOrUpServlet : destination is " + destination);
         dispatcher = request.getRequestDispatcher("/" + destination);
         dispatcher.forward(request, response);
     }

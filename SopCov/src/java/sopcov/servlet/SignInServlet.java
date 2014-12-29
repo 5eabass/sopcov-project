@@ -5,18 +5,15 @@
  */
 package sopcov.servlet;
 
+import database.DB;
+import database.DBInterface;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sopcov.models.DBI;
-import sopcov.models.DBManager;
-import sopcov.models.MySQLDBI;
 
 /**
  *
@@ -45,57 +42,17 @@ public class SignInServlet extends HttpServlet {
         String pswd = null;
         if (s != null && !s.isNew()) {
             email = (String) s.getAttribute("email");
-            pswd = (String) s.getAttribute("pswd");
+            pswd = (String) s.getAttribute("password");
         }
+
         if (email != null && !email.isEmpty() && pswd != null && !pswd.isEmpty()) {
-
-            //retreive the database informations from the context
-            String dbname = getServletContext().getInitParameter("dbuserid");
-            String dbpwd = getServletContext().getInitParameter("dbuserpwd");
-            String dbcatalog = getServletContext().getInitParameter("dbcatalog");
-
-            //set the dbi for mysql
-            DBI dbi = new MySQLDBI(dbname, dbpwd, dbcatalog);
-            System.out.println(dbi.getConnectionDetails());
-            System.out.println(dbi.getConnectionURL());
-
-            DBManager dbm = new DBManager(dbi);
-
-            if (!dbm.isConnected()) {
-                //TO-DO redirect to sign in page with an error message            
-                System.out.println("In SignInServlet : database is not connected, connecting it...");
-                if (!dbm.openConnection()) {
-                    System.err.println("Error in SignInServlet : could not connect to the database");
-                }
-                System.out.println("In SignInServlet : connection status : " + dbm.isConnected());
-
-            }
-
-            if (!dbm.isConnected()) {
-                System.out.println("Error in SignInServlet : could not connect to the DB");
+            DBInterface dbi = new DB();
+            String pswd_attendu = dbi.getPassword(email);
+            if (pswd_attendu.equals(pswd)) {
+                System.out.println("In SignInServlet : Les mots de passe ne concorde pas");
+                destination = "userPage.jsp";
             } else {
-                try {
-                    //Creating the query
-                    String query = "select pwd from utilisateur where email = '" + email + "'";
-
-                    //Sending the query 
-                    // /!\ should be done by the model actually
-                    ResultSet res = dbm.ExecuteResultSet(query);
-                    if (res.next()) {
-                        //Testing if the password match, normally there is just one row
-                        if (res.getString("pwd").equals(pswd)) {
-                            System.out.println("In SignInServlet : Password match");
-                            destination = "userPage.jsp";
-                        } else {
-                            System.out.println("In SignInServlet : Password do not match");
-                        }
-                    }
-                    else {
-                        System.out.println("In SignInServlet : No user with " + email);
-                    }
-                } catch (SQLException ex) {
-                    System.err.println("Error in SignInServlet : " + ex.getLocalizedMessage());
-                }
+                System.out.println("In SignInServlet : Les mots de passe concorde");
             }
         }
 
