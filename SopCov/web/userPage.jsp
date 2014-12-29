@@ -20,9 +20,9 @@
         %>
         <%
             s = request.getSession();
-            if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("pswd") != null) {
+            if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("password") != null) {
                 email = (String) s.getAttribute("email");
-                pswd = (String) s.getAttribute("pswd");
+                pswd = (String) s.getAttribute("password");
             }
             login = email.split("@")[0];
         %>
