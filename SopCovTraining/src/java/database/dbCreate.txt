@@ -48,3 +48,6 @@ values ("adminuser@test.com","adminuser",true,"admin","user","0636122001","124 A
 
 select * from lieux_travail;
 select * from utilisateurs;
+
+CREATE USER 'prog'@'localhost' IDENTIFIED BY 'prog';
+GRANT ALL ON sopcov.* TO 'prog'@'localhost';
