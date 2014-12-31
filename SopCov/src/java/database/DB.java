@@ -43,7 +43,7 @@ public class DB implements DBInterface {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
         } catch (Exception e) {
-            System.err.println("In DB : " + e.getLocalizedMessage() );
+            System.err.println("In DB : " + e.getLocalizedMessage());
         }
 
     }
@@ -302,6 +302,27 @@ public class DB implements DBInterface {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
         }
 
+    }
+
+    @Override
+    public boolean emailAlreadyUsed(String email) {
+        boolean emailAlreadyUsed = false;
+        connect();
+        String sql;
+        sql = "SELECT email FROM utilisateurs WHERE email='" + email +"'";
+        ResultSet rs;
+        
+        try {
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                emailAlreadyUsed = true;
+            }
+            rs.close();
+            
+        } catch (SQLException e) {
+            System.err.println("In DB - emailAlreadyUsed : N'a pas pu voir si l'utilisateur existait ou non : " + e.getLocalizedMessage());
+        }
+        return emailAlreadyUsed;
     }
 
     @Override

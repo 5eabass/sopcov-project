@@ -30,6 +30,7 @@ public interface DBInterface {
     public boolean editLocation(String email, String newWorkplace);
     public boolean deleteLocation(String email, String newWorkplace) ;
     public void setPassword(String email, String password);
+    public boolean emailAlreadyUsed(String email);
     public boolean userExists(String email, String password);
     public List<User> getAllDrivers();
     public List<User> searchRoute(String mCity,String mWorkplace);
