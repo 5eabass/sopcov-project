@@ -16,11 +16,10 @@
         <%@include file="header.jsp" %>
 
         <%!
-            HttpSession s = null;
             ArrayList lieuxTravail = null;
         %>
         <!-- Here is the Sign Up Form -->
-        <form id="signInUpForm" method="post" action="/SopCov/SignUpServlet.do">
+        <form id="signInUpForm" method="post" action="/SopCov/SignUpFinishedServlet.do">
             <table>
                 <tr>
                     <td>Prénom</td>
@@ -29,18 +28,16 @@
                     <td>
                         <select name="wPlace">
                             <%
-                                //récupère session
-                                s = request.getSession();
                                 //attrape la liste de lieux de travail
-                                if (s!=null && !s.isNew() && s.getAttribute("lieuxTravail") != null) {
-                                    lieuxTravail =  (ArrayList<String>) s.getAttribute("lieuxTravail");
+                                if (request.getAttribute("lieuxTravail") != null) {
+                                    lieuxTravail = (ArrayList<String>) request.getAttribute("lieuxTravail");
                                 }
                                 //ajoute les lieux à la liste de lieux possibles
                                 for (int i = 0; i < lieuxTravail.size(); i++) {
-                                    out.println("<option>"+lieuxTravail.get(i)+"</option>");
+                                    out.println("<option>" + lieuxTravail.get(i) + "</option>");
                                 }
                                 //supprime la liste de la session car elle ne sert plus à rien
-                                s.removeAttribute("lieuxTravail");
+                                request.removeAttribute("lieuxTravail");
                             %>
                         </select>
                     </td>

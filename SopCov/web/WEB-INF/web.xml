@@ -4,23 +4,19 @@
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>sopcov.servlet.MainServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>SignInOrUpServlet</servlet-name>
         <servlet-class>sopcov.servlet.SignInOrUpServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>SignInServlet</servlet-name>
         <servlet-class>sopcov.servlet.SignInServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>SignUpRequestServlet</servlet-name>
         <servlet-class>sopcov.servlet.SignUpRequestServlet</servlet-class>
     </servlet>
-    
-     <servlet>
+    <servlet>
         <servlet-name>ShowCovoiturage</servlet-name>
         <servlet-class>sopcov.servlet.ShowCovoiturage</servlet-class>
     </servlet>
@@ -28,12 +24,14 @@
         <servlet-name>SearchRoute</servlet-name>
         <servlet-class>sopcov.servlet.SearchRoute</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>SignUpFinishedServlet</servlet-name>
+        <servlet-class>sopcov.servlet.SignUpFinishedServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ShowCovoiturage</servlet-name>
         <url-pattern>/ShowCovoiturage</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>SearchRoute</servlet-name>
         <url-pattern>/SearchRoute</url-pattern>
@@ -41,46 +39,41 @@
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/MainServlet.do</url-pattern>
-    </servlet-mapping>  
-    
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignInOrUpServlet</servlet-name>
         <url-pattern>/SignInOrUpServlet.do</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>SignInServlet</servlet-name>
         <url-pattern>/SignInServlet.do</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>SignUpRequestServlet</servlet-name>
         <url-pattern>/SignUpRequestServlet.do</url-pattern>
     </servlet-mapping>
-       
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    
     <context-param>
         <param-name>dbuserid</param-name>
         <param-value>prog</param-value>
     </context-param>
-    
     <context-param>
         <param-name>dbuserpwd</param-name>
         <param-value>prog</param-value>
     </context-param>
-    
     <context-param>
         <param-name>dbcatalog</param-name>
         <param-value>sopcov</param-value>
     </context-param>
-    
+    <servlet-mapping>
+        <servlet-name>SignUpFinishedServlet</servlet-name>
+        <url-pattern>/SignUpFinishedServlet.do</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
 </web-app>
