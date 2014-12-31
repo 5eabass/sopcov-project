@@ -50,13 +50,14 @@ public class SignInServlet extends HttpServlet {
         if (email != null && !email.isEmpty() && pswd != null && !pswd.isEmpty()) {
             DBInterface dbi = new DB();
             dbi.connect();
-            String pswd_attendu = dbi.getPassword(email);
             //System.out.println("In SignInServlet : Le mot de passe reçu de la base de données est : " + pswd);
-            if (pswd_attendu.equals(pswd)) {
-                System.out.println("In SignInServlet : Les mots de passe concorde");
+            if (dbi.userExists(email, pswd)) {
+                System.out.println("In SignInServlet : Login correct.");
                 destination = "userPage.jsp";
             } else {
-                System.out.println("In SignInServlet : Les mots de passe ne concorde pas");
+                System.out.println("In SignInServlet : Login ou mot de passe incorrect.");
+                s.setAttribute("msgErreur", "Login ou mot de passe incorrect.");
+                System.out.println((String)s.getAttribute("msgErreur"));
             }
         }
 
