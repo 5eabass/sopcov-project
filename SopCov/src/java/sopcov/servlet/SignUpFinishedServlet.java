@@ -5,12 +5,14 @@
  */
 package sopcov.servlet;
 
+import database.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,6 +34,30 @@ public class SignUpFinishedServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            //Récupère la session
+            HttpSession s = request.getSession();
+            //On se munit du DB helper :
+            DB dbi = new DB();
+            //Récupère tous les parametres nécessaire à la création de l'utilisateur
+            boolean admin = false;
+            String email = (String) s.getAttribute("email");
+            String password = (String) s.getAttribute("password");
+            
+            String nom = (String) request.getAttribute("nom");
+            String prenom = (String) request.getAttribute("prenom");
+            String tel = (String) request.getAttribute("tel");
+            String adresse = (String) request.getAttribute("adresse");
+            String commune = (String) request.getAttribute("commune");
+            String codePostal = (String) request.getAttribute("code_postal");
+            String lieuTravail = (String) request.getAttribute("lieu_travail");
+            String heureDepart = (String) request.getAttribute("heure_depart");
+            String heureRetour = (String) request.getAttribute("heure_retour");
+            
+            //À faire
+            //String joursTravail = (String) request.getAttribute("heure_depart");
+            
+            boolean conducteur = (boolean) request.getAttribute("conducteur");
+            boolean notif = (boolean) request.getAttribute("notif");
         }
     }
 
