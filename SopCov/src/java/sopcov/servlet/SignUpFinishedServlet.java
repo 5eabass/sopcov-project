@@ -5,22 +5,18 @@
  */
 package sopcov.servlet;
 
-import database.DB;
-import database.DBInterface;
 import java.io.IOException;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author gb
  */
-public class SignUpRequestServlet extends HttpServlet {
+public class SignUpFinishedServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,34 +29,13 @@ public class SignUpRequestServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String destination = "index.jsp";
-
-        HttpSession s = request.getSession();
-        String email = null;
-        if (s != null) {
-            email = (String) s.getAttribute("email");
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
         }
-
-        if (email != null) {
-            DBInterface db = new DB();
-            db.connect();
-            if (db.emailAlreadyUsed(email)) {
-                String msgErreur = "Cet email est déjà utilisé par quelqu'un.";
-                s.setAttribute("msgErreur", msgErreur);
-            } else {
-                DB dbi = new DB();
-                dbi.connect();
-                ArrayList<String> lieuxTravail = dbi.getAllWorkplaces();
-                request.setAttribute("lieuxTravail", lieuxTravail);
-                destination = "signUpPage.jsp";
-            }
-        }
-
-        RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
-        rd.forward(request, response);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -72,7 +47,7 @@ public class SignUpRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
