@@ -8,6 +8,7 @@ package sopcov.servlet;
 import database.DB;
 import database.DBInterface;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -47,6 +48,10 @@ public class SignUpRequestServlet extends HttpServlet {
                 String msgErreur = "Cet email est déjà utilisé par quelqu'un.";
                 s.setAttribute("msgErreur", msgErreur);
             } else {
+                DB dbi = new DB();
+                dbi.connect();
+                ArrayList<String> lieuxTravail = dbi.getAllWorkplaces();
+                s.setAttribute("lieuxTravail", lieuxTravail);
                 destination = "signUpPage.jsp";
             }
         }
