@@ -5,7 +5,7 @@
  */
 package database;
 
-import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,4 +34,5 @@ public interface DBInterface {
     public boolean userExists(String email, String password);
     public List<User> getAllDrivers();
     public List<User> searchRoute(String mCity,String mWorkplace);
+    public ArrayList<String> getAllWorkplaces();
 }

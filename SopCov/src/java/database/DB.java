@@ -27,8 +27,10 @@ public class DB implements DBInterface {
     // Database credentials
     static final String USER = "prog";
     static final String PASS = "prog";
+
     static final String TABLE_UTILISATEURS = "utilisateurs";
-    
+    static final String TABLE_LIEUX_TRAVAIL = "lieux_travail";
+
     Connection conn = null;
     Statement stmt = null;
 
@@ -45,7 +47,7 @@ public class DB implements DBInterface {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
         } catch (Exception e) {
-            System.err.println("In DB : " + e.getLocalizedMessage());
+            System.err.println("In DB - connect : " + e.getLocalizedMessage());
         }
 
     }
@@ -85,7 +87,7 @@ public class DB implements DBInterface {
     public void listData() {
         connect();
         String sql;
-        sql = "SELECT id, admin, name, lastname,password FROM "+TABLE_UTILISATEURS;
+        sql = "SELECT id, admin, name, lastname,password FROM " + TABLE_UTILISATEURS;
 
         ResultSet rs;
         try {
@@ -121,7 +123,7 @@ public class DB implements DBInterface {
         connect();
         String sql;
         //sql = "SELECT id, admin, name, lastname,workplace,deptime,rettime,email FROM users Where email='" + email + "'";
-        sql = "SELECT * FROM "+TABLE_UTILISATEURS+" Where email='" + email + "'";
+        sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where email='" + email + "'";
 
         ResultSet rs;
         try {
@@ -161,7 +163,7 @@ public class DB implements DBInterface {
         htmlcode += "<th>city</th><th>deptime</th></tr>";
         connect();
         String sql;
-        sql = "SELECT * FROM "+TABLE_UTILISATEURS;
+        sql = "SELECT * FROM " + TABLE_UTILISATEURS;
 
         ResultSet rs;
         try {
@@ -204,7 +206,7 @@ public class DB implements DBInterface {
 
         try {
             connect();
-            String query = " INSERT INTO `"+TABLE_UTILISATEURS+"` (`tel`, `admin` ,`name` ,`lastname` ,`password` ,`email` ,`address` ,`city` ,`postalcode` ,`workplace` ,`deptime` ,`rettime` ,`workdays` ,`driver` ,`notif`)VALUES (";
+            String query = " INSERT INTO `" + TABLE_UTILISATEURS + "` (`tel`, `admin` ,`name` ,`lastname` ,`password` ,`email` ,`address` ,`city` ,`postalcode` ,`workplace` ,`deptime` ,`rettime` ,`workdays` ,`driver` ,`notif`)VALUES (";
 
             //query += "'"+id + "','" +admin+"',";
             query += "'" + tel + "','" + admin + "',";
@@ -229,7 +231,7 @@ public class DB implements DBInterface {
     public void deleteUser(int id, String name, String lastname) {
         try {
             connect();
-            String query = "DELETE FROM "+TABLE_UTILISATEURS+" WHERE id=" + id + " AND name='" + name + "' AND lastname='" + lastname + "' ;";
+            String query = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE id=" + id + " AND name='" + name + "' AND lastname='" + lastname + "' ;";
             //System.out.println(querry);
             int rs = stmt.executeUpdate(query);
             closeConnection();
@@ -244,7 +246,7 @@ public class DB implements DBInterface {
         String pass = "";
         connect();
         String sql;
-        sql = "SELECT password FROM "+TABLE_UTILISATEURS+" WHERE email='" + email + "'";
+        sql = "SELECT password FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "'";
         //System.out.println(sql);
         ResultSet rs;
         try {
@@ -263,7 +265,7 @@ public class DB implements DBInterface {
     @Override
     public boolean editLocation(String email, String newWorkplace) {
         connect();
-        String sql = "UPDATE "+TABLE_UTILISATEURS+" SET workplace='" + newWorkplace + "' WHERE email='" + email + "'";
+        String sql = "UPDATE " + TABLE_UTILISATEURS + " SET workplace='" + newWorkplace + "' WHERE email='" + email + "'";
         int rs;
         try {
             rs = stmt.executeUpdate(sql);
@@ -277,7 +279,7 @@ public class DB implements DBInterface {
 
     public boolean deleteLocation(String email, String newWorkplace) {
         connect();
-        String sql = "UPDATE "+TABLE_UTILISATEURS+" SET workplace='" + "' WHERE email='" + email + "'";
+        String sql = "UPDATE " + TABLE_UTILISATEURS + " SET workplace='" + "' WHERE email='" + email + "'";
         int rs;
         try {
             rs = stmt.executeUpdate(sql);
@@ -293,7 +295,7 @@ public class DB implements DBInterface {
     public void setPassword(String email, String password) {
         connect();
         String sql;
-        sql = "UPDATE "+TABLE_UTILISATEURS+" SET password='" + password + "' WHERE email='" + email + "'";
+        sql = "UPDATE " + TABLE_UTILISATEURS + " SET password='" + password + "' WHERE email='" + email + "'";
         //  System.out.println(sql);
         int rs;
         try {
@@ -311,16 +313,16 @@ public class DB implements DBInterface {
         boolean emailAlreadyUsed = false;
         connect();
         String sql;
-        sql = "SELECT email FROM "+TABLE_UTILISATEURS+" WHERE email='" + email +"'";
+        sql = "SELECT email FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "'";
         ResultSet rs;
-        
+
         try {
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 emailAlreadyUsed = true;
             }
             rs.close();
-            
+
         } catch (SQLException e) {
             System.err.println("In DB - emailAlreadyUsed : N'a pas pu voir si l'utilisateur existait ou non : " + e.getLocalizedMessage());
         }
@@ -332,7 +334,7 @@ public class DB implements DBInterface {
         boolean userExists = false;
         connect();
         String sql;
-        sql = "SELECT email,password FROM "+TABLE_UTILISATEURS+" WHERE email='" + email + "' AND password='" + password + "'";
+        sql = "SELECT email,password FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "' AND password='" + password + "'";
         // System.out.println(sql);
         ResultSet rs;
         try {
@@ -352,7 +354,7 @@ public class DB implements DBInterface {
     public List<User> getAllDrivers() {
         List<User> drivers = new ArrayList<>();
         connect();
-        String sql = "SELECT * FROM "+TABLE_UTILISATEURS+" WHERE driver=1";
+        String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " WHERE driver=1";
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
@@ -385,7 +387,7 @@ public class DB implements DBInterface {
     public List<User> searchRoute(String mCity, String mWorkplace) {
         List<User> routes = new ArrayList<>();
         connect();
-        String sql = "SELECT * FROM "+TABLE_UTILISATEURS+" Where driver=1 AND city='" + mCity + "' AND workplace='" + mWorkplace + "'";
+        String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where driver=1 AND city='" + mCity + "' AND workplace='" + mWorkplace + "'";
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
@@ -431,4 +433,23 @@ public class DB implements DBInterface {
         //dbHelper.listData();
     }//end main
 
+    @Override
+    public ArrayList<String> getAllWorkplaces() {
+        String nomLieu = "nom_lieu";
+    
+        ArrayList<String> res = new ArrayList<String>() {};
+    
+        String sql = "SELECT "+nomLieu+" FROM " + TABLE_LIEUX_TRAVAIL;
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                res.add(rs.getString(nomLieu));
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getAllWorkplaces : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+        
+        return res;
+    }
 }
