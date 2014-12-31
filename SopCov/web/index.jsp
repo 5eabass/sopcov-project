@@ -10,6 +10,30 @@
     <%@include file="globalhead.jsp" %>
 
     <body>
+        <%!
+            String email = "";
+            String pswd = "";
+            String msgErreur = "";
+            HttpSession s = null;
+            StringBuilder sbErreur = new StringBuilder();
+        %>
+        <%
+            s = request.getSession();
+            if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("password") != null) {
+                email = (String) s.getAttribute("email");
+                pswd = (String) s.getAttribute("password");
+            }
+            if (s.getAttribute("msgErreur") != null) {
+                msgErreur = (String) s.getAttribute("msgErreur");
+                sbErreur.append("<div class =\"alert alert-danger\" role=\"alert\">");
+                sbErreur.append("<span class =\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>");
+                sbErreur.append("<span class =\"sr-only\">Error</span>");
+                sbErreur.append(" " + msgErreur);
+                sbErreur.append("</div>");
+                msgErreur=sbErreur.toString();
+            }
+        %>
+
         <div class="site-wrapper">
 
             <div class="site-wrapper-inner">
@@ -20,18 +44,20 @@
 
                     <div class="inner cover">
                         <h1 class="cover-heading">Adoptez un trajet avec SopCov</h1>
-                        <p class="lead">L'application spécialement développée pour vous qui recherchez un covoiturage simple entre collègues. Pour commencer, identifiez-vous :</p>
+                        <p class="lead">L'application spécialement développée pour vous qui recherchez un covoiturage simple entre collègues.
+                            <br/>Pour commencer, identifiez-vous :</p>
+                        <%=msgErreur%>
                         <p class="lead">
                         <form name="login" role="form" class="form-horizontal" method="post" action="/SopCov/SignInOrUpServlet.do" accept-charset="utf-8">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <input name="email" placeholder="Email" class="form-control" type="email" id="UserUsername"/>
+                                    <input name="email" placeholder="Email" class="form-control" type="email" id="UserUsername" value="<%=email%>"/>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <input name="password" placeholder="Mot de passe" class="form-control" type="password" id="UserPassword"/>
+                                    <input name="password" placeholder="Mot de passe" class="form-control" type="password" id="UserPassword" value="<%=pswd%>"/>
                                 </div>
                             </div>
 
