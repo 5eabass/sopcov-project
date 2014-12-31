@@ -15,7 +15,7 @@
             String pswd = "";
             String msgErreur = "";
             HttpSession s = null;
-            StringBuilder sbErreur = new StringBuilder();
+            StringBuilder sbErreur = null;
         %>
         <%
             s = request.getSession();
@@ -24,6 +24,7 @@
                 pswd = (String) s.getAttribute("password");
             }
             if (s.getAttribute("msgErreur") != null) {
+                sbErreur = new StringBuilder("");
                 msgErreur = (String) s.getAttribute("msgErreur");
                 sbErreur.append("<div class =\"alert alert-danger\" role=\"alert\">");
                 sbErreur.append("<span class =\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>");
