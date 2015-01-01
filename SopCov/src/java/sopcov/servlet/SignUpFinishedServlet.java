@@ -106,7 +106,7 @@ public class SignUpFinishedServlet extends HttpServlet {
         }
         */
 
-        int creationMarche = dbi.addNewUser(admin, prenom, nom, password, tel, email, adresse, commune, codePostal, "", heureDepart, heureRetour, joursTravail, conducteur, notif);
+        int creationMarche = dbi.addNewUser(admin, prenom, nom, password, tel, email, adresse, commune, codePostal, lieuTravail, heureDepart, heureRetour, joursTravail, conducteur, notif);
 
         switch (creationMarche) {
             case 0:
