@@ -40,9 +40,10 @@ public class SignUpFinishedServlet extends HttpServlet {
             DB dbi = new DB();
             //Récupère tous les parametres nécessaire à la création de l'utilisateur
             boolean admin = false;
+            //Depuis la session
             String email = (String) s.getAttribute("email");
             String password = (String) s.getAttribute("password");
-            
+            //Depuis la requête            
             String nom = (String) request.getAttribute("nom");
             String prenom = (String) request.getAttribute("prenom");
             String tel = (String) request.getAttribute("tel");
@@ -52,12 +53,58 @@ public class SignUpFinishedServlet extends HttpServlet {
             String lieuTravail = (String) request.getAttribute("lieu_travail");
             String heureDepart = (String) request.getAttribute("heure_depart");
             String heureRetour = (String) request.getAttribute("heure_retour");
+
+            //Récupère les jours de travail de la requete
+            //Lundi Mardi Mercredi devient Lun,Mar,Mer
+            String joursTravail = "";
+            String[] joursRequete = request.getParameterValues("jours_travail");
+            if (joursRequete != null) {
+                for (int i = 0; i < joursRequete.length; i++) {
+                    //On récupére les trois première lettre
+                    joursTravail = joursTravail + joursRequete[i].substring(0, 3);
+                    //On met une virgule si c'est pas le dernier string
+                    if (i != joursRequete.length - 1) {
+                        joursTravail = joursTravail + ",";
+                    }
+                }
+            }
+
+            boolean conducteur = false;
+            if (request.getAttribute("conducteur") != null) {
+                conducteur = true;
+            }
+            boolean notif = false;
+            if (request.getAttribute("notif") != null) {
+                notif = true;
+            }
             
-            //À faire
-            //String joursTravail = (String) request.getAttribute("heure_depart");
-            
-            boolean conducteur = (boolean) request.getAttribute("conducteur");
-            boolean notif = (boolean) request.getAttribute("notif");
+            PrintWriter pw = response.getWriter();
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet SignUpFinishedServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            pw.println("<p>");
+            pw.println("Paramètres entrés : <br/>");
+            pw.println("email: " + email + "<br/>");
+            pw.println("password: " + password + "<br/>");
+            pw.println("nom: " + nom + "<br/>");
+            pw.println("prenom: " + prenom + "<br/>");
+            pw.println("tel: " + tel + "<br/>");
+            pw.println("adresse: " + adresse + "<br/>");
+            pw.println("commune: " + commune + "<br/>");
+            pw.println("codePostal: " + codePostal + "<br/>");
+            pw.println("lieuTravail: " + lieuTravail + "<br/>");
+            pw.println("heureDepart: " + heureDepart + "<br/>");
+            pw.println("heureRetour: " + heureRetour + "<br/>");
+            pw.println("joursTravail: " + joursTravail + "<br/>");
+            pw.println("conducteur: " + conducteur + "<br/>");
+            pw.println("notif: " + notif + "<br/>");
+            pw.println("</p>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
