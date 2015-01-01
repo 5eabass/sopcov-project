@@ -44,15 +44,15 @@ public class SignUpFinishedServlet extends HttpServlet {
             String email = (String) s.getAttribute("email");
             String password = (String) s.getAttribute("password");
             //Depuis la requête            
-            String nom = (String) request.getAttribute("nom");
-            String prenom = (String) request.getAttribute("prenom");
-            String tel = (String) request.getAttribute("tel");
-            String adresse = (String) request.getAttribute("adresse");
-            String commune = (String) request.getAttribute("commune");
-            String codePostal = (String) request.getAttribute("code_postal");
-            String lieuTravail = (String) request.getAttribute("lieu_travail");
-            String heureDepart = (String) request.getAttribute("heure_depart");
-            String heureRetour = (String) request.getAttribute("heure_retour");
+            String nom = (String) request.getParameter("nom");
+            String prenom = (String) request.getParameter("prenom");
+            String tel = (String) request.getParameter("tel");
+            String adresse = (String) request.getParameter("adresse");
+            String commune = (String) request.getParameter("commune");
+            String codePostal = (String) request.getParameter("code_postal");
+            String lieuTravail = (String) request.getParameter("lieu_travail");
+            String heureDepart = (String) request.getParameter("heure_depart");
+            String heureRetour = (String) request.getParameter("heure_retour");
 
             //Récupère les jours de travail de la requete
             //Lundi Mardi Mercredi devient Lun,Mar,Mer
@@ -69,20 +69,15 @@ public class SignUpFinishedServlet extends HttpServlet {
                 }
             }
 
-            boolean conducteur = false;
-            if (request.getAttribute("conducteur") != null) {
-                conducteur = true;
-            }
-            boolean notif = false;
-            if (request.getAttribute("notif") != null) {
-                notif = true;
-            }
-            
+            //Si il y a quelque chose ici c'est forcément on...
+            boolean conducteur = request.getParameter("conducteur") != null;
+            boolean notif = request.getParameter("notif") != null;
+
             PrintWriter pw = response.getWriter();
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SignUpFinishedServlet</title>");            
+            out.println("<title>Servlet SignUpFinishedServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
@@ -108,7 +103,7 @@ public class SignUpFinishedServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
