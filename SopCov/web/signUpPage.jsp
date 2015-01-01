@@ -16,7 +16,7 @@
         <%@include file="header.jsp" %>
 
         <%!
-            ArrayList lieuxTravail = null;
+            ArrayList<String> lieuxTravail = null;
         %>
         <!-- Here is the Sign Up Form -->
         <form id="signInUpForm" method="post" action="/SopCov/SignUpFinishedServlet.do">
@@ -83,13 +83,13 @@
                     <td>Commune</td>
                     <td><input type="text" name="commune" value="Toulouse"></td>
                     <td>Je serai conducteur</td>
-                    <td><input type="checkbox" name="conducteur" value="false"></td>
+                    <td><input type="checkbox" name="conducteur"></td>
                 </tr>
                 <tr>
                     <td>Code Postal</td>
                     <td><input type="text" name="code_postal" value="31000"></td>
                     <td>Je veux être notifié par mail</td>
-                    <td><input type="checkbox" name="notif" value="false"></td>
+                    <td><input type="checkbox" name="notif"></td>
                 </tr>
                 <tr>
                     <td><input type="submit" name="bouton_sauv" value="Sauver"></td>
