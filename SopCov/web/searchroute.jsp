@@ -27,15 +27,14 @@
     <body>
 
         <!-- Here is the Sign Up Form -->
-        <form id="signInUpForm" method="post" action="/sopcov/SearchRoute">
+        <form id="signInUpForm" method="post" action="/SopCov/SearchRoute">
             <table>
                 <tr>
                     <td>Lieu de travail</td>
                     <td>
                         <select name="wPlace">
-                            <option>Toulouse</option>
-                            <option selected>Labege</option>
-                            <option>Balma</option>
+                            <option>Sopra_Group_Ent1</option>
+                            <option selected>Sopra_Group_Ent2</option>
                         </select>
                     </td>
                 </tr>

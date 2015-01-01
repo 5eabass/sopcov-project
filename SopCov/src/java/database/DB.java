@@ -34,6 +34,9 @@ public class DB implements DBInterface {
 
     Connection conn = null;
     Statement stmt = null;
+    
+    Connection connTravail = null;
+    Statement stmtTravail = null;
 
     public DB() {
         connect();
@@ -406,13 +409,19 @@ public class DB implements DBInterface {
     }
 
     @Override
-    public List<User> searchRoute(String mCity, String mWorkplace) {
+    public List<User> searchRoute(String mCity, String lieu_travail) {
         List<User> routes = new ArrayList<>();
+       
+        String sql_lieu = "SELECT * FROM " + TABLE_LIEUX_TRAVAIL + " Where nom_lieu='" + lieu_travail + "'";
         
-        String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where conducteur=1 AND city='" + mCity + "' AND workplace='" + mWorkplace + "'";
-
         ResultSet rs;
         try {
+            
+            rs = stmt.executeQuery(sql_lieu);
+            rs.next();
+            int lieu_travail_id=rs.getInt("id");
+            System.out.println(lieu_travail+","+lieu_travail_id);
+            String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where conducteur=1 AND commune='" + mCity + "' AND lieu_travail_id='" + lieu_travail_id + "'";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 //Retrieve by column prenom
@@ -436,7 +445,7 @@ public class DB implements DBInterface {
             }
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return routes;
     }
@@ -451,8 +460,8 @@ public class DB implements DBInterface {
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
          //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
         //dbHelper.addNewUser(0, "omar", "ghader","pass","07", "og@insa.fr", "av rang", "Toulouse", 31400, 2, "08:00:00","17:00:00", "L,M,M,J,V", 1, 1);
-        
-        dbHelper.listData();
+        System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
+        //dbHelper.listData();
         dbHelper.closeConnection();
     }//end main
 
