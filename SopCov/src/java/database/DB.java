@@ -34,7 +34,7 @@ public class DB implements DBInterface {
 
     Connection conn = null;
     Statement stmt = null;
-    
+
     Connection connTravail = null;
     Statement stmtTravail = null;
 
@@ -91,7 +91,7 @@ public class DB implements DBInterface {
 
     @Override
     public void listData() {
-        
+
         String sql;
 
         //sql = "SELECT email,admin, prenom, nom,password FROM utilisateurs";
@@ -119,7 +119,7 @@ public class DB implements DBInterface {
             System.out.println("\n+++++++++++++++++++++++++++END+++++++++++++++++++++++++++++++");
             //Display values
             rs.close();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -128,10 +128,9 @@ public class DB implements DBInterface {
     @Override
     public List<User> queryInfo(String email) {
         List<User> info = new ArrayList<User>();
-        
+
         String sql;
 
-       
         sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where email='" + email + "'";
 
         ResultSet rs;
@@ -158,7 +157,7 @@ public class DB implements DBInterface {
                 info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
             }
             rs.close();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -172,7 +171,7 @@ public class DB implements DBInterface {
         htmlcode += "<th>Name</th><th>Lastprenom</th>";
         htmlcode += "<th>email</th><th>adress</th>";
         htmlcode += "<th>commune</th><th>heure_depart</th></tr>";
-        
+
         String sql;
         sql = "SELECT * FROM " + TABLE_UTILISATEURS;
 
@@ -205,7 +204,7 @@ public class DB implements DBInterface {
             htmlcode += "</table>";
             // System.out.println(htmlcode);
             rs.close();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -213,10 +212,9 @@ public class DB implements DBInterface {
     }
 
     @Override
-    public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif ) {
+    public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif) {
 
         try {
-            
 
             String query = " INSERT INTO `utilisateurs` (`tel`, `admin` ,`prenom` ,`nom` ,`password` ,`email` ,`adresse` ,`commune` ,`code_postal` ,`lieu_travail_id` ,`heure_depart` ,`heure_retour` ,`jours_travail` ,`conducteur` ,`notif`)VALUES (";
 
@@ -228,11 +226,11 @@ public class DB implements DBInterface {
             query += "'" + code_postal + "','" + lieu_travail_id + "',";
             query += "'" + heure_depart + "','" + heure_retour + "',";
             query += "'" + jours_travail + "','" + conducteur + "',";
-            query += "'" + notif +  "');";
+            query += "'" + notif + "');";
 
             //System.out.println(query);
             int rs = stmt.executeUpdate(query);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
@@ -241,15 +239,62 @@ public class DB implements DBInterface {
     }
 
     @Override
+    public int addNewUser(boolean admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, String codePostal, String nomLieuTravail, String heureDepart, String heureRetour, String joursTravail, boolean conducteur, boolean notif) {
+        int lieuTravailID = 0;
+        int adminConv = (admin)? 1:0;
+        int conducteurConv = (admin)? 1:0;
+        int notifConv = (admin)? 1:0;
+
+        try {
+            String queryLieuTravail = " SELECT id FROM `" + TABLE_LIEUX_TRAVAIL + "` WHERE `nom_lieu`='" + nomLieuTravail + "'";
+            System.out.println("In DB - addNewUser : query : " + queryLieuTravail);
+            ResultSet resSet = stmt.executeQuery(queryLieuTravail);
+
+            if (resSet.next()) {
+                lieuTravailID = resSet.getInt("id");
+            } else {
+                System.err.println("In DB - addNewUser : n'a pas pu récupérer l'ID associé au lieu de travail " + nomLieuTravail);
+                return -1;
+            }
+
+        } catch (Exception ex) {
+            System.err.println("In DB - addNewUser : n'a pas pu accéder à l'id du lieu de travail : " + ex.getLocalizedMessage());
+            return -2;
+        }
+        try {
+            String queryCreeUtilisateur = " INSERT INTO `" + TABLE_UTILISATEURS + "` (`tel`, `admin` ,`prenom` ,`nom` ,`password` ,`email` ,`adresse` ,`commune` ,`code_postal` ,`lieu_travail_id` ,`heure_depart` ,`heure_retour` ,`jours_travail` ,`conducteur` ,`notif`)VALUES (";
+
+            //query += "'"+id + "','" +admin+"',";
+            queryCreeUtilisateur += "'" + tel + "','" + adminConv + "',";
+            queryCreeUtilisateur += "'" + prenom + "','" + nom + "',";
+            queryCreeUtilisateur += "'" + password + "','" + email + "',";
+            queryCreeUtilisateur += "'" + adresse + "','" + commune + "',";
+            queryCreeUtilisateur += "'" + codePostal + "','" + lieuTravailID + "',";
+            queryCreeUtilisateur += "'" + heureDepart + "','" + heureRetour + "',";
+            queryCreeUtilisateur += "'" + joursTravail + "','" + conducteurConv + "',";
+            queryCreeUtilisateur += "'" + notifConv + "');";
+
+            System.out.println("In DB - addNewUser : query : " + queryCreeUtilisateur);
+
+            //System.out.println(query);
+            int rs = stmt.executeUpdate(queryCreeUtilisateur);
+
+        } catch (Exception ex) {
+            System.err.println("In DB - addNewUser : n'a pas pu créer l'utilisateur : " + ex.getLocalizedMessage());
+            return -3;
+        }
+        return 0;
+    }
+
+    @Override
     public void deleteUser(String email, String prenom, String nom) {
         try {
-            
 
             String query = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE email=" + email + " AND nom='" + nom + "' AND prenpm='" + prenom + "' ;";
 
             //System.out.println(querry);
             int rs = stmt.executeUpdate(query);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -259,7 +304,7 @@ public class DB implements DBInterface {
     @Override
     public String getPassword(String email) {
         String pass = "";
-        
+
         String sql;
 
         sql = "SELECT password FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "'";
@@ -271,7 +316,7 @@ public class DB implements DBInterface {
             rs.next();
             pass = rs.getString("password");
             rs.close();
-            
+
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -281,13 +326,13 @@ public class DB implements DBInterface {
 
     @Override
     public boolean editLocation(String email, int lieu_travail_id) {
-        
+
         String sql = "UPDATE " + TABLE_UTILISATEURS + " SET lieu_travail_id='" + lieu_travail_id + "' WHERE email='" + email + "'";
 
         int rs;
         try {
             rs = stmt.executeUpdate(sql);
-            
+
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
             return false;
@@ -297,14 +342,13 @@ public class DB implements DBInterface {
 
     @Override
     public boolean deleteLocation(String email, String newlieu_travail_id) {
-        
 
         String sql = "UPDATE " + TABLE_UTILISATEURS + " SET lieu_travail_id='" + "' WHERE email='" + email + "'";
 
         int rs;
         try {
             rs = stmt.executeUpdate(sql);
-            
+
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
             return false;
@@ -314,7 +358,7 @@ public class DB implements DBInterface {
 
     @Override
     public void setPassword(String email, String password) {
-        
+
         String sql;
 
         sql = "UPDATE " + TABLE_UTILISATEURS + " SET password='" + password + "' WHERE email='" + email + "'";
@@ -324,7 +368,6 @@ public class DB implements DBInterface {
         try {
             rs = stmt.executeUpdate(sql);
 
-            
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -334,7 +377,7 @@ public class DB implements DBInterface {
     @Override
     public boolean emailAlreadyUsed(String email) {
         boolean emailAlreadyUsed = false;
-        
+
         String sql;
         sql = "SELECT email FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "'";
         ResultSet rs;
@@ -355,7 +398,7 @@ public class DB implements DBInterface {
     @Override
     public boolean userExists(String email, String password) {
         boolean userExists = false;
-        
+
         String sql;
         sql = "SELECT email,password FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "' AND password='" + password + "'";
         // System.out.println(sql);
@@ -366,7 +409,7 @@ public class DB implements DBInterface {
                 userExists = true;
             }
             rs.close();
-            
+
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -376,7 +419,6 @@ public class DB implements DBInterface {
     @Override
     public List<User> getAllDrivers() {
         List<User> conducteurs = new ArrayList<>();
-        
 
         String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " WHERE conducteur=1";
         ResultSet rs;
@@ -411,16 +453,16 @@ public class DB implements DBInterface {
     @Override
     public List<User> searchRoute(String mCity, String lieu_travail) {
         List<User> routes = new ArrayList<>();
-       
+
         String sql_lieu = "SELECT * FROM " + TABLE_LIEUX_TRAVAIL + " Where nom_lieu='" + lieu_travail + "'";
-        
+
         ResultSet rs;
         try {
-            
+
             rs = stmt.executeQuery(sql_lieu);
             rs.next();
-            int lieu_travail_id=rs.getInt("id");
-            System.out.println(lieu_travail+","+lieu_travail_id);
+            int lieu_travail_id = rs.getInt("id");
+            System.out.println(lieu_travail + "," + lieu_travail_id);
             String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where conducteur=1 AND commune='" + mCity + "' AND lieu_travail_id='" + lieu_travail_id + "'";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -453,12 +495,12 @@ public class DB implements DBInterface {
 //test addUser, ShowDatabase,deleteUSer...
     public static void main(String[] args) {
         DB dbHelper = new DB();
-       // dbHelper.
-       // String password = dbHelper.getPassword("simpleuser@test.com");
-       // System.out.println("Password is " + password);
+        // dbHelper.
+        // String password = dbHelper.getPassword("simpleuser@test.com");
+        // System.out.println("Password is " + password);
         //dbHelper.setPassword("adminuser@test.com","adminuser");
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
-         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
+        //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
         //dbHelper.addNewUser(0, "omar", "ghader","pass","07", "og@insa.fr", "av rang", "Toulouse", 31400, 2, "08:00:00","17:00:00", "L,M,M,J,V", 1, 1);
         System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
         //dbHelper.listData();
