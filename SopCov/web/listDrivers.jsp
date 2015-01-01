@@ -47,10 +47,10 @@
 
                     <span href="#" class="list-group-item">
                         <h4 class="list-group-item-heading">
-                            ${driver.city} ${driver.deptime}H -> ${driver.workplace} ${driver.rettime}H
+                            ${driver.commune} ${driver.heure_depart}H -> ${driver.lieu_travail_id} , ${driver.heure_retour}H
                         </h4>
                         <div class="list-group-item-text" style="clear: both;">
-                            <div>${driver.name} ${driver.lastname}<p style="float:right">${driver.workdays}  </p></div>
+                            <div>${driver.prenom} ${driver.nom}<p style="float:right">${driver.jours_travail}  </p></div>
                         </div>
                         <div class="list-group-item-text" style="clear: both;">
                             <div>Tel : ${driver.tel}<p style="float:right;"> email : ${driver.email}</p></div>

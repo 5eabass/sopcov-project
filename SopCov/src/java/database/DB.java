@@ -21,9 +21,10 @@ import java.util.logging.Logger;
  */
 public class DB implements DBInterface {
 
-    // JDBC driver name and database URL
+    // JDBC conducteur prenom and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/sopcov";
+    static final String DB_TABLE = "utilisateurs";
     // Database credentials
     static final String USER = "prog";
     static final String PASS = "prog";
@@ -35,19 +36,21 @@ public class DB implements DBInterface {
     Statement stmt = null;
 
     public DB() {
-
+        connect();
     }
 
     @Override
     public void connect() {
         try {
-            //STEP 2: Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
+            //STEP 2: Register JDBC conducteur
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
             //STEP 3: Open a connection
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //System.out.println("conn= " + 1);
             stmt = conn.createStatement();
         } catch (Exception e) {
             System.err.println("In DB - connect : " + e.getLocalizedMessage());
+
         }
 
     }
@@ -85,9 +88,11 @@ public class DB implements DBInterface {
 
     @Override
     public void listData() {
-        connect();
+        
         String sql;
-        sql = "SELECT id, admin, name, lastname,password FROM " + TABLE_UTILISATEURS;
+
+        //sql = "SELECT email,admin, prenom, nom,password FROM utilisateurs";
+        sql = "SELECT email,admin, prenom, nom,password FROM " + TABLE_UTILISATEURS;
 
         ResultSet rs;
         try {
@@ -95,23 +100,23 @@ public class DB implements DBInterface {
             System.out.println("+++++++++++++++++++++++++++User DB+++++++++++++++++++++++++++++++\n");
             //STEP 5: Extract data from result set
             while (rs.next()) {
-                //Retrieve by column name
-                int id = rs.getInt("id");
+                //Retrieve by column prenom
+                String email = rs.getString("email");
                 int age = rs.getInt("admin");
-                String first = rs.getString("name");
-                String last = rs.getString("lastname");
+                String first = rs.getString("prenom");
+                String last = rs.getString("nom");
                 String password = rs.getString("password");
                 //Display values
-                System.out.print("ID: " + id);
+                System.out.print("email: " + email);
                 System.out.print("\t| admin: " + age);
-                System.out.print("\t| name: " + first);
-                System.out.print("\t| Lastname: " + last);
+                System.out.print("\t| prenom: " + first);
+                System.out.print("\t| nom: " + last);
                 System.out.println("\t| Password: " + password);
             }
             System.out.println("\n+++++++++++++++++++++++++++END+++++++++++++++++++++++++++++++");
             //Display values
             rs.close();
-            closeConnection();
+            
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -120,34 +125,37 @@ public class DB implements DBInterface {
     @Override
     public List<User> queryInfo(String email) {
         List<User> info = new ArrayList<User>();
-        connect();
+        
         String sql;
-        //sql = "SELECT id, admin, name, lastname,workplace,deptime,rettime,email FROM users Where email='" + email + "'";
+
+       
         sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where email='" + email + "'";
 
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                //Retrieve by column name
-                int id = rs.getInt("id");
+                //Retrieve by column prenom
+
                 int admin = rs.getInt("admin");
+                int conducteur = rs.getInt("conducteur");
+                int notif = rs.getInt("notif");
                 String tel = rs.getString("tel");
-                String name = rs.getString("name");
-                String lastname = rs.getString("lastname");
+                String prenom = rs.getString("prenom");
+                String nom = rs.getString("nom");
                 //String email = rs.getString("email");
-                String address = rs.getString("address");
-                String city = rs.getString("city");
-                int deptime = rs.getInt("deptime");
-                String workplace = rs.getString("workplace");
-                int retttime = rs.getInt("rettime");
-                int postalcode = rs.getInt("postalcode");
-                String workdays = rs.getString("workdays");
+                String adresse = rs.getString("adresse");
+                String commune = rs.getString("commune");
+                String heure_depart = rs.getString("heure_depart");
+                String heure_retour = rs.getString("heure_retour");
+                int code_postal = rs.getInt("code_postal");
+                int lieu_travail_id = rs.getInt("lieu_travail_id");
+                String jours_travail = rs.getString("jours_travail");
                 //Display values
-                info.add(new User(name, lastname, "", tel, email, address, city, postalcode, workplace, deptime, retttime, workdays, true, true));
+                info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
             }
             rs.close();
-            closeConnection();
+            
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -158,10 +166,10 @@ public class DB implements DBInterface {
     @Override
     public String printHTML() {
         String htmlcode = "<table border='1'><tr><th>Admin</th>";//<th>ID</th>
-        htmlcode += "<th>Name</th><th>Lastname</th>";
+        htmlcode += "<th>Name</th><th>Lastprenom</th>";
         htmlcode += "<th>email</th><th>adress</th>";
-        htmlcode += "<th>city</th><th>deptime</th></tr>";
-        connect();
+        htmlcode += "<th>commune</th><th>heure_depart</th></tr>";
+        
         String sql;
         sql = "SELECT * FROM " + TABLE_UTILISATEURS;
 
@@ -169,32 +177,32 @@ public class DB implements DBInterface {
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                //Retrieve by column name
+                //Retrieve by column prenom
                 int id = rs.getInt("id");
                 int admin = rs.getInt("admin");
-                String name = rs.getString("name");
-                String lastname = rs.getString("lastname");
+                String prenom = rs.getString("prenom");
+                String nom = rs.getString("nom");
                 String email = rs.getString("email");
-                String adress = rs.getString("address");
-                String city = rs.getString("city");
-                String deptime = rs.getString("deptime");
+                String adress = rs.getString("adresse");
+                String commune = rs.getString("commune");
+                String heure_depart = rs.getString("heure_depart");
                 //Display values
 
                 htmlcode += "<tr>";
                 //htmlcode += "<td>" + id + "</td>";
                 htmlcode += "<td>" + admin + "</td>";
-                htmlcode += "<td>" + name + "</td>";
-                htmlcode += "<td>" + lastname + "</td>";
+                htmlcode += "<td>" + prenom + "</td>";
+                htmlcode += "<td>" + nom + "</td>";
                 htmlcode += "<td>" + email + "</td>";
                 htmlcode += "<td>" + adress + "</td>";
-                htmlcode += "<td>" + city + "</td>";
-                htmlcode += "<td>" + deptime + "</td>";
+                htmlcode += "<td>" + commune + "</td>";
+                htmlcode += "<td>" + heure_depart + "</td>";
                 htmlcode += "</tr>";
             }
             htmlcode += "</table>";
             // System.out.println(htmlcode);
             rs.close();
-            closeConnection();
+            
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -202,24 +210,26 @@ public class DB implements DBInterface {
     }
 
     @Override
-    public int addNewUser(int admin, String name, String lastname, String password, String tel, String email, String address, String city, int postalcode, String workplace, int deptime, int rettime, String workdays, int driver, int notif) {
+    public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif ) {
 
         try {
-            connect();
-            String query = " INSERT INTO `" + TABLE_UTILISATEURS + "` (`tel`, `admin` ,`name` ,`lastname` ,`password` ,`email` ,`address` ,`city` ,`postalcode` ,`workplace` ,`deptime` ,`rettime` ,`workdays` ,`driver` ,`notif`)VALUES (";
+            
+
+            String query = " INSERT INTO `utilisateurs` (`tel`, `admin` ,`prenom` ,`nom` ,`password` ,`email` ,`adresse` ,`commune` ,`code_postal` ,`lieu_travail_id` ,`heure_depart` ,`heure_retour` ,`jours_travail` ,`conducteur` ,`notif`)VALUES (";
 
             //query += "'"+id + "','" +admin+"',";
             query += "'" + tel + "','" + admin + "',";
-            query += "'" + name + "','" + lastname + "',";
+            query += "'" + prenom + "','" + nom + "',";
             query += "'" + password + "','" + email + "',";
-            query += "'" + address + "','" + city + "',";
-            query += "'" + postalcode + "','" + workplace + "',";
-            query += "'" + deptime + "','" + rettime + "',";
-            query += "'" + workdays + "','" + driver + "','" + notif + "');";
+            query += "'" + adresse + "','" + commune + "',";
+            query += "'" + code_postal + "','" + lieu_travail_id + "',";
+            query += "'" + heure_depart + "','" + heure_retour + "',";
+            query += "'" + jours_travail + "','" + conducteur + "',";
+            query += "'" + notif +  "');";
 
             //System.out.println(query);
             int rs = stmt.executeUpdate(query);
-            closeConnection();
+            
         } catch (Exception ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
@@ -228,13 +238,15 @@ public class DB implements DBInterface {
     }
 
     @Override
-    public void deleteUser(int id, String name, String lastname) {
+    public void deleteUser(String email, String prenom, String nom) {
         try {
-            connect();
-            String query = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE id=" + id + " AND name='" + name + "' AND lastname='" + lastname + "' ;";
+            
+
+            String query = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE email=" + email + " AND nom='" + nom + "' AND prenpm='" + prenom + "' ;";
+
             //System.out.println(querry);
             int rs = stmt.executeUpdate(query);
-            closeConnection();
+            
         } catch (Exception ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -244,9 +256,11 @@ public class DB implements DBInterface {
     @Override
     public String getPassword(String email) {
         String pass = "";
-        connect();
+        
         String sql;
+
         sql = "SELECT password FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "'";
+
         //System.out.println(sql);
         ResultSet rs;
         try {
@@ -254,7 +268,7 @@ public class DB implements DBInterface {
             rs.next();
             pass = rs.getString("password");
             rs.close();
-            closeConnection();
+            
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -263,13 +277,14 @@ public class DB implements DBInterface {
     }
 
     @Override
-    public boolean editLocation(String email, String newWorkplace) {
-        connect();
-        String sql = "UPDATE " + TABLE_UTILISATEURS + " SET workplace='" + newWorkplace + "' WHERE email='" + email + "'";
+    public boolean editLocation(String email, int lieu_travail_id) {
+        
+        String sql = "UPDATE " + TABLE_UTILISATEURS + " SET lieu_travail_id='" + lieu_travail_id + "' WHERE email='" + email + "'";
+
         int rs;
         try {
             rs = stmt.executeUpdate(sql);
-            closeConnection();
+            
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
             return false;
@@ -277,13 +292,16 @@ public class DB implements DBInterface {
         return true;
     }
 
-    public boolean deleteLocation(String email, String newWorkplace) {
-        connect();
-        String sql = "UPDATE " + TABLE_UTILISATEURS + " SET workplace='" + "' WHERE email='" + email + "'";
+    @Override
+    public boolean deleteLocation(String email, String newlieu_travail_id) {
+        
+
+        String sql = "UPDATE " + TABLE_UTILISATEURS + " SET lieu_travail_id='" + "' WHERE email='" + email + "'";
+
         int rs;
         try {
             rs = stmt.executeUpdate(sql);
-            closeConnection();
+            
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
             return false;
@@ -293,15 +311,17 @@ public class DB implements DBInterface {
 
     @Override
     public void setPassword(String email, String password) {
-        connect();
+        
         String sql;
+
         sql = "UPDATE " + TABLE_UTILISATEURS + " SET password='" + password + "' WHERE email='" + email + "'";
+
         //  System.out.println(sql);
         int rs;
         try {
             rs = stmt.executeUpdate(sql);
 
-            closeConnection();
+            
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -311,7 +331,7 @@ public class DB implements DBInterface {
     @Override
     public boolean emailAlreadyUsed(String email) {
         boolean emailAlreadyUsed = false;
-        connect();
+        
         String sql;
         sql = "SELECT email FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "'";
         ResultSet rs;
@@ -332,7 +352,7 @@ public class DB implements DBInterface {
     @Override
     public boolean userExists(String email, String password) {
         boolean userExists = false;
-        connect();
+        
         String sql;
         sql = "SELECT email,password FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "' AND password='" + password + "'";
         // System.out.println(sql);
@@ -343,7 +363,7 @@ public class DB implements DBInterface {
                 userExists = true;
             }
             rs.close();
-            closeConnection();
+            
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -352,62 +372,67 @@ public class DB implements DBInterface {
 
     @Override
     public List<User> getAllDrivers() {
-        List<User> drivers = new ArrayList<>();
-        connect();
-        String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " WHERE driver=1";
+        List<User> conducteurs = new ArrayList<>();
+        
+
+        String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " WHERE conducteur=1";
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                //Retrieve by column name
-                int id = rs.getInt("id");
+                //Retrieve by column prenom
                 int admin = rs.getInt("admin");
+                int conducteur = rs.getInt("conducteur");
+                int notif = rs.getInt("notif");
                 String tel = rs.getString("tel");
-                String name = rs.getString("name");
-                String lastname = rs.getString("lastname");
+                String prenom = rs.getString("prenom");
+                String nom = rs.getString("nom");
                 String email = rs.getString("email");
-                String address = rs.getString("address");
-                String city = rs.getString("city");
-                int deptime = rs.getInt("deptime");
-                String workplace = rs.getString("workplace");
-                int retttime = rs.getInt("rettime");
-                int postalcode = rs.getInt("postalcode");
-                String workdays = rs.getString("workdays");
+                String adresse = rs.getString("adresse");
+                String commune = rs.getString("commune");
+                String heure_depart = rs.getString("heure_depart");
+                String heure_retour = rs.getString("heure_retour");
+                int code_postal = rs.getInt("code_postal");
+                int lieu_travail_id = rs.getInt("lieu_travail_id");
+                String jours_travail = rs.getString("jours_travail");
                 //Display values
-                drivers.add(new User(name, lastname, "", tel, email, address, city, postalcode, workplace, deptime, retttime, workdays, true, true));
+                conducteurs.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
             }
 
         } catch (Exception e) {
 
         }
-        return drivers;
+        return conducteurs;
     }
 
     @Override
     public List<User> searchRoute(String mCity, String mWorkplace) {
         List<User> routes = new ArrayList<>();
-        connect();
-        String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where driver=1 AND city='" + mCity + "' AND workplace='" + mWorkplace + "'";
+        
+        String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where conducteur=1 AND city='" + mCity + "' AND workplace='" + mWorkplace + "'";
+
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                //Retrieve by column name
-                int id = rs.getInt("id");
-                //int admin = rs.getInt("admin");
+                //Retrieve by column prenom
+
+                int admin = rs.getInt("admin");
+                int conducteur = rs.getInt("conducteur");
+                int notif = rs.getInt("notif");
                 String tel = rs.getString("tel");
-                String name = rs.getString("name");
-                String lastname = rs.getString("lastname");
+                String prenom = rs.getString("prenom");
+                String nom = rs.getString("nom");
                 String email = rs.getString("email");
-                String address = rs.getString("address");
-                String city = rs.getString("city");
-                int deptime = rs.getInt("deptime");
-                String workplace = rs.getString("workplace");
-                int retttime = rs.getInt("rettime");
-                int postalcode = rs.getInt("postalcode");
-                String workdays = rs.getString("workdays");
+                String adresse = rs.getString("adresse");
+                String commune = rs.getString("commune");
+                String heure_depart = rs.getString("heure_depart");
+                String heure_retour = rs.getString("heure_retour");
+                int code_postal = rs.getInt("code_postal");
+                String jours_travail = rs.getString("jours_travail");
+
                 //Display values
-                routes.add(new User(name, lastname, "", tel, email, address, city, postalcode, workplace, deptime, retttime, workdays, true, true));
+                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, code_postal, heure_depart, heure_retour, jours_travail, conducteur, notif));
             }
 
         } catch (Exception e) {
@@ -419,27 +444,26 @@ public class DB implements DBInterface {
 //test addUser, ShowDatabase,deleteUSer...
     public static void main(String[] args) {
         DB dbHelper = new DB();
-        dbHelper.connect();
-        String password = dbHelper.getPassword("simpleuser@test.com");
-        System.out.println("Password is " + password);
-        //dbHelper.showDatabase();
-        //dbHelper.deleteUser(1, "Om", "GH");
-        //System.out.println("\n\n");
-        //dbHelper.addNewUser(0, "Ernesto", "Exposito", "ernesto", "0712345678", "exposito@etud.insa-toulouse.fr", "135 av.R", "Paris", 31400, "Bordeaux", 8, 19, "Lundi,Mardi,Jeudi,Vendredi", 1, 1);
-        //dbHelper.setPassword("so@so.fr","abo");
+       // dbHelper.
+       // String password = dbHelper.getPassword("simpleuser@test.com");
+       // System.out.println("Password is " + password);
+        //dbHelper.setPassword("adminuser@test.com","adminuser");
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
-        //System.out.println(dbHelper.userExists("so@so.fr", "12345"));
-        //System.out.println(dbHelper.getPassword("so@so.fr"));
-        //dbHelper.listData();
+         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
+        //dbHelper.addNewUser(0, "omar", "ghader","pass","07", "og@insa.fr", "av rang", "Toulouse", 31400, 2, "08:00:00","17:00:00", "L,M,M,J,V", 1, 1);
+        
+        dbHelper.listData();
+        dbHelper.closeConnection();
     }//end main
 
     @Override
     public ArrayList<String> getAllWorkplaces() {
         String nomLieu = "nom_lieu";
-    
-        ArrayList<String> res = new ArrayList<String>() {};
-    
-        String sql = "SELECT "+nomLieu+" FROM " + TABLE_LIEUX_TRAVAIL;
+
+        ArrayList<String> res = new ArrayList<String>() {
+        };
+
+        String sql = "SELECT " + nomLieu + " FROM " + TABLE_LIEUX_TRAVAIL;
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
@@ -449,7 +473,7 @@ public class DB implements DBInterface {
         } catch (SQLException ex) {
             System.err.println("In DB - getAllWorkplaces : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
         }
-        
+
         return res;
     }
 }

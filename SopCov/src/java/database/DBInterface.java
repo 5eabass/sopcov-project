@@ -24,11 +24,11 @@ public interface DBInterface {
     public void listData();
     public List<User> queryInfo(String email);
     public String printHTML() ;
-    public int addNewUser(int admin, String name, String lastname, String password,String tel, String email, String address, String city, int postalcode, String workplace, int deptime, int rettime, String workdays, int driver, int notif);
-    public void deleteUser(int id, String name, String lastname);
+    public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif );
+    public void deleteUser(String email, String prenom, String nom) ;
     public String getPassword(String email);
-    public boolean editLocation(String email, String newWorkplace);
-    public boolean deleteLocation(String email, String newWorkplace) ;
+    public boolean editLocation(String email, int lieu_travail_id);
+    public boolean deleteLocation(String email, String newlieu_travail_id) ;
     public void setPassword(String email, String password);
     public boolean emailAlreadyUsed(String email);
     public boolean userExists(String email, String password);

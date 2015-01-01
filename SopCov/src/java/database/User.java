@@ -10,88 +10,39 @@ package database;
  * @author root
  */
 public class User {
- private int id;
-    private boolean admin;
-    private String name;
-    private String lastname;
-    private String password ;
-    private String  email ;
-    private String tel ;
-    private String address  ;
-    private String city     ;
-    private int postalcode ; 
-    private String workplace ; 
-    private int deptime ; 
-    private int  rettime ;
-    private String workdays    ;
-    private boolean driver ;
-    private boolean notif ;
-    
 
-    public User(String name, String lastname, String password,String tel, String email, String address, String city, int postalcode, String workplace, int deptime, int rettime, String workdays, boolean driver, boolean notif) {
-        this.name = name;
-        this.lastname = lastname;
-        this.password = password;
+    private String email;
+    private String password;
+    private int admin;
+    private String prenom;
+    private String nom;
+    private String tel;
+    private String adresse;
+    private String commune;
+    private int code_postal;
+    private int lieu_travail_id;
+    private String heure_depart;
+    private String heure_retour;
+    private String jours_travail;
+    private int conducteur;
+    private int notif;
+
+    public User(String email, String password, int admin, String prenom, String nom, String tel, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif) {
         this.email = email;
-        this.tel=tel;
-        this.address = address;
-        this.city = city;
-        this.postalcode = postalcode;
-        this.workplace = workplace;
-        this.deptime = deptime;
-        this.rettime = rettime;
-        this.workdays = workdays;
-        this.driver = driver;
-        this.notif = notif;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
+        this.admin = admin;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.tel = tel;
+        this.adresse = adresse;
+        this.commune = commune;
+        this.code_postal = code_postal;
+        this.lieu_travail_id = lieu_travail_id;
+        this.heure_depart = heure_depart;
+        this.heure_retour = heure_retour;
+        this.jours_travail = jours_travail;
+        this.conducteur = conducteur;
+        this.notif = notif;
     }
 
     public String getEmail() {
@@ -102,78 +53,118 @@ public class User {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getCity() {
-        return city;
+  
+    public String getPrenom() {
+        return prenom;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
-    public int getPostalcode() {
-        return postalcode;
+    public String getNom() {
+        return nom;
     }
 
-    public void setPostalcode(int postalcode) {
-        this.postalcode = postalcode;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public String getWorkplace() {
-        return workplace;
+    public String getTel() {
+        return tel;
     }
 
-    public void setWorkplace(String workplace) {
-        this.workplace = workplace;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
-    public int getDeptime() {
-        return deptime;
+    public String getAdresse() {
+        return adresse;
     }
 
-    public void setDeptime(int deptime) {
-        this.deptime = deptime;
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
     }
 
-    public int getRettime() {
-        return rettime;
+    public String getCommune() {
+        return commune;
     }
 
-    public void setRettime(int rettime) {
-        this.rettime = rettime;
+    public void setCommune(String commune) {
+        this.commune = commune;
     }
 
-    public String getWorkdays() {
-        return workdays;
+    public int getCode_postal() {
+        return code_postal;
     }
 
-    public void setWorkdays(String workdays) {
-        this.workdays = workdays;
+    public void setCode_postal(int code_postal) {
+        this.code_postal = code_postal;
     }
 
-    public boolean isDriver() {
-        return driver;
+    public int getLieu_travail_id() {
+        return lieu_travail_id;
     }
 
-    public void setDriver(boolean driver) {
-        this.driver = driver;
+    public void setLieu_travail_id(int lieu_travail_id) {
+        this.lieu_travail_id = lieu_travail_id;
     }
 
-    public boolean isNotif() {
+    public String getJours_travail() {
+        return jours_travail;
+    }
+
+    public void setJours_travail(String jours_travail) {
+        this.jours_travail = jours_travail;
+    }
+
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
+
+    public int getConducteur() {
+        return conducteur;
+    }
+
+    public void setConducteur(int conducteur) {
+        this.conducteur = conducteur;
+    }
+
+    public int getNotif() {
         return notif;
     }
 
-    public void setNotif(boolean notif) {
+    public void setNotif(int notif) {
         this.notif = notif;
     }
-    
-    
-   
+
+    public String getHeure_depart() {
+        return heure_depart;
+    }
+
+    public void setHeure_depart(String heure_depart) {
+        this.heure_depart = heure_depart;
+    }
+
+    public String getHeure_retour() {
+        return heure_retour;
+    }
+
+    public void setHeure_retour(String heure_retour) {
+        this.heure_retour = heure_retour;
+    }
+
+  
 }
