@@ -35,7 +35,7 @@
                             </div>
                             <div class="panel-body modeltype">
                                 <!-- Here is the Sign Up Form -->
-                                <form accept-charset="UTF-8" action="/SopCov/SignUpFinishedServlet.do" enctype="multipart/form-data" method="post" id="signInUpForm">
+                                <form id="signInUpForm" action="/SopCov/SignUpFinishedServlet.do" method="post">
                                     <table>
                                         <tr>
                                             <td>Prénom</td>
