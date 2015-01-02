@@ -118,6 +118,18 @@ body {
   padding: 10px 20px;
   font-weight: bold;
 }
+.noshadow {	
+  text-shadow: none;
+}
+.modeltype {  
+  max-height: 350px;
+  overflow: auto;
+  text-align: left;
+  text-shadow: none;
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
 
 /*
  * Footer
