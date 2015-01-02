@@ -121,12 +121,28 @@ body {
 .noshadow {	
   text-shadow: none;
 }
+.nopaddingleft {
+  padding-left: 0;
+}
+.nopaddingright {
+  padding-right: 0;
+}
 .modeltype {  
   max-height: 350px;
+  min-height: 350px;
   overflow: auto;
   text-align: left;
   text-shadow: none;
   color: #31708f;
+}
+.gmpreview {
+	box-shadow: 0 0 5px rgba(0,0,0,.8);
+}
+.boxshadow {	
+	box-shadow: 2px 2px 5px rgba(0,0,0,.6);
+}
+.boxshadow:hover {
+	box-shadow: 2px 2px 1px rgba(0,0,0,.4);
 }
 
 /*
