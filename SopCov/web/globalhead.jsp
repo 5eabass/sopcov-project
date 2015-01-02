@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <link rel="icon" href="img/favicon.ico">
 
-    <title>Bienvenue sur SopCov</title>
+    <title><%=request.getAttribute("titre")%></title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
