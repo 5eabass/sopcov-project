@@ -50,6 +50,10 @@
                             <span class ="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                             <span class ="sr-only">Error</span>
                             <%=msgErreur%>
+                            <% 
+                                s.removeAttribute("msgErreur");
+                                msgErreur="";
+                            %>
                         </div>
                         <% }%>
 
