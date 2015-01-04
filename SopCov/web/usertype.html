@@ -36,7 +36,7 @@
                             <h3 class="masthead-brand">SopCov</h3>
                             <nav>
                                 <ul class="nav masthead-nav">
-                                    <li><a href="#">Accueil</a></li>
+                                    <li><a href="index.html">Accueil</a></li>
                                     <li><a href="#">Trajets</a></li>
                                     <li class="active"><a href="#">Profil</a></li>
                                 </ul>
@@ -57,47 +57,47 @@
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="user_basic_email">
-                                            <abbr title="required">*</abbr> Email
+                                            <abbr title="Obligatoire">*</abbr> Email
                                         </label>
-                                        <input class="string email required form-control" id="user_basic_email" name="user_basic[email]" placeholder="Enter email" type="email" />
-                                        <p class="help-block">Lorem ipsum dolor sit amet</p>
+                                        <input class="string email required form-control" id="user_basic_email" name="user_basic[email]" placeholder="Adresse Mail" type="email" />
+                                        <p class="help-block">Votre adresse mail est votre identifiant unique.</p>
                                     </div>
 
                                     <div class="form-group password required user_basic_password">
                                         <label class="password required control-label" for="user_basic_password">
-                                            <abbr title="required">*</abbr> Password
+                                            <abbr title="Obligatoire">*</abbr> Mot de Passe
                                         </label>
-                                        <input class="password required form-control" id="user_basic_password" name="user_basic[password]" placeholder="Password" type="password" />
-                                        <p class="help-block">Lorem ipsum dolor sit amet</p>
+                                        <input class="password required form-control" id="user_basic_password" name="user_basic[password]" placeholder="Mot de Passe" type="password" />
+                                        <p class="help-block">Votre mot de passe doit contenir au moins 8 caractères.</p>
                                     </div>
 
                                     <div class="form-group file optional user_basic_file">
-                                        <label class="file optional control-label" for="user_basic_file">File</label>
+                                        <label class="file optional control-label" for="user_basic_file">Photo de Profil</label>
                                         <input class="file optional" id="user_basic_file" name="user_basic[file]" type="file" />
-                                        <p class="help-block">Example block-level help text here.</p>
+                                        <p class="help-block">(8 Mo Max.)</p>
                                     </div>
 
                                     <div class="form-group boolean optional user_basic_active">
                                         <div class="checkbox">
                                             <input name="user_basic[active]" type="hidden" value="0" />
                                             <label class="boolean optional" for="user_basic_active">
-                                                <input class="boolean optional" id="user_basic_active" name="user_basic[active]" type="checkbox" value="1" />Active
+                                                <input class="boolean optional" id="user_basic_active" name="user_basic[active]" type="checkbox" value="1" />Conducteur
                                             </label>
                                         </div>
-                                        <p class="help-block">Lorem ipsum dolor sit amet</p>
+                                        <p class="help-block">N.B. Ce choix peut être modifié à partir de votre espace.</p>
                                     </div>
 
                                     <div class="form-group check_boxes optional user_basic_choices">
-                                        <label class="check_boxes optional control-label">Choices</label>
+                                        <label class="check_boxes optional control-label">Choix</label>
                                         <span class="checkbox">
                                             <label for="user_basic_choices_option_one_is_this_and_thatbe_sure_to_include_why_its_great" name="user_basic[choices]">
                                                 <input class="check_boxes optional" id="user_basic_choices_option_one_is_this_and_thatbe_sure_to_include_why_its_great" name="user_basic[choices][]" type="checkbox" value="Option one is this and that—be sure to include why it&#39;s great" />
-                                                Option one is this and that—be sure to include why it&#39;s great
+                                                J'ai lu et j'accepte les conditions générales
                                             </label>
                                         </span>
                                         <span class="checkbox">
                                             <label for="ser_basic_choices_option_two_can_be_something_else_and_selecting_it_will_deselect_option_one" name="user_basic[choices]">
-                                                <input class="check_boxes optional" id="user_basic_choices_option_two_can_be_something_else_and_selecting_it_will_deselect_option_one" name="user_basic[choices][]" type="checkbox" value="Option two can be something else and selecting it will deselect option one" />Option two can be something else and selecting it will deselect option one
+                                                <input class="check_boxes optional" id="user_basic_choices_option_two_can_be_something_else_and_selecting_it_will_deselect_option_one" name="user_basic[choices][]" type="checkbox" value="Option two can be something else and selecting it will deselect option one" />Je souhaite être notifié par les nouveaux trajets.
                                             </label>
                                         </span>
                                         <input name="user_basic[choices][]" type="hidden" value="" />
@@ -113,10 +113,10 @@
                                             <label for="user_basic_sex_female" name="user_basic[sex]">
                                             <input class="radio_buttons optional" id="user_basic_sex_female" name="user_basic[sex]" type="radio" value="Female" />Female</label>
                                         </span>
-                                        <p class="help-block">Lorem ipsum dolor sit amet</p>
+                                        <p class="help-block">Une fois tous le formulaire rempli vous pouvez créer votre compte.</p>
                                         </div>
 
-                                    <input class="btn btn-success" name="commit" type="submit" value="Create User" />
+                                    <input class="btn btn-success" name="commit" type="submit" value="S'inscrire" />
                                 </form>
                             </div>
                         </div>
