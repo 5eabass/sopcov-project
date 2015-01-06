@@ -4,6 +4,7 @@
     Author     : seb
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,22 +18,27 @@
         <!-- Here is the Sign Up Form -->
         <form id="signInUpForm" method="post" action="/SopCov/EditProfileServlet.do">
             <%!  
-           
-            String prenom  = new String();
-            String wPlace = new String();
-         
+            ArrayList<String> lieuxTravail = null;
             
+            // valeur précedente de l'utilisateur
+            String name  = new String();
+            String wPlace = new String();
+            String lastname = new String();
+            String depTime = new String();
+            String phone = new String();
+            String retTime = new String();
+            String hAddress = new String();
+            String jour = new String();
+            Boolean Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche = false;
+            String commune = new String();
+            String driver = new String();
+            int pCode ;
+            Boolean notif = false;
+                            
             %>
             
             
-            
-            
-            
-            
-            
-            
-            
-            
+                        
             
             <table>
                 <tr>
@@ -41,9 +47,18 @@
                     <td>Lieu de travail</td>
                     <td>
                         <select name="wPlace">
-                            <option>SopraOption1</option>
-                            <option selected>SopraOption2</option>
-                            <option>SopraOption3</option>
+                             <%
+                                                        //attrape la liste de lieux de travail
+                                                        if (request.getAttribute("lieuxTravail") != null) {
+                                                            lieuxTravail = (ArrayList<String>) request.getAttribute("lieuxTravail");
+                                                        }
+                                                        //ajoute les lieux à la liste de lieux possibles
+                                                        for (int i = 0; i < lieuxTravail.size(); i++) {
+                                                            out.println("<option>" + lieuxTravail.get(i) + "</option>");
+                                                        }
+                                                        //supprime la liste de la session car elle ne sert plus à rien
+                                                        request.removeAttribute("lieuxTravail");
+                                                    %>
                         </select>
                     </td>
                 </tr>

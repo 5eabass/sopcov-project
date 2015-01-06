@@ -6,17 +6,22 @@ package sopcov.servlet;
 * and open the template in the editor.
 */
 
+import database.DB;
+import database.DBInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sopcov.models.*;
 
 
@@ -41,7 +46,31 @@ public class EditProfileServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            
+            String destination = "index.jsp";
+
+        HttpSession s = request.getSession();
+        String email = null;
+        if (s != null) {
+            email = (String) s.getAttribute("email");
+        }
+
+        if (email != null) {
+            DBInterface db = new DB();
+            db.connect();
+            if (db.emailAlreadyUsed(email)) {
+                String msgErreur = "Cet email est déjà utilisé par quelqu'un.";
+                s.setAttribute("msgErreur", msgErreur);
+            } else {
+                DB dbi = new DB();
+                dbi.connect();
+                ArrayList<String> lieuxTravail = dbi.getAllWorkplaces();
+                request.setAttribute("lieuxTravail", lieuxTravail);
+                destination = "signUpPage.jsp";
+            }
+        }
+
+        RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
+        rd.forward(request, response);
         }
     }
     
@@ -57,49 +86,8 @@ public class EditProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        // get the name of user
-        String name = request.getParameter("name");
-        
-        // get DB connection info from context init param
-        String uid = getServletContext().getInitParameter("dbuserid");
-        String pwd = getServletContext().getInitParameter("dbuserpwd");
-        String cat = getServletContext().getInitParameter("dbcatalog");
-        
-        //set the DBi
-        DBI dbi = new MySQLDBI(uid,pwd,cat);
-        System.out.println(dbi.getConnectionDetails());
-        System.out.println(dbi.getConnectionURL());
-        
-        //set the database manager
-        DBManager dbm = new DBManager(dbi);
-        try{
-            if(!dbm.isConnected()){
-                if(!dbm.openConnection()){
-                    System.err.println("in EDIT PROFILE could not connect to database");
-                }
-            }
-            
-            // get the info of the user
-            // should be done in model ..
-            String query = "select * from utilisateur where uid = '"+ name +"' ";
-            
-            
-            ResultSet rs = dbm.ExecuteResultSet(query);
-            
-            
-            /*     a finir        déclarer tous les champs de l'utilisateur a renvoyer dans la page jsp
-            String name = ;
-            String
-            
-            */
-            
-            
-        }catch (SQLException ex) {
-            System.err.println(ex);
-        }      
+       
     }
-    
     
     /**
      * Handles the HTTP <code>POST</code> method.
