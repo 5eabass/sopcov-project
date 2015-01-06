@@ -1,3 +1,6 @@
+CREATE sopcov;
+USE sopcov;
+
 CREATE TABLE `lieux_travail` (
 `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 `nom_lieu` VARCHAR(100),
