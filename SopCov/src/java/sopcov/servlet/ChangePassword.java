@@ -7,6 +7,8 @@ package sopcov.servlet;
 
 import database.DB;
 import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +34,8 @@ public class ChangePassword extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+            String destination = "index.jsp";
+        
             // Get the parameters to change password
             String mail= request.getParameter("mail");
             String apwd = request.getParameter("apwd");
@@ -56,12 +60,13 @@ public class ChangePassword extends HttpServlet {
                     }
                     else{
                         database.setPassword(mail, npwd);
+                        destination="changePass.jsp";
                     }
                 }
             }
             
-            //RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
-            //rd.forward(request, response);
+            RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
+            rd.forward(request, response);
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

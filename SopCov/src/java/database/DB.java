@@ -502,8 +502,40 @@ public class DB implements DBInterface {
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
         //dbHelper.addNewUser(0, "omar", "ghader","pass","07", "og@insa.fr", "av rang", "Toulouse", 31400, 2, "08:00:00","17:00:00", "L,M,M,J,V", 1, 1);
-        System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
-        //dbHelper.listData();
+        //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
+        dbHelper.listData();
+        
+          // Get the parameters to change password
+            String mail= "adminuser@test.com";
+            String apwd = "adminuser2";
+            String npwd = "adminuser";
+            String rnpwd = "adminuser";
+
+            DB database=new DB();
+
+            if(!database.getPassword(mail).equals(apwd)){
+                System.out.println("Old Password not correct!");
+            }
+            else{
+                //The old password is correct
+                if(npwd.length()<8){
+                    //Password length < 8 carachters
+                    System.out.println("New Password not correct!");
+                }
+                else{
+                    if(!npwd.equals(rnpwd)){
+                        //Not same repeated Password
+                        System.out.println("Please enter the same password twice!");
+                    }
+                    else{
+                        database.setPassword(mail, npwd);
+                       //String destination="changePass.jsp";
+                        System.out.println("ChangePass");
+                    }
+                }
+            }
+            
+            dbHelper.listData();
         dbHelper.closeConnection();
     }//end main
 
