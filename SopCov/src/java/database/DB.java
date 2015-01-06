@@ -242,9 +242,9 @@ public class DB implements DBInterface {
     public int addNewUser(boolean admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, String codePostal, String nomLieuTravail, String heureDepart, String heureRetour, String joursTravail, boolean conducteur, boolean notif) {
         int lieuTravailID = 0;
         int adminConv = (admin)? 1:0;
-        int conducteurConv = (admin)? 1:0;
-        int notifConv = (admin)? 1:0;
-
+        int conducteurConv = (conducteur)? 1:0;
+        int notifConv = (notif)? 1:0;
+        
         try {
             String queryLieuTravail = " SELECT id FROM `" + TABLE_LIEUX_TRAVAIL + "` WHERE `nom_lieu`='" + nomLieuTravail + "'";
             System.out.println("In DB - addNewUser : query : " + queryLieuTravail);
