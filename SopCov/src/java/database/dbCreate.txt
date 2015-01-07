@@ -3,7 +3,7 @@ USE sopcov;
 
 CREATE TABLE `lieux_travail` (
 `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-`nom_lieu` VARCHAR(100),
+`nom_lieu` VARCHAR(100) UNIQUE,
 `adresse` VARCHAR(100),
 `commune` VARCHAR(100),
 `code_postal` VARCHAR(100),
@@ -62,7 +62,7 @@ INSERT INTO visites (`email_visiteur`,`date`) VALUES
 
 SELECT * FROM lieux_travail;
 SELECT * FROM utilisateurs;
-SELECT * FROM visites;
+SELECT * FROM visites;	
 
 CREATE USER 'prog'@'localhost' IDENTIFIED BY 'prog';
 GRANT ALL ON sopcov.* TO 'prog'@'localhost';
