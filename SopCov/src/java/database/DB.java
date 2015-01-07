@@ -24,13 +24,13 @@ public class DB implements DBInterface {
     // JDBC conducteur prenom and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/sopcov";
-    static final String DB_TABLE = "utilisateurs";
     // Database credentials
     static final String USER = "prog";
     static final String PASS = "prog";
 
     static final String TABLE_UTILISATEURS = "utilisateurs";
     static final String TABLE_LIEUX_TRAVAIL = "lieux_travail";
+    static final String TABLE_VISITES = "visites";
 
     Connection conn = null;
     Statement stmt = null;
@@ -241,10 +241,10 @@ public class DB implements DBInterface {
     @Override
     public int addNewUser(boolean admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, String codePostal, String nomLieuTravail, String heureDepart, String heureRetour, String joursTravail, boolean conducteur, boolean notif) {
         int lieuTravailID = 0;
-        int adminConv = (admin)? 1:0;
-        int conducteurConv = (conducteur)? 1:0;
-        int notifConv = (notif)? 1:0;
-        
+        int adminConv = (admin) ? 1 : 0;
+        int conducteurConv = (conducteur) ? 1 : 0;
+        int notifConv = (notif) ? 1 : 0;
+
         try {
             String queryLieuTravail = " SELECT id FROM `" + TABLE_LIEUX_TRAVAIL + "` WHERE `nom_lieu`='" + nomLieuTravail + "'";
             System.out.println("In DB - addNewUser : query : " + queryLieuTravail);
@@ -492,53 +492,6 @@ public class DB implements DBInterface {
         return routes;
     }
 
-//test addUser, ShowDatabase,deleteUSer...
-    public static void main(String[] args) {
-        DB dbHelper = new DB();
-        // dbHelper.
-        // String password = dbHelper.getPassword("simpleuser@test.com");
-        // System.out.println("Password is " + password);
-        //dbHelper.setPassword("adminuser@test.com","adminuser");
-        //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
-        //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
-        //dbHelper.addNewUser(0, "omar", "ghader","pass","07", "og@insa.fr", "av rang", "Toulouse", 31400, 2, "08:00:00","17:00:00", "L,M,M,J,V", 1, 1);
-        //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
-        dbHelper.listData();
-        
-          // Get the parameters to change password
-            String mail= "adminuser@test.com";
-            String apwd = "adminuser2";
-            String npwd = "adminuser";
-            String rnpwd = "adminuser";
-
-            DB database=new DB();
-
-            if(!database.getPassword(mail).equals(apwd)){
-                System.out.println("Old Password not correct!");
-            }
-            else{
-                //The old password is correct
-                if(npwd.length()<8){
-                    //Password length < 8 carachters
-                    System.out.println("New Password not correct!");
-                }
-                else{
-                    if(!npwd.equals(rnpwd)){
-                        //Not same repeated Password
-                        System.out.println("Please enter the same password twice!");
-                    }
-                    else{
-                        database.setPassword(mail, npwd);
-                       //String destination="changePass.jsp";
-                        System.out.println("ChangePass");
-                    }
-                }
-            }
-            
-            dbHelper.listData();
-        dbHelper.closeConnection();
-    }//end main
-
     @Override
     public ArrayList<String> getAllWorkplaces() {
         String nomLieu = "nom_lieu";
@@ -558,5 +511,150 @@ public class DB implements DBInterface {
         }
 
         return res;
+    }
+
+    @Override
+    public int getNumberOfConnectionBetween(String dateDeb, String heureDeb, String dateFin, String heureFin) {
+        int nbrCon = -1;
+        String colonne = "nbr_visite";
+
+        //Petite vérification du format des dates & heures.
+        String[] verifArgu = dateDeb.split("-");
+        if (verifArgu.length != 3) {
+            System.err.println("In DB - getNumberOfConnectionBetween : dateDeb n'est pas au format AAAA-MM-JJ");
+            return nbrCon;
+        }
+        verifArgu = dateFin.split("-");
+        if (verifArgu.length != 3) {
+            System.err.println("In DB - getNumberOfConnectionBetween : dateFin n'est pas au format AAAA-MM-JJ");
+            return nbrCon;
+        }
+        verifArgu = heureDeb.split(":");
+        if (verifArgu.length != 3) {
+            System.err.println("In DB - getNumberOfConnectionBetween : heureDeb n'est pas au format HH:MM:SS");
+            return nbrCon;
+        }
+        verifArgu = heureFin.split(":");
+        if (verifArgu.length != 3) {
+            System.err.println("In DB - getNumberOfConnectionBetween : heureFin n'est pas au format HH:MM:SS");
+            return nbrCon;
+        }
+
+        //Création de la requête sql 
+        String sql = "SELECT COUNT(`id`) AS " + colonne + " FROM " + TABLE_VISITES + " WHERE ";
+        sql += "(`date` >= \"" + dateDeb + " " + heureDeb + "\"";
+        sql += " && ";
+        sql += "`date` <= \"" + dateFin + " " + heureFin + "\")";
+
+        //Exécution de la requête sql 
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                nbrCon = Integer.valueOf(rs.getString(colonne));
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getNumberOfConnectionBetween : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+
+        return nbrCon;
+    }
+
+//test addUser, ShowDatabase,deleteUSer...
+    public static void main(String[] args) {
+        testGetNumberOfConnectionBetween();
+        DB dbHelper = new DB();
+        // dbHelper.
+        // String password = dbHelper.getPassword("simpleuser@test.com");
+        // System.out.println("Password is " + password);
+        //dbHelper.setPassword("adminuser@test.com","adminuser");
+        //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
+        //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
+        //dbHelper.addNewUser(0, "omar", "ghader","pass","07", "og@insa.fr", "av rang", "Toulouse", 31400, 2, "08:00:00","17:00:00", "L,M,M,J,V", 1, 1);
+        //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
+        dbHelper.listData();
+
+        // Get the parameters to change password
+        String mail = "adminuser@test.com";
+        String apwd = "adminuser2";
+        String npwd = "adminuser";
+        String rnpwd = "adminuser";
+
+        DB database = new DB();
+
+        if (!database.getPassword(mail).equals(apwd)) {
+            System.out.println("Old Password not correct!");
+        } else {
+            //The old password is correct
+            if (npwd.length() < 8) {
+                //Password length < 8 carachters
+                System.out.println("New Password not correct!");
+            } else {
+                if (!npwd.equals(rnpwd)) {
+                    //Not same repeated Password
+                    System.out.println("Please enter the same password twice!");
+                } else {
+                    database.setPassword(mail, npwd);
+                    //String destination="changePass.jsp";
+                    System.out.println("ChangePass");
+                }
+            }
+        }
+
+        dbHelper.listData();
+        dbHelper.closeConnection();
+    }//end main
+
+    public static void testGetNumberOfConnectionBetween() {
+        System.out.println("##########################################");
+        System.out.println("###test de getNumberOfConnectionBetween###");
+        DB dbHelper = new DB();
+        
+        String dateDeb = "2014-12-07";
+        String heureDeb = "00:00:00";
+        String dateFin = "2014-12-31";
+        String heureFin = "23:59:59";
+        int nbrCon = dbHelper.getNumberOfConnectionBetween(dateDeb, heureDeb, dateFin, heureFin);
+        System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
+        System.out.println("Attendu : " + 2);
+        System.out.println("Obtenu  : " + nbrCon);
+        
+        dateDeb = "2014-07";
+        heureDeb = "00:00:00";
+        dateFin = "2014-12-31";
+        heureFin = "23:59:59";
+        nbrCon = dbHelper.getNumberOfConnectionBetween(dateDeb, heureDeb, dateFin, heureFin);
+        System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
+        System.out.println("Attendu : " + -1);
+        System.out.println("Obtenu  : " + nbrCon);
+        
+        dateDeb = "2014-12-07";
+        heureDeb = "00:00";
+        dateFin = "2014-12-31";
+        heureFin = "23:59:59";
+        nbrCon = dbHelper.getNumberOfConnectionBetween(dateDeb, heureDeb, dateFin, heureFin);
+        System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
+        System.out.println("Attendu : " + -1);
+        System.out.println("Obtenu  : " + nbrCon);
+        
+        dateDeb = "2014-12-07";
+        heureDeb = "00:00:00";
+        dateFin = "2014-31";
+        heureFin = "23:59:59";
+        nbrCon = dbHelper.getNumberOfConnectionBetween(dateDeb, heureDeb, dateFin, heureFin);
+        System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
+        System.out.println("Attendu : " + -1);
+        System.out.println("Obtenu  : " + nbrCon);
+        
+        dateDeb = "2014-12-07";
+        heureDeb = "00:00:00";
+        dateFin = "2014-12-31";
+        heureFin = "23:59:";
+        nbrCon = dbHelper.getNumberOfConnectionBetween(dateDeb, heureDeb, dateFin, heureFin);
+        System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
+        System.out.println("Attendu : " + -1);
+        System.out.println("Obtenu  : " + nbrCon);
+        
+        System.out.println("##########################################");
     }
 }
