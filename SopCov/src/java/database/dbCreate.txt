@@ -48,10 +48,12 @@ INSERT INTO utilisateurs (`email`,`password`,`admin`,`prenom`,`nom`,`tel`,`adres
 VALUES ("simpleuser@test.com","simpleuser",false,"simple","user","0636122000","123 Avenue de Lespinet",
 "Toulouse","31100",2,'08:00:00','17:00:00',
 "Lun,Mar,Mer,Jeu,Ven",false,false),
+("simpleuser2@test.com","simpleuser2",false,"simple","user2","0636122000","123 Avenue de Lespinet",
+"Toulouse","31100",1,'08:00:00','17:00:00',
+"Lun",true,true),
 ("adminuser@test.com","adminuser",true,"admin","user","0636122001","124 Avenue des Admins",
 "Toulouse","31100",2,'08:30:00','17:45:00',
-"Lun,Mar,Mer,Jeu,Ven",false,false);
-
+"Lun,Mar,Mer,Jeu,Ven",true,false);
 
 INSERT INTO visites (`email_visiteur`,`date`) VALUES 
 ("adminuser@test.com",'2014-12-07 08:00:01'),
