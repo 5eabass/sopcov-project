@@ -1,4 +1,4 @@
-CREATE sopcov;
+CREATE DATABASE sopcov;
 USE sopcov;
 
 CREATE TABLE `lieux_travail` (
@@ -30,27 +30,37 @@ PRIMARY KEY (`email`),
 FOREIGN KEY (lieu_travail_id) REFERENCES lieux_travail(id)
 ) ENGINE=InnoDB;
 
-insert into lieux_travail (`nom_lieu`,`adresse`,`commune`,`code_postal`) 
-values ("Sopra_Group_Ent1","37 Chemin des Ramassiers","Colomiers","31770");
-insert into lieux_travail (nom_lieu,adresse,commune,code_postal) 
-values ("Sopra_Group_Ent2","1 Avenue André-Marie Ampère","Colomiers","31770");
+CREATE TABLE `visites` (
+`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+`email_visiteur` VARCHAR(100) NOT NULL,
+`date` DATETIME NOT NULL,
+PRIMARY KEY (`id`),
+FOREIGN KEY (email_visiteur) REFERENCES utilisateurs(email)
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
-insert into utilisateurs (`email`,`password`,`admin`,`prenom`,`nom`,`tel`,`adresse`,
+INSERT INTO lieux_travail (`nom_lieu`,`adresse`,`commune`,`code_postal`) 
+VALUES ("Sopra_Group_Ent1","37 Chemin des Ramassiers","Colomiers","31770"),
+("Sopra_Group_Ent2","1 Avenue André-Marie Ampère","Colomiers","31770");
+
+INSERT INTO utilisateurs (`email`,`password`,`admin`,`prenom`,`nom`,`tel`,`adresse`,
 `commune`,`code_postal`,`lieu_travail_id`,`heure_depart`,`heure_retour`,
 `jours_travail`,`conducteur`,`notif`) 
-values ("simpleuser@test.com","simpleuser",false,"simple","user","0636122000","123 Avenue de Lespinet",
+VALUES ("simpleuser@test.com","simpleuser",false,"simple","user","0636122000","123 Avenue de Lespinet",
 "Toulouse","31100",2,'08:00:00','17:00:00',
-"Lun,Mar,Mer,Jeu,Ven",false,false);
-
-insert into utilisateurs (`email`,`password`,`admin`,`prenom`,`nom`,`tel`,`adresse`,
-`commune`,`code_postal`,`lieu_travail_id`,`heure_depart`,`heure_retour`,
-`jours_travail`,`conducteur`,`notif`) 
-values ("adminuser@test.com","adminuser",true,"admin","user","0636122001","124 Avenue des Admins",
+"Lun,Mar,Mer,Jeu,Ven",false,false),
+("adminuser@test.com","adminuser",true,"admin","user","0636122001","124 Avenue des Admins",
 "Toulouse","31100",2,'08:30:00','17:45:00',
 "Lun,Mar,Mer,Jeu,Ven",false,false);
 
-select * from lieux_travail;
-select * from utilisateurs;
+
+INSERT INTO visites (`email_visiteur`,`date`) VALUES 
+("adminuser@test.com",'2014-12-07 08:00:01'),
+("simpleuser@test.com",'2014-12-07 08:56:30'),
+("simpleuser@test.com",'2015-01-07 09:37:55');
+
+SELECT * FROM lieux_travail;
+SELECT * FROM utilisateurs;
+SELECT * FROM visites;
 
 CREATE USER 'prog'@'localhost' IDENTIFIED BY 'prog';
 GRANT ALL ON sopcov.* TO 'prog'@'localhost';
