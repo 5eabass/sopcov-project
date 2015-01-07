@@ -551,7 +551,7 @@ public class DB implements DBInterface {
         try {
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                nbrCon = Integer.valueOf(rs.getString(colonne));
+                nbrCon = rs.getInt(colonne);
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getNumberOfConnectionBetween : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
@@ -560,9 +560,87 @@ public class DB implements DBInterface {
         return nbrCon;
     }
 
+    @Override
+    public int getNumberOfUserForCoupleCommuneAndWorkplace(String commune, String codePostal, String lieuTravail) {
+        //Declaration des variables que l'on va utiliser
+        int res = -1;
+        
+        //Declaration des parametres de la requete
+        String colonne = "COUNT(l.nom_lieu) AS nbr_utilisateurs";
+        String joinCondition = "u.lieu_travail_id = l.id";
+        String groupByCouple = "l.nom_lieu,u.commune,u.code_postal";
+        String conditionWhere = "l.nom_lieu = \"" + lieuTravail + "\" && u.commune = \"" + commune + "\" && u.code_postal = \"" + codePostal + "\"";
+
+
+        //Creation de la requete sql 
+        String sql = "SELECT " + colonne + " "
+                + " FROM " + TABLE_UTILISATEURS + " AS u"
+                + " INNER JOIN " + TABLE_LIEUX_TRAVAIL + " AS l"
+                + " ON (" + joinCondition + ")"
+                + " WHERE (" + conditionWhere +")"
+                + " GROUP BY " + groupByCouple;
+
+        //Execution de la requete sql 
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                res = rs.getInt("nbr_utilisateurs");
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getNumberOfUserForCoupleCommuneAndWorkplace : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+
+        return res;
+    }
+    
+    @Override
+    public ArrayList<CoupleCommuneLieuTravail> getAllNumberOfUserByCoupleCommuneAndWorkplace() {
+        //Declaration des variables que l'on va utiliser
+        ArrayList<CoupleCommuneLieuTravail> res = new ArrayList<CoupleCommuneLieuTravail>();
+        CoupleCommuneLieuTravail coupleActuel;
+        int nbrUtilisateurActu;
+        String communeActu;
+        String codePostalActu;
+        String nomLieuTravailActu;
+        
+        //Declaration des parametres de la requete
+        String[] colonnes = {"COUNT(l.nom_lieu) AS nbr_utilisateurs","u.commune","u.code_postal","l.nom_lieu"};
+        String joinCondition = "u.lieu_travail_id = l.id";
+        String groupByCouple = "l.nom_lieu,u.commune,u.code_postal";
+
+
+        //Creation de la requete sql 
+        String sql = "SELECT " + colonnes[0] + ", " + colonnes[1] + ", " + colonnes[2] + ", " + colonnes[3] + " "
+                + " FROM " + TABLE_UTILISATEURS + " AS u"
+                + " INNER JOIN " + TABLE_LIEUX_TRAVAIL + " AS l"
+                + " ON (" + joinCondition + ")"
+                + " GROUP BY " + groupByCouple;
+
+        //Execution de la requete sql 
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                nbrUtilisateurActu = rs.getInt("nbr_utilisateurs");
+                communeActu = rs.getString("commune");
+                codePostalActu = rs.getString("code_postal");
+                nomLieuTravailActu = rs.getString("nom_lieu");
+                coupleActuel = new CoupleCommuneLieuTravail(nbrUtilisateurActu, communeActu, codePostalActu, nomLieuTravailActu);
+                res.add(coupleActuel);
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getNumberOfUserByCoupleCommuneAndWorkplace : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+
+        return res;
+    }
+
 //test addUser, ShowDatabase,deleteUSer...
     public static void main(String[] args) {
         testGetNumberOfConnectionBetween();
+        testGetAllNumberOfUserByCoupleCommuneAndWorkplace();
+        testGetNumberOfUserForCoupleCommuneAndWorkplace();
         DB dbHelper = new DB();
         // dbHelper.
         // String password = dbHelper.getPassword("simpleuser@test.com");
@@ -609,7 +687,7 @@ public class DB implements DBInterface {
         System.out.println("##########################################");
         System.out.println("###test de getNumberOfConnectionBetween###");
         DB dbHelper = new DB();
-        
+
         String dateDeb = "2014-12-07";
         String heureDeb = "00:00:00";
         String dateFin = "2014-12-31";
@@ -618,7 +696,7 @@ public class DB implements DBInterface {
         System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
         System.out.println("Attendu : " + 2);
         System.out.println("Obtenu  : " + nbrCon);
-        
+
         dateDeb = "2014-07";
         heureDeb = "00:00:00";
         dateFin = "2014-12-31";
@@ -627,7 +705,7 @@ public class DB implements DBInterface {
         System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
         System.out.println("Attendu : " + -1);
         System.out.println("Obtenu  : " + nbrCon);
-        
+
         dateDeb = "2014-12-07";
         heureDeb = "00:00";
         dateFin = "2014-12-31";
@@ -636,7 +714,7 @@ public class DB implements DBInterface {
         System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
         System.out.println("Attendu : " + -1);
         System.out.println("Obtenu  : " + nbrCon);
-        
+
         dateDeb = "2014-12-07";
         heureDeb = "00:00:00";
         dateFin = "2014-31";
@@ -645,7 +723,7 @@ public class DB implements DBInterface {
         System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
         System.out.println("Attendu : " + -1);
         System.out.println("Obtenu  : " + nbrCon);
-        
+
         dateDeb = "2014-12-07";
         heureDeb = "00:00:00";
         dateFin = "2014-12-31";
@@ -654,7 +732,45 @@ public class DB implements DBInterface {
         System.out.printf("Nbr Connection : entre %s %s <-> %s %s : \n", dateDeb, heureDeb, dateFin, heureFin);
         System.out.println("Attendu : " + -1);
         System.out.println("Obtenu  : " + nbrCon);
+
+        System.out.println("##########################################");
+    }
+    
+    public static void testGetAllNumberOfUserByCoupleCommuneAndWorkplace() {
+        System.out.println("##########################################");
+        System.out.println("###test de getAllNumberOfUserByCoupleCommuneAndWorkplace###");
+        DB dbHelper = new DB();
+        ArrayList<CoupleCommuneLieuTravail> res = dbHelper.getAllNumberOfUserByCoupleCommuneAndWorkplace();
         
+        System.out.printf("Attendu : \n%s\t|%s\t|%s|\t%s\n",1,"Sopra_Group_Ent1","Toulouse","31100"); 
+        System.out.printf("%s\t|%s\t|%s|\t%s\n",2,"Sopra_Group_Ent2","Toulouse","31100");
+        
+        System.out.printf("Obtenu  :\n");
+        for (CoupleCommuneLieuTravail c : res) {
+            System.out.printf("%s\t|%s\t|%s|\t%s\n",c.getNbrUtilisateurs(),c.getNomLieuTravail(),c.getCommune(),c.getCodePostal());            
+        }
+        System.out.println("##########################################");
+    }
+    
+    public static void testGetNumberOfUserForCoupleCommuneAndWorkplace() {
+        System.out.println("##########################################");
+        System.out.println("###test de getNumberOfUserForCoupleCommuneAndWorkplace###");
+        DB dbHelper = new DB();
+        String commune = "Toulouse";
+        String codePostal = "31100";
+        String lieuTravail = "Sopra_Group_Ent1";
+        String lieuTravail2 = "Sopra_Group_Ent2";
+        String lieuTravail3 = "Inexistant";
+        
+        int res = dbHelper.getNumberOfUserForCoupleCommuneAndWorkplace(commune, codePostal, lieuTravail);
+        System.out.printf("Attendu : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail,1);
+        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail,res);
+        res = dbHelper.getNumberOfUserForCoupleCommuneAndWorkplace(commune, codePostal, lieuTravail2);
+        System.out.printf("Attendu : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail2,2);
+        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail2,res);
+        res = dbHelper.getNumberOfUserForCoupleCommuneAndWorkplace(commune, codePostal, lieuTravail3);
+        System.out.printf("Attendu : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail3,-1);
+        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail3,res);        
         System.out.println("##########################################");
     }
 }

@@ -13,23 +13,27 @@ import java.util.List;
  * @author root
  */
 public interface DBInterface {
- 
- 
-/**
- *
- * @author root
- */
-    public void connect();
-    public void closeConnection() ;
-    public void listData();
-    public List<User> queryInfo(String email);
-    public String printHTML() ;
-    public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif );
-    
+
     /**
-     * Ajoute un utilisateur à la base de donnée.
-     * Attention aucune vérification des paramètres n'est faite.
-     * 
+     *
+     * @author root
+     */
+    public void connect();
+
+    public void closeConnection();
+
+    public void listData();
+
+    public List<User> queryInfo(String email);
+
+    public String printHTML();
+
+    public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif);
+
+    /**
+     * Ajoute un utilisateur à la base de donnée. Attention aucune vérification
+     * des paramètres n'est faite.
+     *
      * @param admin Si l'utilisateur doit être administrateur ou non
      * @param prenom Le prenom de l'utilisateur
      * @param nom Le nom de l'utilisateur
@@ -39,33 +43,45 @@ public interface DBInterface {
      * @param adresse L'adresse de l'utilisateur
      * @param commune La commune de l'utilisateur ("Toulouse")
      * @param codePostal Le code postal de l'utilisateur ("31100")
-     * @param nomLieuTravail Le nom du lieu de travail de l'utilisateur ("Sopra Group 1")
+     * @param nomLieuTravail Le nom du lieu de travail de l'utilisateur ("Sopra
+     * Group 1")
      * @param heureDepart L'heure de départ de l'utilisateur ("08:00:00")
      * @param heureRetour L'heure de retour de l'utilisateur ("17:45:00")
-     * @param joursTravail Les jours de travail de l'utilisateur ("Lun,Mar,Mer,Jeu,Ven,Sam,Dim") ("Mar,Jeu")
-     * @param conducteur Si l'utilisateur est un conducteur qui donc propose le covoiturage ou non
+     * @param joursTravail Les jours de travail de l'utilisateur
+     * ("Lun,Mar,Mer,Jeu,Ven,Sam,Dim") ("Mar,Jeu")
+     * @param conducteur Si l'utilisateur est un conducteur qui donc propose le
+     * covoiturage ou non
      * @param notif Si l'utilisateur veut recevoir des mail ou non
-     * @return  0 = tout va bien <br/>
-     *          -1 = n'a pas pu récupérer l'ID associé au lieu de travail<br/>
-     *          -2 = n'a pas pu accéder à l'id du lieu de travail<br/>
-     *          -3 = n'a pas pu créer l'utilisateur
+     * @return 0 = tout va bien <br/>
+     * -1 = n'a pas pu récupérer l'ID associé au lieu de travail<br/>
+     * -2 = n'a pas pu accéder à l'id du lieu de travail<br/>
+     * -3 = n'a pas pu créer l'utilisateur
      */
-    public int addNewUser(boolean admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, String codePostal, String nomLieuTravail, String heureDepart, String heureRetour, String joursTravail, boolean conducteur, boolean notif );
-    
-    public void deleteUser(String email, String prenom, String nom) ;
+    public int addNewUser(boolean admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, String codePostal, String nomLieuTravail, String heureDepart, String heureRetour, String joursTravail, boolean conducteur, boolean notif);
+
+    public void deleteUser(String email, String prenom, String nom);
+
     public String getPassword(String email);
+
     public boolean editLocation(String email, int lieu_travail_id);
-    public boolean deleteLocation(String email, String newlieu_travail_id) ;
+
+    public boolean deleteLocation(String email, String newlieu_travail_id);
+
     public void setPassword(String email, String password);
+
     public boolean emailAlreadyUsed(String email);
+
     public boolean userExists(String email, String password);
+
     public List<User> getAllDrivers();
-    public List<User> searchRoute(String mCity,String mWorkplace);
+
+    public List<User> searchRoute(String mCity, String mWorkplace);
+
     public ArrayList<String> getAllWorkplaces();
-    
+
     /*
-        ADMIN REPORTS :
-    */
+     ADMIN REPORTS :
+     */
     /**
      * Renvoie le nombre de connections ayant eu lieu entre les dates dateDeb
      * heureDeb et dateFin heureFin
@@ -77,4 +93,24 @@ public interface DBInterface {
      * @return le nombre de connections ou -1 si quelque chose s'est mal passé.
      */
     public int getNumberOfConnectionBetween(String dateDeb, String heureDeb, String dateFin, String heureFin);
-}
+
+    /**
+     * Donne la liste de couple Commune/Lieu de travail/nombre utilisateurs
+     * interesses
+     *
+     * @return la liste de couple Commune/Lieu de travail avec le nombre
+     * d'utilisateurs interesses par ce trajet (ce couple) ou null s'il n'y a
+     * pas de couple Commune/Lieu de travail
+     */
+    public ArrayList<CoupleCommuneLieuTravail> getAllNumberOfUserByCoupleCommuneAndWorkplace();
+
+    /**
+     * Donne le nombre de personnes interessees par un trajet depuis une commune(code postal) vers un lieu de travail
+     * @param commune la commune des utilisateurs vises
+     * @param codePostal le code postal associe a celle-ci
+     * @param lieuTravail le lieu de travail des utilisateurs vises
+     * @return le nombre d'utilisateurs interesses par un trajet entre commune(code postal) et un lieu de travail
+     */
+    public int getNumberOfUserForCoupleCommuneAndWorkplace(String commune, String codePostal, String lieuTravail);
+
+    }
