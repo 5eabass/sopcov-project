@@ -36,28 +36,44 @@ public class SignInOrUpServlet extends HttpServlet {
         String pswd = request.getParameter("password");
         String[] btnClicked = request.getParameterValues("BoutonIndex");
 
-        //Getting the session
-        HttpSession s = request.getSession();
-        s.setAttribute("email", email);
-        s.setAttribute("password", pswd);
-        
         //the dispatcher that will forward the request to the good servlet
         RequestDispatcher dispatcher;
-
         //By default, we are going back to the sign in page
         String destination = "index.jsp";
 
-        //If we have one btn clicked everything is normal else someone is messing around
-        if (btnClicked.length == 1) {
+        //Getting the session
+        HttpSession s = request.getSession();
+        if (!email.isEmpty() && !pswd.isEmpty() && !(pswd.length() < 8)) {
+            s.setAttribute("email", email);
+            s.setAttribute("password", pswd);
 
-            //Going to sign in or up options
-            if (btnClicked[0].equals("Connexion")) {
-                destination = "SignInServlet.do";
-            } else if (btnClicked[0].equals("Inscription")) {
-                destination = "SignUpRequestServlet.do";
+            //If we have one btn clicked everything is normal else someone is messing around
+            if (btnClicked.length == 1) {
+
+                //Going to sign in or up options
+                if (btnClicked[0].equals("Connexion")) {
+                    destination = "SignInServlet.do";
+                } else if (btnClicked[0].equals("Inscription")) {
+                    destination = "SignUpRequestServlet.do";
+                }
+            }
+        } else {
+            if (email.isEmpty()) {
+                s.setAttribute("msgErreur", "Remplissez le champ email.");
+            } else if (pswd.isEmpty() || pswd.length() < 8) {
+                String erreurComplement = "";
+                if (btnClicked.length == 1) {
+                    //Going to sign in or up options
+                    if (btnClicked[0].equals("Connexion")) {
+                        erreurComplement = "Il s'agit de votre mot de passe utilisateur.";
+                    } else if (btnClicked[0].equals("Inscription")) {
+                        erreurComplement = "Il s'agit du mot de passe que vous aurez après l'inscription.";
+                    }
+                }
+                s.setAttribute("msgErreur", "Remplissez le champ mot de passe avec plus de 8 caractères." + erreurComplement);
+
             }
         }
-
         System.out.println("In SignInOrUpServlet : destination is " + destination);
         dispatcher = request.getRequestDispatcher("/" + destination);
         dispatcher.forward(request, response);
