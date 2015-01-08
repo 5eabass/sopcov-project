@@ -149,14 +149,14 @@
 
                                         <c:forEach var="driver" items="${drivers}" varStatus="loop">
                                             <div class="panel panel-primary boxshadow">
-                                                <div class="panel-heading"><a href="#" id="example" >${driver.commune} > ${driver.lieu_travail}</a></div>
+                                                <div class="panel-heading"><a href="#" id="example" >${driver.commune} > ${driver.lieu_travail_nom}</a></div>
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-md-5">
                                                             <h4 class="media-heading">${driver.nom}  ${driver.prenom}</h4>
                                                             <p>
                                                                 <span class="label label-info">DÃ©part</span> ${driver.adresse}, ${driver.code_postal} ${driver.commune}<br/>
-                                                                <span class="label label-info">ArrivÃ©e</span> 1, Avenue AndrÃ©-Marie AmpÃ¨re, 31772 Colomiers<br/>
+                                                                <span class="label label-info">ArrivÃ©e</span> ${driver.lieu_travail_adresse} <br/>
                                                                 <span class="label label-info">Horaire aller</span> ${driver.heure_depart}<br/>
                                                                 <span class="label label-info">Horaire retour</span> ${driver.heure_retour}<br/>
                                                                 <span class="label label-warning">Places disponibles</span> 1/4

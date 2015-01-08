@@ -137,6 +137,7 @@ public class DB implements DBInterface {
             rs = stmt.executeQuery(sql_lieu);
             rs.next();
             String lieu_travail = rs.getString("nom_lieu");
+            String lieu_travail_adresse = rs.getString("adresse");
             String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where email='" + email + "'";
 
             rs = stmt.executeQuery(sql);
@@ -158,7 +159,7 @@ public class DB implements DBInterface {
                 int lieu_travail_id = rs.getInt("lieu_travail_id");
                 String jours_travail = rs.getString("jours_travail");
                 //Display values
-                info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
+                info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif,lieu_travail_adresse));
             }
             rs.close();
 
@@ -431,7 +432,8 @@ public class DB implements DBInterface {
 
             rs = stmt.executeQuery(sql_lieu);
             rs.next();
-            String lieu_travail = rs.getString("nom_lieu");
+            String lieu_travail_nom = rs.getString("nom_lieu");
+            String lieu_travail_adresse = rs.getString("adresse");
             String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " WHERE conducteur=1";
 
             rs = stmt.executeQuery(sql);
@@ -452,7 +454,7 @@ public class DB implements DBInterface {
                 int lieu_travail_id = rs.getInt("lieu_travail_id");
                 String jours_travail = rs.getString("jours_travail");
                 //Display values
-                conducteurs.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
+                conducteurs.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_nom, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif,lieu_travail_adresse));
             }
 
         } catch (Exception e) {
@@ -473,6 +475,8 @@ public class DB implements DBInterface {
             rs = stmt.executeQuery(sql_lieu);
             rs.next();
             int lieu_travail_id = rs.getInt("id");
+            String lieu_travail_nom = rs.getString("nom_lieu");
+            String lieu_travail_adresse = rs.getString("adresse");
             System.out.println(lieu_travail + "," + lieu_travail_id);
             String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where conducteur=1 AND commune='" + mCity + "' AND lieu_travail_id='" + lieu_travail_id + "'";
             rs = stmt.executeQuery(sql);
@@ -494,7 +498,7 @@ public class DB implements DBInterface {
                 String jours_travail = rs.getString("jours_travail");
 
                 //Display values
-                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, mCity, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
+                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, mCity, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif,lieu_travail_adresse));
             }
 
         } catch (Exception e) {

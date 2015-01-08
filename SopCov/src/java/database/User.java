@@ -21,14 +21,15 @@ public class User {
     private String commune;
     private int code_postal;
     private int lieu_travail_id;
-    private String lieu_travail;
+    private String lieu_travail_nom;
+    private String lieu_travail_adresse;
     private String heure_depart;
     private String heure_retour;
     private String jours_travail;
     private int conducteur;
     private int notif;
 
-    public User(String email, String password, int admin, String prenom, String nom, String tel, String adresse, String commune, int code_postal, String lieu_travail ,int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif) {
+    public User(String email, String password, int admin, String prenom, String nom, String tel, String adresse, String commune, int code_postal, String lieu_travail_nom ,int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif,String lieu_travail_adresse) {
         this.email = email;
         this.password = password;
         this.admin = admin;
@@ -44,7 +45,8 @@ public class User {
         this.jours_travail = jours_travail;
         this.conducteur = conducteur;
         this.notif = notif;
-        this.lieu_travail=lieu_travail;
+        this.lieu_travail_nom=lieu_travail_nom;
+        this.lieu_travail_adresse=lieu_travail_adresse;
     }  
 
     public String getEmail() {
@@ -127,14 +129,6 @@ public class User {
         this.lieu_travail_id = lieu_travail_id;
     }
 
-    public String getLieu_travail() {
-        return lieu_travail;
-    }
-
-    public void setLieu_travail(String lieu_travail) {
-        this.lieu_travail = lieu_travail;
-    }
-
     public String getHeure_depart() {
         return heure_depart;
     }
@@ -173,6 +167,22 @@ public class User {
 
     public void setNotif(int notif) {
         this.notif = notif;
+    }
+
+    public String getLieu_travail_nom() {
+        return lieu_travail_nom;
+    }
+
+    public void setLieu_travail_nom(String lieu_travail_nom) {
+        this.lieu_travail_nom = lieu_travail_nom;
+    }
+
+    public String getLieu_travail_adresse() {
+        return lieu_travail_adresse;
+    }
+
+    public void setLieu_travail_adresse(String lieu_travail_adresse) {
+        this.lieu_travail_adresse = lieu_travail_adresse;
     }
     
     
