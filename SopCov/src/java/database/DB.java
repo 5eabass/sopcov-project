@@ -159,7 +159,7 @@ public class DB implements DBInterface {
                 int lieu_travail_id = rs.getInt("lieu_travail_id");
                 String jours_travail = rs.getString("jours_travail");
                 //Display values
-                info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif,lieu_travail_adresse));
+                info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif, lieu_travail_adresse));
             }
             rs.close();
 
@@ -424,7 +424,8 @@ public class DB implements DBInterface {
     @Override
     public List<User> getAllDrivers() {
         List<User> conducteurs = new ArrayList<>();
-
+        String lieu_travail_nom;
+        String lieu_travail_adresse;
         String sql_lieu = "SELECT * FROM " + TABLE_LIEUX_TRAVAIL;
 
         ResultSet rs;
@@ -432,8 +433,11 @@ public class DB implements DBInterface {
 
             rs = stmt.executeQuery(sql_lieu);
             rs.next();
-            String lieu_travail_nom = rs.getString("nom_lieu");
-            String lieu_travail_adresse = rs.getString("adresse");
+            String lieu_travail_nom1 = rs.getString("nom_lieu");
+            String lieu_travail_adresse1 = rs.getString("adresse");
+            rs.next();
+            String lieu_travail_nom2 = rs.getString("nom_lieu");
+            String lieu_travail_adresse2 = rs.getString("adresse");
             String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " WHERE conducteur=1";
 
             rs = stmt.executeQuery(sql);
@@ -454,7 +458,14 @@ public class DB implements DBInterface {
                 int lieu_travail_id = rs.getInt("lieu_travail_id");
                 String jours_travail = rs.getString("jours_travail");
                 //Display values
-                conducteurs.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_nom, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif,lieu_travail_adresse));
+                if (lieu_travail_id == 1) {
+                    lieu_travail_nom = lieu_travail_nom1;
+                    lieu_travail_adresse = lieu_travail_adresse1;
+                } else {
+                    lieu_travail_nom = lieu_travail_nom2;
+                     lieu_travail_adresse = lieu_travail_adresse2;
+                }
+                conducteurs.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_nom, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif, lieu_travail_adresse));
             }
 
         } catch (Exception e) {
@@ -498,7 +509,7 @@ public class DB implements DBInterface {
                 String jours_travail = rs.getString("jours_travail");
 
                 //Display values
-                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, mCity, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif,lieu_travail_adresse));
+                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, mCity, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif, lieu_travail_adresse));
             }
 
         } catch (Exception e) {
@@ -660,7 +671,7 @@ public class DB implements DBInterface {
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                
+
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getPercentOfDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
@@ -680,12 +691,12 @@ public class DB implements DBInterface {
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                
+
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getNumbersOfDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
         }
-        
+
         return conducteurs;
     }
 
@@ -700,12 +711,12 @@ public class DB implements DBInterface {
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                
+
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getNumbersOfNonDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
         }
-        
+
         return nonConducteurs;
     }
 
@@ -720,20 +731,20 @@ public class DB implements DBInterface {
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                
+
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getNumbersOfUsers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
         }
-        
+
         return utilisateurs;
     }
 
 //test addUser, ShowDatabase,deleteUSer...
     public static void main(String[] args) {
-        testGetNumberOfConnectionBetween();
-        testGetAllNumberOfUserByCoupleCommuneAndWorkplace();
-        testGetNumberOfUserForCoupleCommuneAndWorkplace();
+        //testGetNumberOfConnectionBetween();
+        //testGetAllNumberOfUserByCoupleCommuneAndWorkplace();
+        //testGetNumberOfUserForCoupleCommuneAndWorkplace();
         DB dbHelper = new DB();
         // dbHelper.
         // String password = dbHelper.getPassword("simpleuser@test.com");
@@ -741,7 +752,7 @@ public class DB implements DBInterface {
         //dbHelper.setPassword("adminuser@test.com","adminuser");
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
-        //dbHelper.addNewUser(0, "omar", "ghader","pass","07", "og@insa.fr", "av rang", "Toulouse", 31400, 2, "08:00:00","17:00:00", "L,M,M,J,V", 1, 1);
+        dbHelper.addNewUser(0, "omar", "ghader", "pass", "07", "omar@insa.fr", "135 avenue de Rangueil", "Toulouse", 31400, 1, "08:00:00", "17:00:00", "L,M,M,J,V", 1, 1);
         //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
 
         dbHelper.listData();
