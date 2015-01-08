@@ -24,6 +24,54 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+
+
+        <style>
+            .popover {
+                max-width: none;
+            }
+            html, body, #map-canvas0 {
+                height: 100%;
+                margin: 0px;
+                padding: 0px
+            }
+            #panel {
+                position: absolute;
+                top: 5px;
+                left: 50%;
+                margin-left: -180px;
+                z-index: 5;
+                background-color: #fff;
+                padding: 5px;
+                border: 1px solid #999;
+            }
+        </style>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+        <script>
+           
+            var getMap = function (opts) {
+                var src = "http://maps.googleapis.com/maps/api/staticmap?",
+                        params = $.extend({
+                            center: 'New York, NY',
+                            zoom: 14,
+                            size: '512x512',
+                            maptype: 'roadmap',
+                            sensor: false
+                        }, opts),
+                        query = [];
+
+                $.each(params, function (k, v) {
+                    query.push(k + '=' + encodeURIComponent(v));
+                });
+
+                src += query.join('&');
+                return '<img src="' + src + '" />';
+            }
+
+            var content = getMap({center: 'Fritz-Walter Stadion, Kaiserslautern'});
+            $('#example').popover({html: true, content: content, placement: 'bottom'})
+        </script>
     </head>
 
     <body>
@@ -99,9 +147,9 @@
                                 <div class="col">
                                     <div class="row-sm-6 row-md-4">
 
-                                        <c:forEach var="driver" items="${drivers}">
+                                        <c:forEach var="driver" items="${drivers}" varStatus="loop">
                                             <div class="panel panel-primary boxshadow">
-                                                <div class="panel-heading"><a href="#" >${driver.commune} > ${driver.lieu_travail_id}</a></div>
+                                                <div class="panel-heading"><a href="#" id="example" >${driver.commune} > ${driver.lieu_travail}</a></div>
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-md-5">
@@ -115,7 +163,8 @@
                                                             </p>
                                                         </div>
                                                         <div class="col-md-7">
-                                                            <img src="img/sopra_group.png" class="img-responsive gmpreview" alt="google map preview">
+                                                            
+                                                            <!--img src="img/sopra_group.png" class="img-responsive gmpreview" alt="google map preview"-->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,7 +188,8 @@
             </div>
 
         </div>
-
+    <div class="container">
+ 
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

@@ -44,10 +44,9 @@
                 </span>
                 <!--  -->
                 <c:forEach var="driver" items="${drivers}">
-
                     <span href="#" class="list-group-item">
                         <h4 class="list-group-item-heading">
-                            ${driver.commune} ${driver.heure_depart}H -> ${driver.lieu_travail_id} , ${driver.heure_retour}H
+                            ${driver.commune} ${driver.heure_depart}H -> ${driver.lieu_travail} , ${driver.heure_retour}H
                         </h4>
                         <div class="list-group-item-text" style="clear: both;">
                             <div>${driver.prenom} ${driver.nom}<p style="float:right">${driver.jours_travail}  </p></div>

@@ -129,12 +129,16 @@ public class DB implements DBInterface {
     public List<User> queryInfo(String email) {
         List<User> info = new ArrayList<User>();
 
-        String sql;
-
-        sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where email='" + email + "'";
+        String sql_lieu = "SELECT * FROM " + TABLE_LIEUX_TRAVAIL;
 
         ResultSet rs;
         try {
+
+            rs = stmt.executeQuery(sql_lieu);
+            rs.next();
+            String lieu_travail = rs.getString("nom_lieu");
+            String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where email='" + email + "'";
+
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 //Retrieve by column prenom
@@ -154,7 +158,7 @@ public class DB implements DBInterface {
                 int lieu_travail_id = rs.getInt("lieu_travail_id");
                 String jours_travail = rs.getString("jours_travail");
                 //Display values
-                info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
+                info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
             }
             rs.close();
 
@@ -420,9 +424,16 @@ public class DB implements DBInterface {
     public List<User> getAllDrivers() {
         List<User> conducteurs = new ArrayList<>();
 
-        String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " WHERE conducteur=1";
+        String sql_lieu = "SELECT * FROM " + TABLE_LIEUX_TRAVAIL;
+
         ResultSet rs;
         try {
+
+            rs = stmt.executeQuery(sql_lieu);
+            rs.next();
+            String lieu_travail = rs.getString("nom_lieu");
+            String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " WHERE conducteur=1";
+
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 //Retrieve by column prenom
@@ -441,7 +452,7 @@ public class DB implements DBInterface {
                 int lieu_travail_id = rs.getInt("lieu_travail_id");
                 String jours_travail = rs.getString("jours_travail");
                 //Display values
-                conducteurs.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
+                conducteurs.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
             }
 
         } catch (Exception e) {
@@ -483,7 +494,7 @@ public class DB implements DBInterface {
                 String jours_travail = rs.getString("jours_travail");
 
                 //Display values
-                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, code_postal, heure_depart, heure_retour, jours_travail, conducteur, notif));
+                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, mCity, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif));
             }
 
         } catch (Exception e) {
@@ -650,34 +661,6 @@ public class DB implements DBInterface {
         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
         //dbHelper.addNewUser(0, "omar", "ghader","pass","07", "og@insa.fr", "av rang", "Toulouse", 31400, 2, "08:00:00","17:00:00", "L,M,M,J,V", 1, 1);
         //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
-        dbHelper.listData();
-
-        // Get the parameters to change password
-        String mail = "adminuser@test.com";
-        String apwd = "adminuser2";
-        String npwd = "adminuser";
-        String rnpwd = "adminuser";
-
-        DB database = new DB();
-
-        if (!database.getPassword(mail).equals(apwd)) {
-            System.out.println("Old Password not correct!");
-        } else {
-            //The old password is correct
-            if (npwd.length() < 8) {
-                //Password length < 8 carachters
-                System.out.println("New Password not correct!");
-            } else {
-                if (!npwd.equals(rnpwd)) {
-                    //Not same repeated Password
-                    System.out.println("Please enter the same password twice!");
-                } else {
-                    database.setPassword(mail, npwd);
-                    //String destination="changePass.jsp";
-                    System.out.println("ChangePass");
-                }
-            }
-        }
 
         dbHelper.listData();
         dbHelper.closeConnection();

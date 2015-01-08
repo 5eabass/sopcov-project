@@ -21,13 +21,14 @@ public class User {
     private String commune;
     private int code_postal;
     private int lieu_travail_id;
+    private String lieu_travail;
     private String heure_depart;
     private String heure_retour;
     private String jours_travail;
     private int conducteur;
     private int notif;
 
-    public User(String email, String password, int admin, String prenom, String nom, String tel, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif) {
+    public User(String email, String password, int admin, String prenom, String nom, String tel, String adresse, String commune, int code_postal, String lieu_travail ,int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif) {
         this.email = email;
         this.password = password;
         this.admin = admin;
@@ -43,7 +44,8 @@ public class User {
         this.jours_travail = jours_travail;
         this.conducteur = conducteur;
         this.notif = notif;
-    }
+        this.lieu_travail=lieu_travail;
+    }  
 
     public String getEmail() {
         return email;
@@ -61,7 +63,14 @@ public class User {
         this.password = password;
     }
 
-  
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
+
     public String getPrenom() {
         return prenom;
     }
@@ -118,36 +127,12 @@ public class User {
         this.lieu_travail_id = lieu_travail_id;
     }
 
-    public String getJours_travail() {
-        return jours_travail;
+    public String getLieu_travail() {
+        return lieu_travail;
     }
 
-    public void setJours_travail(String jours_travail) {
-        this.jours_travail = jours_travail;
-    }
-
-    public int getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(int admin) {
-        this.admin = admin;
-    }
-
-    public int getConducteur() {
-        return conducteur;
-    }
-
-    public void setConducteur(int conducteur) {
-        this.conducteur = conducteur;
-    }
-
-    public int getNotif() {
-        return notif;
-    }
-
-    public void setNotif(int notif) {
-        this.notif = notif;
+    public void setLieu_travail(String lieu_travail) {
+        this.lieu_travail = lieu_travail;
     }
 
     public String getHeure_depart() {
@@ -166,5 +151,29 @@ public class User {
         this.heure_retour = heure_retour;
     }
 
-  
+    public String getJours_travail() {
+        return jours_travail;
+    }
+
+    public void setJours_travail(String jours_travail) {
+        this.jours_travail = jours_travail;
+    }
+
+    public int getConducteur() {
+        return conducteur;
+    }
+
+    public void setConducteur(int conducteur) {
+        this.conducteur = conducteur;
+    }
+
+    public int getNotif() {
+        return notif;
+    }
+
+    public void setNotif(int notif) {
+        this.notif = notif;
+    }
+    
+    
 }
