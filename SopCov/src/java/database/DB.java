@@ -677,7 +677,7 @@ public class DB implements DBInterface {
                 if (nombre_utilisateurs != 0.0d) {
                     percent = (double) rs.getInt("nombre_conducteurs") / nombre_utilisateurs * 100.0d;
                 } else {
-                    return -2.0d;
+                    return 100.0d;
                 }
             }
         } catch (SQLException ex) {
