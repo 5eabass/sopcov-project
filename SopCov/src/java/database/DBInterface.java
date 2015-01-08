@@ -137,6 +137,7 @@ public interface DBInterface {
      *
      * @return le nombre de non conducteurs<br/>
      * -1 si il y a eu erreur dans la requête
+     * 100.0 si il n'y a pas de conducteurs
      */
     public int getNumberOfNonDrivers();
     
