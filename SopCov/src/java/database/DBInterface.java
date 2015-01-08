@@ -105,12 +105,42 @@ public interface DBInterface {
     public ArrayList<CoupleCommuneLieuTravail> getAllNumberOfUserByCoupleCommuneAndWorkplace();
 
     /**
-     * Donne le nombre de personnes interessees par un trajet depuis une commune(code postal) vers un lieu de travail
+     * Donne le nombre de personnes interessees par un trajet depuis une
+     * commune(code postal) vers un lieu de travail
+     *
      * @param commune la commune des utilisateurs vises
      * @param codePostal le code postal associe a celle-ci
      * @param lieuTravail le lieu de travail des utilisateurs vises
-     * @return le nombre d'utilisateurs interesses par un trajet entre commune(code postal) et un lieu de travail
+     * @return le nombre d'utilisateurs interesses par un trajet entre
+     * commune(code postal) et un lieu de travail
      */
     public int getNumberOfUserForCoupleCommuneAndWorkplace(String commune, String codePostal, String lieuTravail);
 
-    }
+    /**
+     * Donne le pourcentage de conducteurs
+     *
+     * @return le pourcentage de conducteurs
+     */
+    public double getPercentOfDrivers();
+
+    /**
+     * Donne le nombre de conducteurs
+     *
+     * @return le nombre de conducteurs
+     */
+    public int getNumbersOfDrivers();
+
+    /**
+     * Donne le nombre de non conducteurs
+     *
+     * @return le nombre de non conducteurs
+     */
+    public int getNumbersOfNonDrivers();
+    
+    /**
+     * Donne le nombre de gens
+     *
+     * @return le nombre de gens
+     */
+    public int getNumbersOfUsers();
+}

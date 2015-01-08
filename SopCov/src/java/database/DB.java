@@ -575,20 +575,19 @@ public class DB implements DBInterface {
     public int getNumberOfUserForCoupleCommuneAndWorkplace(String commune, String codePostal, String lieuTravail) {
         //Declaration des variables que l'on va utiliser
         int res = -1;
-        
+
         //Declaration des parametres de la requete
         String colonne = "COUNT(l.nom_lieu) AS nbr_utilisateurs";
         String joinCondition = "u.lieu_travail_id = l.id";
         String groupByCouple = "l.nom_lieu,u.commune,u.code_postal";
         String conditionWhere = "l.nom_lieu = \"" + lieuTravail + "\" && u.commune = \"" + commune + "\" && u.code_postal = \"" + codePostal + "\"";
 
-
         //Creation de la requete sql 
         String sql = "SELECT " + colonne + " "
                 + " FROM " + TABLE_UTILISATEURS + " AS u"
                 + " INNER JOIN " + TABLE_LIEUX_TRAVAIL + " AS l"
                 + " ON (" + joinCondition + ")"
-                + " WHERE (" + conditionWhere +")"
+                + " WHERE (" + conditionWhere + ")"
                 + " GROUP BY " + groupByCouple;
 
         //Execution de la requete sql 
@@ -604,7 +603,7 @@ public class DB implements DBInterface {
 
         return res;
     }
-    
+
     @Override
     public ArrayList<CoupleCommuneLieuTravail> getAllNumberOfUserByCoupleCommuneAndWorkplace() {
         //Declaration des variables que l'on va utiliser
@@ -614,12 +613,11 @@ public class DB implements DBInterface {
         String communeActu;
         String codePostalActu;
         String nomLieuTravailActu;
-        
+
         //Declaration des parametres de la requete
-        String[] colonnes = {"COUNT(l.nom_lieu) AS nbr_utilisateurs","u.commune","u.code_postal","l.nom_lieu"};
+        String[] colonnes = {"COUNT(l.nom_lieu) AS nbr_utilisateurs", "u.commune", "u.code_postal", "l.nom_lieu"};
         String joinCondition = "u.lieu_travail_id = l.id";
         String groupByCouple = "l.nom_lieu,u.commune,u.code_postal";
-
 
         //Creation de la requete sql 
         String sql = "SELECT " + colonnes[0] + ", " + colonnes[1] + ", " + colonnes[2] + ", " + colonnes[3] + " "
@@ -645,6 +643,86 @@ public class DB implements DBInterface {
         }
 
         return res;
+    }
+
+    @Override
+    public double getPercentOfDrivers() {
+        double percent = 0.0;
+
+        String[] colonnes = {};
+
+        String sql = "";
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getPercentOfDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+
+        return percent;
+    }
+
+    @Override
+    public int getNumbersOfDrivers() {
+        int conducteurs = 0;
+
+        String[] colonnes = {};
+
+        String sql = "";
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getNumbersOfDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+        
+        return conducteurs;
+    }
+
+    @Override
+    public int getNumbersOfNonDrivers() {
+        int nonConducteurs = 0;
+
+        String[] colonnes = {};
+
+        String sql = "";
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getNumbersOfNonDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+        
+        return nonConducteurs;
+    }
+
+    @Override
+    public int getNumbersOfUsers() {
+        int utilisateurs = 0;
+
+        String[] colonnes = {};
+
+        String sql = "";
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getNumbersOfUsers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+        
+        return utilisateurs;
     }
 
 //test addUser, ShowDatabase,deleteUSer...
@@ -718,23 +796,23 @@ public class DB implements DBInterface {
 
         System.out.println("##########################################");
     }
-    
+
     public static void testGetAllNumberOfUserByCoupleCommuneAndWorkplace() {
         System.out.println("##########################################");
         System.out.println("###test de getAllNumberOfUserByCoupleCommuneAndWorkplace###");
         DB dbHelper = new DB();
         ArrayList<CoupleCommuneLieuTravail> res = dbHelper.getAllNumberOfUserByCoupleCommuneAndWorkplace();
-        
-        System.out.printf("Attendu : \n%s\t|%s\t|%s|\t%s\n",1,"Sopra_Group_Ent1","Toulouse","31100"); 
-        System.out.printf("%s\t|%s\t|%s|\t%s\n",2,"Sopra_Group_Ent2","Toulouse","31100");
-        
+
+        System.out.printf("Attendu : \n%s\t|%s\t|%s|\t%s\n", 1, "Sopra_Group_Ent1", "Toulouse", "31100");
+        System.out.printf("%s\t|%s\t|%s|\t%s\n", 2, "Sopra_Group_Ent2", "Toulouse", "31100");
+
         System.out.printf("Obtenu  :\n");
         for (CoupleCommuneLieuTravail c : res) {
-            System.out.printf("%s\t|%s\t|%s|\t%s\n",c.getNbrUtilisateurs(),c.getNomLieuTravail(),c.getCommune(),c.getCodePostal());            
+            System.out.printf("%s\t|%s\t|%s|\t%s\n", c.getNbrUtilisateurs(), c.getNomLieuTravail(), c.getCommune(), c.getCodePostal());
         }
         System.out.println("##########################################");
     }
-    
+
     public static void testGetNumberOfUserForCoupleCommuneAndWorkplace() {
         System.out.println("##########################################");
         System.out.println("###test de getNumberOfUserForCoupleCommuneAndWorkplace###");
@@ -744,16 +822,16 @@ public class DB implements DBInterface {
         String lieuTravail = "Sopra_Group_Ent1";
         String lieuTravail2 = "Sopra_Group_Ent2";
         String lieuTravail3 = "Inexistant";
-        
+
         int res = dbHelper.getNumberOfUserForCoupleCommuneAndWorkplace(commune, codePostal, lieuTravail);
-        System.out.printf("Attendu : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail,1);
-        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail,res);
+        System.out.printf("Attendu : for %s(%s),%s :\t%s\n", commune, codePostal, lieuTravail, 1);
+        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n", commune, codePostal, lieuTravail, res);
         res = dbHelper.getNumberOfUserForCoupleCommuneAndWorkplace(commune, codePostal, lieuTravail2);
-        System.out.printf("Attendu : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail2,2);
-        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail2,res);
+        System.out.printf("Attendu : for %s(%s),%s :\t%s\n", commune, codePostal, lieuTravail2, 2);
+        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n", commune, codePostal, lieuTravail2, res);
         res = dbHelper.getNumberOfUserForCoupleCommuneAndWorkplace(commune, codePostal, lieuTravail3);
-        System.out.printf("Attendu : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail3,-1);
-        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n",commune,codePostal,lieuTravail3,res);        
+        System.out.printf("Attendu : for %s(%s),%s :\t%s\n", commune, codePostal, lieuTravail3, -1);
+        System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n", commune, codePostal, lieuTravail3, res);
         System.out.println("##########################################");
     }
 }
