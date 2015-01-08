@@ -7,13 +7,13 @@ package sopcov.servlet;
 
 import database.DB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -34,38 +34,40 @@ public class ChangePassword extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-            String destination = "index.jsp";
-        
+            
             // Get the parameters to change password
-            String mail= request.getParameter("mail");
+            String mail= request.getParameter("email");
             String apwd = request.getParameter("apwd");
             String npwd = request.getParameter("npwd");
             String rnpwd = request.getParameter("rnpwd");
+            HttpSession s = request.getSession();
 
             DB database=new DB();
 
             if(!database.getPassword(mail).equals(apwd)){
+                s.setAttribute("msgErreur", "Ancien mot de passe incorrect!");
                 System.out.println("Old Password not correct!");
             }
             else{
                 //The old password is correct
                 if(npwd.length()<8){
                     //Password length < 8 carachters
+                    s.setAttribute("msgErreur", "Mot de passe doit contenir au moins 8 caractères.");
                     System.out.println("New Password not correct!");
                 }
                 else{
                     if(!npwd.equals(rnpwd)){
                         //Not same repeated Password
+                        s.setAttribute("msgErreur", "Veuillez entrer le même mot de passe deux fois.");
                         System.out.println("Please enter the same password twice!");
                     }
                     else{
                         database.setPassword(mail, npwd);
-                        destination="changePass.jsp";
                     }
                 }
             }
             
-            RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
+            final RequestDispatcher rd = request.getRequestDispatcher("/changePass.jsp" );
             rd.forward(request, response);
     }
     
