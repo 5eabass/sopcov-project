@@ -1,3 +1,11 @@
+<%-- 
+    Document   : signUpPage2
+    Created on : 8 janv. 2015, 10:29:19
+    Author     : Ayoub
+--%>
+
+<%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -24,6 +32,9 @@
     </head>
 
     <body>
+        <%!
+            ArrayList<String> lieuxTravail = null;
+        %>
 
         <div class="site-wrapper">
 
@@ -93,7 +104,20 @@
                                         <label class="email required control-label" for="wplace">
                                             <abbr title="Obligatoire">*</abbr> Lieu de travail
                                         </label>
-                                        <input class="string email required form-control" id="wplace" name="lieu_travail" placeholder="Lieu de travail" type="email" />
+                                        <select name="lieu_travail">
+                                            <%
+                                                //attrape la liste de lieux de travail
+                                                if (request.getAttribute("lieuxTravail") != null) {
+                                                    lieuxTravail = (ArrayList<String>) request.getAttribute("lieuxTravail");
+                                                }
+                                                //ajoute les lieux à la liste de lieux possibles
+                                                for (int i = 0; i < lieuxTravail.size(); i++) {
+                                                    out.println("<option>" + lieuxTravail.get(i) + "</option>");
+                                                }
+                                                //supprime la liste de la session car elle ne sert plus à rien
+                                                request.removeAttribute("lieuxTravail");
+                                            %>
+                                        </select>
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="user_basic_email">
