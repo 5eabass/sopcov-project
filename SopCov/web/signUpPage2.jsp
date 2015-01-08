@@ -59,7 +59,7 @@
                                 <h3 class="panel-title">Formulaire d'inscription</h3>
                             </div>
                             <div class="panel-body modeltype">
-                                <form accept-charset="UTF-8" action="/SopCov/SignUpFinishedServlet.do" enctype="multipart/form-data" method="post" novalidate="novalidate">
+                                <form accept-charset="UTF-8" action="/SopCov/SignUpFinishedServlet.do" method="post" novalidate="novalidate">
                                     <div style="display:none">
                                         <input name="utf8" type="hidden" value="&#x2713;" />
                                         <input name="authenticity_token" type="hidden" value="p6T5gsOp8Sk/BeQTZydB1zfwxJSQjmBvQ8XjuHOx6hk=" />
@@ -104,7 +104,7 @@
                                         <label class="email required control-label" for="wplace">
                                             <abbr title="Obligatoire">*</abbr> Lieu de travail
                                         </label>
-                                        <select name="lieu_travail">
+                                        <select id="wplace" name="lieu_travail">
                                             <%
                                                 //attrape la liste de lieux de travail
                                                 if (request.getAttribute("lieuxTravail") != null) {
@@ -157,13 +157,13 @@
                                     <div>
                                         <input type="checkbox" name="conducteur">
                                         <label>
-                                            <abbr title="Obligatoire">*</abbr> Je suis conducteur.
+                                            Je suis conducteur.
                                         </label>
                                     </div>
                                     <div>
                                         <input type="checkbox" name="notif">
                                         <label>
-                                            <abbr title="Obligatoire">*</abbr> Je souhaite être notifié.
+                                            Je souhaite être notifié.
                                         </label>
                                     </div>
                                     
