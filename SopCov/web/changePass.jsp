@@ -99,7 +99,7 @@
                                         <label class="email required control-label" for="user_basic_email">
                                             <abbr title="Obligatoire">*</abbr> Email
                                         </label>
-                                        <input class="string email required form-control" id="user_basic_email" name="user_basic[email]" placeholder="Adresse Mail" type="email" />
+                                        <input class="string email required form-control" id="user_basic_email" name="email" placeholder="Adresse Mail" type="email" />
                                         <p class="help-block">Veuillez entrer votre adresse mail.</p>
                                     </div>
 

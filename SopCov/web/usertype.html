@@ -8,7 +8,7 @@
         <meta name="author" content="">
         <link rel="icon" href="img/favicon.ico">
 
-        <title>SopCov - Page d'inscription</title>
+        <title>SopCov - Page d'utilisateur</title>
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -37,6 +37,9 @@
                             <nav>
                                 <ul class="nav masthead-nav">
                                     <li><a href="index.html">Accueil</a></li>
+                                    <li><a href="/SopCov/ShowCovoiturage">Trajets</a></li>
+                                    <li><a href="/SopCov/ChangePassword.do">Profil</a></li>
+                                    <li><a href="/SopCov">Se déconnecter</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -45,7 +48,7 @@
                     <div class="inner cover">
                         <div class="panel panel-default noshadow">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Formulaire d'inscription</h3>
+                                <h3 class="panel-title">Bienvenue sur SopCov!</h3>
                             </div>
                             <div class="panel-body modeltype">
                                 <form accept-charset="UTF-8" action="/SopCov/SignUpFinishedServlet.do" enctype="multipart/form-data" method="post" novalidate="novalidate">
@@ -54,98 +57,15 @@
                                         <input name="authenticity_token" type="hidden" value="p6T5gsOp8Sk/BeQTZydB1zfwxJSQjmBvQ8XjuHOx6hk=" />
                                     </div>
                                     <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="nom">
-                                            <abbr title="Obligatoire">*</abbr> Nom
-                                        </label>
-                                        <input class="string email required form-control" id="nom" name="nom" placeholder="Nom" type="email" />
+                                        <center>
+                                            <h2>
+                                                Vous pouvez dès à présent voir les trajets disponibles ou modifier votre profil.
+                                            </h2>
+                                        </center>
+                                        <h3>
+                                            Pour modifier votre mot de passe, appuyez sur le button suivant :
+                                        </h3>
                                     </div>
-                                    <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="prenom">
-                                            <abbr title="Obligatoire">*</abbr> Prénom
-                                        </label>
-                                        <input class="string email required form-control" id="prenom" name="prenom" placeholder="Prénom" type="email" />
-                                    </div>
-                                    <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="addr">
-                                            <abbr title="Obligatoire">*</abbr> Addresse
-                                        </label>
-                                        <input class="string email required form-control" id="addr" name="adresse" placeholder="Addresse" type="email" />
-                                    </div>
-                                    <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="commune">
-                                            <abbr title="Obligatoire">*</abbr> Commune
-                                        </label>
-                                        <input class="string email required form-control" id="commune" name="commune" placeholder="Commune" type="email" />
-                                    </div>
-                                    <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="cp">
-                                            <abbr title="Obligatoire">*</abbr> Code Postal
-                                        </label>
-                                        <input class="string email required form-control" id="cp" name="code_postal" placeholder="ex: 31400" type="email" />
-                                    </div>
-                                    <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="tel">
-                                            <abbr title="Obligatoire">*</abbr> Téléphone
-                                        </label>
-                                        <input class="string email required form-control" id="tel" name="tel" placeholder="ex: 06*******" type="email" />
-                                    </div>
-                                    <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="wplace">
-                                            <abbr title="Obligatoire">*</abbr> Lieu de travail
-                                        </label>
-                                        <input class="string email required form-control" id="wplace" name="lieu_travail" placeholder="Lieu de travail" type="email" />
-                                    </div>
-                                    <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="user_basic_email">
-                                            <abbr title="Obligatoire">*</abbr> Heure de départ
-                                        </label>
-                                        <input class="string email required form-control" id="user_basic_email" name="heure_depart" placeholder="Heure de départ" type="email" />
-                                    </div>
-                                    <div class="form-group email required user_basic_email">
-                                        <label class="email required control-label" for="heure_dep">
-                                            <abbr title="Obligatoire">*</abbr> Heure de retour
-                                        </label>
-                                        <input class="string email required form-control" id="heure_dep" name="heure_retour" placeholder="Heure de retour" type="email" />
-                                    </div>
-                                    <div>
-                                        <label class="email required control-label" for="wdays">
-                                            <abbr title="Obligatoire">*</abbr> Jours de travail
-                                        </label>
-                                        <table>
-                                            <tr>
-                                                <td><input type="checkbox" name="jours_travail" value="Lundi"></td><td>Lundi</td>
-                                                <td><input type="checkbox" name="jours_travail" value="Mardi"></td><td>Mardi</td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="checkbox" name="jours_travail" value="Mercredi"></td><td>Mercredi</td>
-                                                <td><input type="checkbox" name="jours_travail" value="Jeudi"></td><td>Jeudi</td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="checkbox" name="jours_travail" value="Vendredi"></td><td>Vendredi</td>
-                                                <td><input type="checkbox" name="jours_travail" value="Samedi"></td><td>Samedi</td>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="checkbox" name="jours_travail" value="Dimanche"></td><td>Dimanche</td>
-                                                <td></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" name="conducteur">
-                                        <label>
-                                            <abbr title="Obligatoire">*</abbr> Je suis conducteur.
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input type="checkbox" name="notif">
-                                        <label>
-                                            <abbr title="Obligatoire">*</abbr> Je souhaite être notifié.
-                                        </label>
-                                    </div>
-                                    
-
-
-                                    <input class="btn btn-success" name="commit" type="submit" value="S'inscrire" />
                                 </form>
                             </div>
                         </div>
