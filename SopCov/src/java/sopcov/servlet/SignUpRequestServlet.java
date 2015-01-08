@@ -52,7 +52,7 @@ public class SignUpRequestServlet extends HttpServlet {
                 dbi.connect();
                 ArrayList<String> lieuxTravail = dbi.getAllWorkplaces();
                 request.setAttribute("lieuxTravail", lieuxTravail);
-                destination = "signUpPage.jsp";
+                destination = "signUpPage2.jsp";
             }
         }
 
