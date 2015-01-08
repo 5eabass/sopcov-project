@@ -120,27 +120,31 @@ public interface DBInterface {
      * Donne le pourcentage de conducteurs
      *
      * @return le pourcentage de conducteurs
+     * -1.0 si il y a eu erreur dans la requête
      */
     public double getPercentOfDrivers();
 
     /**
      * Donne le nombre de conducteurs
      *
-     * @return le nombre de conducteurs
+     * @return le nombre de conducteurs<br/>
+     * -1 si il y a eu erreur dans la requête
      */
-    public int getNumbersOfDrivers();
+    public int getNumberOfDrivers();
 
     /**
      * Donne le nombre de non conducteurs
      *
-     * @return le nombre de non conducteurs
+     * @return le nombre de non conducteurs<br/>
+     * -1 si il y a eu erreur dans la requête
      */
-    public int getNumbersOfNonDrivers();
+    public int getNumberOfNonDrivers();
     
     /**
      * Donne le nombre de gens
      *
-     * @return le nombre de gens
+     * @return le nombre de gens<br/>
+     * -1 si il y a eu erreur dans la requête
      */
-    public int getNumbersOfUsers();
+    public int getNumberOfUsers();
 }

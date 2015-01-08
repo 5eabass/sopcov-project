@@ -463,7 +463,7 @@ public class DB implements DBInterface {
                     lieu_travail_adresse = lieu_travail_adresse1;
                 } else {
                     lieu_travail_nom = lieu_travail_nom2;
-                     lieu_travail_adresse = lieu_travail_adresse2;
+                    lieu_travail_adresse = lieu_travail_adresse2;
                 }
                 conducteurs.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_nom, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif, lieu_travail_adresse));
             }
@@ -663,78 +663,83 @@ public class DB implements DBInterface {
     @Override
     public double getPercentOfDrivers() {
         double percent = 0.0;
+        double nombre_utilisateurs = 0.0;
 
-        String[] colonnes = {};
+        String sql = "SELECT COUNT(email) AS nombre_utilisateurs,"
+                + " SUM(CASE WHEN conducteur=1 THEN 1 ELSE 0 END) AS nombre_conducteurs"
+                + " FROM " + TABLE_UTILISATEURS;
 
-        String sql = "";
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-
+            if (rs.next()) {
+                nombre_utilisateurs = (double) rs.getInt("nombre_utilisateurs");
+                if (nombre_utilisateurs != 0.0d) {
+                    percent = (double) rs.getInt("nombre_conducteurs") / nombre_utilisateurs * 100.0d;
+                } else {
+                    return -2.0d;
+                }
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getPercentOfDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+            percent = -1.0d;
         }
 
         return percent;
     }
 
     @Override
-    public int getNumbersOfDrivers() {
+    public int getNumberOfDrivers() {
         int conducteurs = 0;
 
-        String[] colonnes = {};
-
-        String sql = "";
+        String sql = "SELECT COUNT(email) AS nombre_conducteurs FROM " + TABLE_UTILISATEURS + " WHERE conducteur = 1";
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-
+            if (rs.next()) {
+                conducteurs = rs.getInt("nombre_conducteurs");
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getNumbersOfDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+            conducteurs = -1;
         }
 
         return conducteurs;
     }
 
     @Override
-    public int getNumbersOfNonDrivers() {
+    public int getNumberOfNonDrivers() {
         int nonConducteurs = 0;
 
-        String[] colonnes = {};
-
-        String sql = "";
+        String sql = "SELECT COUNT(email) AS nombre_non_conducteurs FROM " + TABLE_UTILISATEURS + " WHERE conducteur = 0";
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-
+            if (rs.next()) {
+                nonConducteurs = rs.getInt("nombre_non_conducteurs");
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getNumbersOfNonDrivers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+            nonConducteurs = -1;
         }
 
         return nonConducteurs;
     }
 
     @Override
-    public int getNumbersOfUsers() {
+    public int getNumberOfUsers() {
         int utilisateurs = 0;
 
-        String[] colonnes = {};
-
-        String sql = "";
+        String sql = "SELECT COUNT(email) AS nombre_utilisateurs FROM " + TABLE_UTILISATEURS;
         ResultSet rs;
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-
+                utilisateurs = rs.getInt("nombre_utilisateurs");
             }
         } catch (SQLException ex) {
             System.err.println("In DB - getNumbersOfUsers : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+            utilisateurs = -1;
         }
 
         return utilisateurs;
@@ -745,6 +750,10 @@ public class DB implements DBInterface {
         //testGetNumberOfConnectionBetween();
         //testGetAllNumberOfUserByCoupleCommuneAndWorkplace();
         //testGetNumberOfUserForCoupleCommuneAndWorkplace();
+        testGetPercentOfDrivers();
+        testGetNumberOfDrivers();
+        testGetNumberOfNonDrivers();
+        testGetNumberOfUsers();
         DB dbHelper = new DB();
         // dbHelper.
         // String password = dbHelper.getPassword("simpleuser@test.com");
@@ -848,5 +857,52 @@ public class DB implements DBInterface {
         System.out.printf("Attendu : for %s(%s),%s :\t%s\n", commune, codePostal, lieuTravail3, -1);
         System.out.printf("Obtenu  : for %s(%s),%s :\t%s\n", commune, codePostal, lieuTravail3, res);
         System.out.println("##########################################");
+    }
+
+    public static void testGetPercentOfDrivers() {
+        System.out.println("##########################################");
+        System.out.println("###test de getPercentOfDrivers###");
+        System.out.println("##########################################");
+
+        DB dbHelper = new DB();
+        System.out.println("Cherche le poucentage de conducteurs.");
+        System.out.println("Attendu : 66.66667%");
+        System.out.println("Obtenu  : " + dbHelper.getPercentOfDrivers());
+    }
+
+    public static void testGetNumberOfDrivers() {
+        System.out.println("##########################################");
+        System.out.println("###test de getNumberOfDrivers###");
+        System.out.println("##########################################");
+
+        DB dbHelper = new DB();
+        System.out.println("Cherche le nombre de conducteurs.");
+        System.out.println("Attendu : 2");
+        System.out.println("Obtenu  : " + dbHelper.getNumberOfDrivers());
+
+    }
+
+    public static void testGetNumberOfNonDrivers() {
+        System.out.println("##########################################");
+        System.out.println("###test de getNumberOfNonDrivers###");
+        System.out.println("##########################################");
+
+        DB dbHelper = new DB();
+        System.out.println("Cherche le nombre de non conducteurs.");
+        System.out.println("Attendu : 1");
+        System.out.println("Obtenu  : " + dbHelper.getNumberOfNonDrivers());
+
+    }
+
+    public static void testGetNumberOfUsers() {
+        System.out.println("##########################################");
+        System.out.println("###test de getNumberOfUser###");
+        System.out.println("##########################################");
+
+        DB dbHelper = new DB();
+        System.out.println("Cherche le nombre d'utilisateurs.");
+        System.out.println("Attendu : 3");
+        System.out.println("Obtenu  : " + dbHelper.getNumberOfUsers());
+
     }
 }
