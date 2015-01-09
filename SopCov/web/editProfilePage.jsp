@@ -62,7 +62,7 @@
             <table>
                 <tr>
                     <td>Prénom</td>
-                    <td><input type="text" name="prenom" value=<%=prenom%>></td>
+                    <td><input type="text" name="prenom" value="<%=prenom%>"></td>
                     <td>Lieu de travail</td>
                     <td>
                         <select name="lieu_travail">
@@ -88,19 +88,19 @@
                 </tr>
                 <tr>
                     <td>Nom</td>
-                    <td><input type="text" name="nom" value=<%=nom%>></td>
+                    <td><input type="text" name="nom" value="<%=nom%>"></td>
                     <td>Heure de départ</td>
-                    <td><input type="time" name="heure_depart" value=<%=heure_depart%>></td>
+                    <td><input type="time" name="heure_depart" value="<%=heure_depart%>"></td>
                 </tr>
                 <tr>
                     <td>Téléphone</td>
-                    <td><input type="tel" name="tel" value=<%=tel%>></td>
+                    <td><input type="tel" name="tel" value="<%=tel%>"></td>
                     <td>Heure de retour</td>
-                    <td><input type="time" name="heure_retour" value=<%=heure_retour%>></td>
+                    <td><input type="time" name="heure_retour" value="<%=heure_retour%>"></td>
                 </tr>
                 <tr>
                     <td>Adresse</td>
-                    <td><input type="text" name="adresse" value=<%=adresse%>></td>
+                    <td><input type="text" name="adresse" value="<%=adresse%>"></td>
                     <td>Jour de travail</td>
                     <td>
                         <table>
@@ -160,7 +160,7 @@
                 </tr>
                 <tr>
                     <td>Commune</td>
-                    <td><input type="text" name="commune" value=<%=commune%>></td>
+                    <td><input type="text" name="commune" value="<%=commune%>"></td>
                     <td>Je serai conducteur</td>
                     <td><input type="checkbox" name="conducteur" 
                                <% if (conducteur != 0) {
@@ -178,7 +178,8 @@
                                    if (notif != 0) {
                                        out.println("checked");
                                    }
-                               %>
+                               %> >
+                    </td>
                 </tr>
                 <tr>
                     <td><input type="submit" name="bouton_sauv" value="Modifier"></td>
