@@ -1,3 +1,10 @@
+<%-- 
+    Document   : userWelcome
+    Created on : 9 janv. 2015, 02:05:27
+    Author     : Ayoub
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -24,6 +31,21 @@
     </head>
 
     <body>
+        
+        <%!
+            String login = "";
+            String email = "";
+            String pswd = "";
+            HttpSession s = null;
+        %>
+        <%
+            s = request.getSession();
+            if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("password") != null) {
+                email = (String) s.getAttribute("email");
+                pswd = (String) s.getAttribute("password");
+            }
+            login = email.split("@")[0];
+        %>
 
         <div class="site-wrapper">
 
@@ -37,9 +59,9 @@
                             <nav>
                                 <ul class="nav masthead-nav">
                                     <li><a href="index.html">Accueil</a></li>
-                                    <li><a href="/SopCov/ShowCovoiturage">Trajets</a></li>
-                                    <li><a href="/SopCov/ChangePassword.do">Profil</a></li>
-                                    <li><a href="/SopCov">Se déconnecter</a></li>
+                                    <li><a href="trajettype.jsp">Trajets</a></li>
+                                    <li><a href="editProfilePage.jsp">Profil</a></li>
+                                    <li><a href="index.html">Se déconnecter</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -48,10 +70,10 @@
                     <div class="inner cover">
                         <div class="panel panel-default noshadow">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Bienvenue sur SopCov!</h3>
+                                <h3 class="panel-title">Bienvenue <%=login%> !</h3>
                             </div>
                             <div class="panel-body modeltype">
-                                <form accept-charset="UTF-8" action="/SopCov/SignUpFinishedServlet.do" enctype="multipart/form-data" method="post" novalidate="novalidate">
+                                <form accept-charset="UTF-8" method="post" novalidate="novalidate">
                                         <center>
                                             <h3>
                                                 Vous pouvez dès à présent voir les trajets disponibles ou modifier votre profil.
@@ -60,11 +82,10 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <center><img src="img/trajet.jpg" width="300" height="150" alt="Mon Image"></center>
-                                                    
+                                                    <center><img src="img/trajet.JPG" width="300" height="150" alt="Mon Image"></center>
                                                 </td>
                                                 <td>
-                                                    <center><img src="img/edit.jpg" width="300" height="150" alt="Mon Image 2"></center>
+                                                    <center><img src="img/edit.JPG" width="300" height="150" alt="Mon Image 2"></center>
                                                 </td>
                                             </tr>
                                             

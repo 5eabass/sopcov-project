@@ -110,7 +110,7 @@ public class SignUpFinishedServlet extends HttpServlet {
 
         switch (creationMarche) {
             case 0:
-                destination = "userPage.jsp";
+                destination = "userWelcome.jsp";
                 break;
             case -1:
                 s.setAttribute("msgErreur", "Création du profil impossible. Votre lieu de travail n'a pas été trouvé dans la base de données.");

@@ -53,7 +53,7 @@ public class SignInServlet extends HttpServlet {
             //System.out.println("In SignInServlet : Le mot de passe reçu de la base de données est : " + pswd);
             if (dbi.userExists(email, pswd)) {
                 System.out.println("In SignInServlet : Login correct.");
-                destination = "userPage.jsp";
+                destination = "userWelcome.jsp";
             } else {
                 System.out.println("In SignInServlet : Login ou mot de passe incorrect.");
                 s.setAttribute("msgErreur", "Login ou mot de passe incorrect.");
