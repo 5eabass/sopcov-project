@@ -43,7 +43,7 @@ public class SignUpRequestServlet extends HttpServlet {
 
         if (email != null) {
             DBInterface db = new DB();
-            db.connect();
+
             if (db.emailAlreadyUsed(email)) {
                 String msgErreur = "Cet email est déjà utilisé par quelqu'un.";
                 s.setAttribute("msgErreur", msgErreur);
