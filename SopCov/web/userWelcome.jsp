@@ -31,7 +31,7 @@
     </head>
 
     <body>
-        
+
         <%!
             String login = "";
             String email = "";
@@ -73,37 +73,36 @@
                                 <h3 class="panel-title">Bienvenue <%=login%> !</h3>
                             </div>
                             <div class="panel-body modeltype">
-                                <form accept-charset="UTF-8" method="post" novalidate="novalidate">
-                                        <center>
-                                            <h3>
-                                                Vous pouvez dès à présent voir les trajets disponibles ou modifier votre profil.
-                                            </h3>
-                                        </center>
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <center><img src="img/trajet.JPG" width="300" height="150" alt="Mon Image"></center>
-                                                </td>
-                                                <td>
-                                                    <center><img src="img/edit.JPG" width="300" height="150" alt="Mon Image 2"></center>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>
-                                                    <center>
-                                                        <button href="trajettype.jsp" class="btn btn-success">Rechercher Trajet</button>
-                                                    </center>
-                                                </td>
-                                                <td>
-                                                    <center>
-                                                        <button href="editProfilPage.jsp" class="btn btn-success">Modifier Profil</button>
-                                                    </center>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        
-                                </form>
+                                <center>
+                                    <h3>
+                                        Vous pouvez dès à présent voir les trajets disponibles ou modifier votre profil.
+                                    </h3>
+                                </center>
+                                <table>
+                                    <tr>
+                                        <td>
+                                    <center><img src="img/trajet.JPG" width="300" height="150" alt="Mon Image"></center>
+                                    </td>
+                                    <td>
+                                    <center><img src="img/edit.JPG" width="300" height="150" alt="Mon Image 2"></center>
+                                    </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                    <center>
+                                        <a href="trajettype.jsp" class="btn btn-success">Rechercher Trajet</a>
+                                    </center>
+                                    </td>
+                                    <td>
+                                    <center>
+                                        <a href="editProfilPage.jsp" class="btn btn-success">Modifier Profil</a>
+                                    </center>
+                                    </td>
+                                    </tr>
+                                </table>
+
+
                             </div>
                         </div>
                     </div>
