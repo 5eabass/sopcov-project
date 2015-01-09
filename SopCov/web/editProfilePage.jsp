@@ -171,7 +171,7 @@
                 </tr>
                 <tr>
                     <td>Code Postal</td>
-                    <td><input type="text" name="code_postal" value=<%=code_postal%>></td>
+                    <td><input type="text" name="code_postal" value="<%=code_postal%>"></td>
                     <td>Je veux être notifié par mail</td>
                     <td><input type="checkbox" name="notif"  
                                <%
