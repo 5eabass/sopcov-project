@@ -217,33 +217,35 @@ public class DB implements DBInterface {
         return htmlcode;
     }
 
-    @Override
-    public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif) {
+    /*
+     @Override
+     public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif) {
 
-        try {
+     try {
 
-            String query = " INSERT INTO `utilisateurs` (`tel`, `admin` ,`prenom` ,`nom` ,`password` ,`email` ,`adresse` ,`commune` ,`code_postal` ,`lieu_travail_id` ,`heure_depart` ,`heure_retour` ,`jours_travail` ,`conducteur` ,`notif`)VALUES (";
+     String query = " INSERT INTO `utilisateurs` (`tel`, `admin` ,`prenom` ,`nom` ,`password` ,`email` ,`adresse` ,`commune` ,`code_postal` ,`lieu_travail_id` ,`heure_depart` ,`heure_retour` ,`jours_travail` ,`conducteur` ,`notif`)VALUES (";
 
-            //query += "'"+id + "','" +admin+"',";
-            query += "'" + tel + "','" + admin + "',";
-            query += "'" + prenom + "','" + nom + "',";
-            query += "'" + password + "','" + email + "',";
-            query += "'" + adresse + "','" + commune + "',";
-            query += "'" + code_postal + "','" + lieu_travail_id + "',";
-            query += "'" + heure_depart + "','" + heure_retour + "',";
-            query += "'" + jours_travail + "','" + conducteur + "',";
-            query += "'" + notif + "');";
+     //query += "'"+id + "','" +admin+"',";
+     query += "'" + tel + "','" + admin + "',";
+     query += "'" + prenom + "','" + nom + "',";
+     query += "'" + password + "','" + email + "',";
+     query += "'" + adresse + "','" + commune + "',";
+     query += "'" + code_postal + "','" + lieu_travail_id + "',";
+     query += "'" + heure_depart + "','" + heure_retour + "',";
+     query += "'" + jours_travail + "','" + conducteur + "',";
+     query += "'" + notif + "');";
 
-            //System.out.println(query);
-            int rs = stmt.executeUpdate(query);
+     //System.out.println(query);
+     int rs = stmt.executeUpdate(query);
 
-        } catch (Exception ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
-        }
-        return 0;
-    }
-
+     } catch (Exception ex) {
+     Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+     return -1;
+     }
+     return 0;
+     }
+     */
+    
     @Override
     public int addNewUser(boolean admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, String codePostal, String nomLieuTravail, String heureDepart, String heureRetour, String joursTravail, boolean conducteur, boolean notif) {
         int lieuTravailID = 0;
@@ -364,64 +366,62 @@ public class DB implements DBInterface {
 
     @Override
     public void setPassword(String email, String password) {
-        
-        setUserField(email,"password",password);
+
+        setUserField(email, "password", password);
         /*
+         String sql;
+
+         sql = "UPDATE " + TABLE_UTILISATEURS + " SET password='" + password + "' WHERE email='" + email + "'";
+
+         //  System.out.println(sql);
+         int rs;
+         try {
+         rs = stmt.executeUpdate(sql);
+
+         } catch (Exception e) {
+         // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
+         }*/
+    }
+
+    @Override
+    public void setUserField(String email, String field, String value) {
         String sql;
+        System.out.println(field);
 
-        sql = "UPDATE " + TABLE_UTILISATEURS + " SET password='" + password + "' WHERE email='" + email + "'";
+        // cas des boolean
+        if (field.equals("conducteur") || field.equals("notif")) {
+            int val;
+            System.out.println(value);
+            if (value != null) {
+                val = 1;
+            } else {
+                val = 0;
+            }
 
-        //  System.out.println(sql);
+            sql = "UPDATE " + TABLE_UTILISATEURS + " SET " + field + "='" + val + "' WHERE email='" + email + "'";
+
+            // cas du lieu de travail il faut retrouver les id correspondant
+        } else if (field.equals("lieu_travail")) {
+            int lieuTravailID;
+            if (value.contains("Sopra_Group_Ent2")) {
+                lieuTravailID = 2;
+            } else {
+                lieuTravailID = 1;
+            }
+            sql = "UPDATE " + TABLE_UTILISATEURS + " SET " + field + "='" + lieuTravailID + "' WHERE email='" + email + "'";
+        } else {
+            sql = "UPDATE " + TABLE_UTILISATEURS + " SET " + field + "='" + value + "' WHERE email='" + email + "'";
+        }
+
         int rs;
         try {
             rs = stmt.executeUpdate(sql);
-
         } catch (Exception e) {
-            // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
-        }*/
+            System.err.println("In db  : could not update value");
+        }
+
     }
-    
-    @Override
-     public void setUserField(String email,String field,String value){
-         String sql;
-         System.out.println(field);
-         
-         // cas des boolean
-         if(field.equals("conducteur")|| field.equals("notif") ){
-            int val ;
-            System.out.println(value);
-            if (value != null){
-                val = 1;
-            }else{
-                val = 0;
-            }
-           
-            sql = "UPDATE " + TABLE_UTILISATEURS + " SET "+ field +"='" + val + "' WHERE email='" + email + "'";
-            
-            // cas du lieu de travail il faut retrouver les id correspondant
-         }else if (field.equals("lieu_travail")){
-             int lieuTravailID ;            
-             if (value.contains("Sopra_Group_Ent2")){
-                 lieuTravailID = 2;
-             }else{
-                 lieuTravailID = 1;
-             }
-             sql = "UPDATE " + TABLE_UTILISATEURS + " SET "+ field +"='" + lieuTravailID + "' WHERE email='" + email + "'";
-         }else{
-            sql = "UPDATE " + TABLE_UTILISATEURS + " SET "+ field +"='" + value + "' WHERE email='" + email + "'";
-         }
-         
-         int rs;
-         try{
-             rs = stmt.executeUpdate(sql);
-         }catch(Exception e){
-             System.err.println("In db  : could not update value");
-         }
-         
-     }
-    
-    
-    
+
     @Override
     public boolean emailAlreadyUsed(String email) {
         boolean emailAlreadyUsed = false;
@@ -441,6 +441,21 @@ public class DB implements DBInterface {
             System.err.println("In DB - emailAlreadyUsed : N'a pas pu voir si l'utilisateur existait ou non : " + e.getLocalizedMessage());
         }
         return emailAlreadyUsed;
+    }
+    
+    @Override
+    public void rememberUserLogIn(String email) {
+        String sql;
+        sql = "INSERT INTO " + TABLE_VISITES + " (`email_visiteur`,`date`) VALUES ";
+        sql += "(\""+email+"\",NOW())";
+        
+        try {
+            stmt.executeUpdate(sql);
+        }
+        catch (SQLException ex) {
+            System.err.println("In DB - rememberUserLogIn : N'a pas pu enregistrer que l'utilisateur s'est loggé."
+                    + " Erreur : " + ex.getLocalizedMessage());
+        }
     }
 
     @Override
@@ -804,7 +819,7 @@ public class DB implements DBInterface {
         //dbHelper.setPassword("adminuser@test.com","adminuser");
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
-        dbHelper.addNewUser(0, "omar", "ghader", "pass", "07", "omar@insa.fr", "135 avenue de Rangueil", "Toulouse", 31400, 1, "08:00:00", "17:00:00", "L,M,M,J,V", 1, 1);
+        //dbHelper.addNewUser(0, "omar", "ghader", "pass", "07", "omar@insa.fr", "135 avenue de Rangueil", "Toulouse", 31400, 1, "08:00:00", "17:00:00", "L,M,M,J,V", 1, 1);
         //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
 
         dbHelper.listData();

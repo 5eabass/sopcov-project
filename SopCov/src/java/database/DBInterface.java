@@ -28,7 +28,7 @@ public interface DBInterface {
 
     public String printHTML();
 
-    public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif);
+    //public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif);
 
     /**
      * Ajoute un utilisateur à la base de donnée. Attention aucune vérification
@@ -72,6 +72,12 @@ public interface DBInterface {
     public void setUserField(String email,String field,String value);
     
     public boolean emailAlreadyUsed(String email);
+    
+    /**
+     * Retient la date à laquelle l'utilisateur s'est connecté.
+     * @param email l'email de l'utilisateur qui vient de se connecter
+     */
+    public void rememberUserLogIn(String email);
 
     public boolean userExists(String email, String password);
 
