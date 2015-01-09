@@ -23,8 +23,8 @@ public interface DBInterface {
     public void closeConnection();
 
     public void listData();
-
-    public List<User> queryInfo(String email);
+    
+    public User queryInfo(String email);
 
     public String printHTML();
 
@@ -69,6 +69,8 @@ public interface DBInterface {
 
     public void setPassword(String email, String password);
 
+    public void setUserField(String email,String field,String value);
+    
     public boolean emailAlreadyUsed(String email);
 
     public boolean userExists(String email, String password);

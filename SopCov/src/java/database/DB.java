@@ -126,8 +126,8 @@ public class DB implements DBInterface {
     }
 
     @Override
-    public List<User> queryInfo(String email) {
-        List<User> info = new ArrayList<User>();
+    public User queryInfo(String email) {
+        User info = null;
 
         String sql_lieu = "SELECT * FROM " + TABLE_LIEUX_TRAVAIL;
 
@@ -159,7 +159,8 @@ public class DB implements DBInterface {
                 int lieu_travail_id = rs.getInt("lieu_travail_id");
                 String jours_travail = rs.getString("jours_travail");
                 //Display values
-                info.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif, lieu_travail_adresse));
+
+                info = new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif, lieu_travail_adresse);
             }
             rs.close();
 
@@ -363,7 +364,9 @@ public class DB implements DBInterface {
 
     @Override
     public void setPassword(String email, String password) {
-
+        
+        setUserField(email,"password",password);
+        /*
         String sql;
 
         sql = "UPDATE " + TABLE_UTILISATEURS + " SET password='" + password + "' WHERE email='" + email + "'";
@@ -375,10 +378,50 @@ public class DB implements DBInterface {
 
         } catch (Exception e) {
             // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
-        }
-
+        }*/
     }
-
+    
+    @Override
+     public void setUserField(String email,String field,String value){
+         String sql;
+         System.out.println(field);
+         
+         // cas des boolean
+         if(field.equals("conducteur")|| field.equals("notif") ){
+            int val ;
+            System.out.println(value);
+            if (value != null){
+                val = 1;
+            }else{
+                val = 0;
+            }
+           
+            sql = "UPDATE " + TABLE_UTILISATEURS + " SET "+ field +"='" + val + "' WHERE email='" + email + "'";
+            
+            // cas du lieu de travail il faut retrouver les id correspondant
+         }else if (field.equals("lieu_travail")){
+             int lieuTravailID ;            
+             if (value.contains("Sopra_Group_Ent2")){
+                 lieuTravailID = 2;
+             }else{
+                 lieuTravailID = 1;
+             }
+             sql = "UPDATE " + TABLE_UTILISATEURS + " SET "+ field +"='" + lieuTravailID + "' WHERE email='" + email + "'";
+         }else{
+            sql = "UPDATE " + TABLE_UTILISATEURS + " SET "+ field +"='" + value + "' WHERE email='" + email + "'";
+         }
+         
+         int rs;
+         try{
+             rs = stmt.executeUpdate(sql);
+         }catch(Exception e){
+             System.err.println("In db  : could not update value");
+         }
+         
+     }
+    
+    
+    
     @Override
     public boolean emailAlreadyUsed(String email) {
         boolean emailAlreadyUsed = false;

@@ -34,7 +34,7 @@
             et ce mot de passe : <%=pswd%>     
             
             <br>
-               <a href="editProfilePage.jsp">Edit Profile</a>
+               <a href="EditProfileBegin.do">Edit Profile</a>
             </br>
             
         </p>
