@@ -184,6 +184,11 @@ public class User {
     public void setLieu_travail_adresse(String lieu_travail_adresse) {
         this.lieu_travail_adresse = lieu_travail_adresse;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "email=" + email + ", password=" + password + ", admin=" + admin + ", prenom=" + prenom + ", nom=" + nom + ", tel=" + tel + ", adresse=" + adresse + ", commune=" + commune + ", code_postal=" + code_postal + ", lieu_travail_id=" + lieu_travail_id + ", lieu_travail_nom=" + lieu_travail_nom + ", lieu_travail_adresse=" + lieu_travail_adresse + ", heure_depart=" + heure_depart + ", heure_retour=" + heure_retour + ", jours_travail=" + jours_travail + ", conducteur=" + conducteur + ", notif=" + notif + '}';
+    }
     
     
 }
