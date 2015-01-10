@@ -23,9 +23,6 @@ import sopcov.mail.MailSender;
  */
 public class DB implements DBInterface {
     
-    private  MailSender mailSender = new MailSender(); // observer like 
-    
-    
     // JDBC conducteur prenom and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/sopcov";
@@ -127,6 +124,40 @@ public class DB implements DBInterface {
             
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void notifyUsers(String email, boolean isAdded){
+        
+        // on récupère les info qui sont utiles : la commune et le lieu de travail pour trouver le trajet
+        // mais aussi si le user est conducteur , (si non alors il n'apporte rien de plus)
+        String query = "SELECT conducteur,commune,lieu_travailID FROM TABLE_UTILISATEURS WHERE email='"+email+"'";
+        ResultSet rs;
+        
+        try{
+            // récupération des valeurs
+            rs = stmt.executeQuery(query);
+            int conducteur = rs.getInt("conducteur");
+            String commune = rs.getString("commune");
+            int id_lieu_travail = rs.getInt("lieu_travailID");
+            
+            // on cherche le nom du lieu de travail (on a que sont id)
+            String queryLieuTravail = "SELECT nom_lieu FROM TABLE_LIEUX_TRAVAIL WHERE id=" + id_lieu_travail;
+            ResultSet resTravail = stmt.executeQuery(queryLieuTravail);
+            String nomLieuTravail = resTravail.getString("nom_lieu");
+            
+            System.out.println("IN DB NOTIFY USERS nomLieuTravail =" + nomLieuTravail);
+            
+            //si le user est un conducteur on envoit les messages nécessaires
+            if (conducteur==1){
+                MailSender mailSender = new MailSender();
+                // on choisit la notification en fonction de si le user à été rajouté ou supprimé
+                mailSender.setEmailText(isAdded);
+                mailSender.setList(getEmailToBeNotified(commune,nomLieuTravail));
+                mailSender.start();
+            }
+        }catch(Exception e){
+            System.err.println("In DB : could not send the query : error "+e);
         }
     }
     
@@ -292,6 +323,10 @@ public class DB implements DBInterface {
             //System.out.println(query);
             int rs = stmt.executeUpdate(queryCreeUtilisateur);
             
+            // envoie des mails en fonction des modification apporté par le nouveau user :
+            notifyUsers(email,true);
+            
+            
         } catch (Exception ex) {
             System.err.println("In DB - addNewUser : n'a pas pu créer l'utilisateur : " + ex.getLocalizedMessage());
             return -3;
@@ -303,7 +338,7 @@ public class DB implements DBInterface {
     public void deleteUser(String email, String prenom, String nom) {
         try {
             
-            String query = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE email=" + email + " AND nom='" + nom + "' AND prenpm='" + prenom + "' ;";
+            String query = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE email=" + email + " AND nom='" + nom + "' AND prenom='" + prenom + "' ;";
             
             //System.out.println(querry);
             int rs = stmt.executeUpdate(query);
@@ -399,7 +434,7 @@ public class DB implements DBInterface {
                 val = 1;
             } else {
                 val = 0;
-            }            
+            }
             sql = "UPDATE " + TABLE_UTILISATEURS + " SET " + field + "='" + val + "' WHERE email='" + email + "'";
             
         } else if (field.equals("lieu_travail")){
@@ -577,6 +612,36 @@ public class DB implements DBInterface {
         }
         return routes;
     }
+    
+    public List<String> getEmailToBeNotified(String source ,String dest){
+       List<String> resultEnd = new ArrayList<>();
+       
+       // on récupère les info du lieu de travail       
+       String sqlLieuTravail = "SELECT id FROM " + TABLE_LIEUX_TRAVAIL + " Where nom_lieu='" + dest + "'";  
+       ResultSet rs;
+       
+       try{
+            rs = stmt.executeQuery(sqlLieuTravail);
+            rs.next();
+            //on récupère l'ID du lieu de travail en entée de fonction (dest)
+            int lieu_travail_id = rs.getInt("id");
+           
+            //on cherche les emails des personnes qui sont sur le trajet (commune->lieu travail)
+            String sqlEmail = "SELECT email FROM " + TABLE_UTILISATEURS + "  commune='" + source + "' AND lieu_travail_id='" + lieu_travail_id + "'";
+            ResultSet resEmails;
+            resEmails = stmt.executeQuery(sqlEmail);
+            
+            // on place nos resultats dans notre list final
+            while (resEmails.next()) {
+                resultEnd.add(resEmails.getString("email"));
+            }
+       }catch(Exception ex){
+           System.err.println("In DB - getEmailToBeNotified : could not process query, error :"+ex);
+       }
+             
+        return resultEnd;
+    }
+    
     
     @Override
     public ArrayList<String> getAllWorkplaces() {
