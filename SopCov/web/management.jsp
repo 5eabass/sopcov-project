@@ -1,7 +1,7 @@
 <%-- 
-    Document   : userWelcome
-    Created on : 9 janv. 2015, 02:05:27
-    Author     : Ayoub
+    Document   : ManagementView
+    Created on : 10 janv. 2015, 18:02:13
+    Author     : gb
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -66,6 +66,7 @@
                                 <ul class="nav masthead-nav">
                                     <li><a href="index.jsp">Accueil</a></li>
                                     <li><a href="trajettype.jsp">Trajets</a></li>
+                                    <li><a href="userWelcome.jsp">Page principale</a>
                                         <% if (admin) {%>
                                     <li><a href="management.jsp">Administration</a></li>
                                         <% }%>
@@ -79,38 +80,41 @@
                     <div class="inner cover">
                         <div class="panel panel-default noshadow">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Bienvenue <%=login%> !</h3>
+                                <h3 class="panel-title">Panneau d'Administration!</h3>
                             </div>
                             <div class="panel-body modeltype">
                                 <center>
                                     <h3>
-                                        Vous pouvez dès à présent voir les trajets disponibles ou modifier votre profil.
+                                        Generation de rapports
                                     </h3>
                                 </center>
-                                <table>
-                                    <tr>
-                                        <td>
-                                    <center><img src="img/trajet.JPG" width="300" height="150" alt="Mon Image"></center>
-                                    </td>
-                                    <td>
-                                    <center><img src="img/edit.JPG" width="300" height="150" alt="Mon Image 2"></center>
-                                    </td>
-                                    </tr>
+                                <div id='get_all_drivers' onclick="demandeRapport('getNumberDrivers')">
+                                    Nombre de conducteurs
+                                </div>
 
-                                    <tr>
-                                        <td>
-                                    <center>
-                                        <a href="trajettype.jsp" class="btn btn-success">Rechercher Trajet</a>
-                                    </center>
-                                    </td>
-                                    <td>
-                                    <center>
-                                        <a href="/SopCov/EditProfile.do" class="btn btn-success">Modifier Profil</a>
-                                    </center>
-                                    </td>
-                                    </tr>
+                                <script>
+                                    function demandeRapport(rapport) {
+                                        var element = document.getElementById('get_all_drivers');
+                                        //alert('Vous avez demandez le rapport : ' + rapport);
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport);
+                                        xhr.send(null);
+                                        element.innerHTML = 'Nombre de conducteurs : Demande au serveur...';
+                                        xhr.addEventListener('readystatechange', function () {
+                                            if (xhr.readyState == xhr.DONE) {
+                                                element.innerHTML = 'Nombre de conducteurs : ' + xhr.responseText;
+                                            }
+                                        }, false);
+                                    }
+                                </script>
 
-                                </table>
+
+                                <center>
+                                    <h3>
+                                        Modification des comptes
+                                    </h3>
+                                </center>
+
                             </div>
                         </div>
                     </div>
