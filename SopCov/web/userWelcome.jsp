@@ -60,7 +60,7 @@
                                 <ul class="nav masthead-nav">
                                     <li><a href="index.html">Accueil</a></li>
                                     <li><a href="trajettype.jsp">Trajets</a></li>
-                                    <li><a href="/SopCov/EditProfileBegin.do">Profil</a></li>
+                                    <li><a href="/SopCov/EditProfile.do">Profil</a></li>
                                     <li><a href="index.html">Se déconnecter</a></li>
                                 </ul>
                             </nav>
@@ -96,7 +96,7 @@
                                     </td>
                                     <td>
                                     <center>
-                                        <a href="/SopCov/EditProfileBegin.do" class="btn btn-success">Modifier Profil</a>
+                                        <a href="/SopCov/EditProfile.do" class="btn btn-success">Modifier Profil</a>
                                     </center>
                                     </td>
                                     </tr>

@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="addr">
-                                            <abbr title="Obligatoire">*</abbr> Addresse
+                                            <abbr title="Obligatoire">*</abbr> Adresse
                                         </label>
                                         <input class="string email required form-control" id="addr" name="adresse" placeholder="Addresse" type="email" />
                                     </div>

@@ -24,8 +24,8 @@ import javax.servlet.http.HttpSession;
 
 
 
-@WebServlet(name = "EditProfileBegin", urlPatterns = {"/EditProfileBegin.do"})
-public class EditProfileBegin extends HttpServlet {
+@WebServlet(name = "EditProfile", urlPatterns = {"/EditProfile.do"})
+public class EditProfile extends HttpServlet {
     
     DB dbmanager;
     //private String message;
@@ -54,6 +54,7 @@ public class EditProfileBegin extends HttpServlet {
             
             // recuperation des infos
             User userInfo = dbmanager.queryInfo(email);
+            System.out.println(userInfo.getLieu_travail_nom());
             ArrayList<String> lieuxTravail = dbmanager.getAllWorkplaces();
             request.setAttribute("lieuxTravail", lieuxTravail);
             
