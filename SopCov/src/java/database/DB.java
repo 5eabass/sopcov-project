@@ -604,7 +604,7 @@ public class DB implements DBInterface {
                 String jours_travail = rs.getString("jours_travail");
                 
                 //Display values
-                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, mCity, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif, lieu_travail_adresse));
+                routes.add(new User(email, "", admin, prenom, nom, tel, adresse, commune, code_postal, lieu_travail_nom, lieu_travail_id, heure_depart, heure_retour, jours_travail, conducteur, notif, lieu_travail_adresse));
             }
             
         } catch (Exception e) {

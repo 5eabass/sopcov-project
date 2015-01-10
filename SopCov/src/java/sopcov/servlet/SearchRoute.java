@@ -44,7 +44,10 @@ public class SearchRoute extends HttpServlet {
     @Override
     public void doGet( HttpServletRequest request,  HttpServletResponse response) throws IOException, ServletException  {
         //request.setAttribute("drivers", dbmanager.getAllDrivers());
-        final RequestDispatcher rd = request.getRequestDispatcher("/searchroute.jsp" );
+        System.out.println(request.getParameter("commune")+ request.getParameter("lieu_travail"));
+        List<User> routes=dbmanager.searchRoute(request.getParameter("commune"), request.getParameter("lieu_travail"));
+        request.setAttribute("drivers", routes);
+        final RequestDispatcher rd = request.getRequestDispatcher("/trajettype.jsp" );
         rd.forward(request, response);
        
         
@@ -55,7 +58,7 @@ public class SearchRoute extends HttpServlet {
         PrintWriter out = response.getWriter();
         List<User> routes=dbmanager.searchRoute(request.getParameter("commune"), request.getParameter("wPlace"));
         request.setAttribute("drivers", routes);
-        final RequestDispatcher rd = request.getRequestDispatcher("/listDrivers.jsp" );
+        final RequestDispatcher rd = request.getRequestDispatcher("/trajettype.jsp" );
         rd.forward(request, response);
            
     }

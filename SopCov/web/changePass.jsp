@@ -78,7 +78,7 @@
                                 <h3 class="panel-title">Edition du mot de passe</h3>
                             </div>
                             <div class="panel-body modeltype">
-                                <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="/SopCov/ChangePassword.do" novalidate="novalidate">
+                                <form accept-charset="UTF-8" method="post" action="/SopCov/ChangePassword.do" novalidate="novalidate">
                                     <div style="display:none">
                                         <input name="utf8" type="hidden" value="&#x2713;" />
                                         <input name="authenticity_token" type="hidden" value="p6T5gsOp8Sk/BeQTZydB1zfwxJSQjmBvQ8XjuHOx6hk=" />

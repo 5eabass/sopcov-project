@@ -43,7 +43,7 @@ public class ChangePassword extends HttpServlet {
             HttpSession s = request.getSession();
 
             DB database=new DB();
-
+            System.out.println("PASS: "+mail);
             if(!database.getPassword(mail).equals(apwd)){
                 s.setAttribute("msgErreur", "Ancien mot de passe incorrect!");
                 System.out.println("Old Password not correct!");

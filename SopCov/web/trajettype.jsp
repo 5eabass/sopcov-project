@@ -49,7 +49,7 @@
         </style>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
         <script>
-           
+
             var getMap = function (opts) {
                 var src = "http://maps.googleapis.com/maps/api/staticmap?",
                         params = $.extend({
@@ -100,7 +100,7 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Trouvez votre trajet</h3>
                             </div>
-                            <div class="panel-body modeltype">
+                            <div class=" modeltype"> <!--panel-body -->
                                 <nav class="navbar navbar-default">
                                     <div class="container-fluid">
                                         <!-- Brand and toggle get grouped for better mobile display -->
@@ -116,14 +116,13 @@
 
                                         <!-- Collect the nav links, forms, and other content for toggling -->
                                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                            <ul class="nav navbar-nav">
+                                            <!--ul class="nav navbar-nav">
                                                 <li class="dropdown">
                                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Villes <span class="caret"></span></a>
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li><a href="#">Toulouse</a></li>
-                                                        <li><a href="#">Colomiers</a></li>
-                                                        <li class="divider"></li>            
-                                                        <li><a href="#">Ville C</a></li>
+                                                        <li><a href="#">Colomiers</a></li>      
+                                                        <li><a href="#"></a></li>
                                                     </ul>
                                                 </li>
                                                 <li class="dropdown">
@@ -132,13 +131,22 @@
                                                         <li><a href="#">Toulouse Colomiers 1</a></li>
                                                         <li><a href="#">Toulouse Colomiers 2</a></li>
                                                         <li><a href="#">Toulouse Les Ramassiers</a></li>
+                                                        <li><a href="#"></a></li>
                                                     </ul>
                                                 </li>
-                                            </ul>
-                                            <form class="navbar-form navbar-right" role="search">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Suggestions">
-                                                </div>
+                                            </ul-->
+                                            <form class="navbar-form navbar-right"  action="/SopCov/SearchRoute" role="search">
+                                                <select class="form-control" name="commune">
+                                                    <option value="Toulouse">Toulouse</option>
+                                                    <option value="Labege">Labège</option>
+                                                    <option value="Colomiers">Colomiers</option>
+                                                </select>
+                                                
+                                                <select class="form-control" name="lieu_travail">
+                                                    <option value="Sopra_Group_Ent1">Toulouse Colomiers 1</option>
+                                                    <option value="Sopra_Group_Ent2">Toulouse Colomiers 2</option>
+                                                    <option value="Sopra_Group_Ent3">Toulouse Les Ramassiers</option>
+                                                </select>
                                                 <button type="submit" class="btn btn-success">Rechercher</button>
                                             </form>
                                         </div><!-- /.navbar-collapse -->
@@ -163,8 +171,8 @@
                                                             </p>
                                                         </div>
                                                         <div class="col-md-7">
-                                                            
-                                                            <!--img src="img/sopra_group.png" class="img-responsive gmpreview" alt="google map preview"-->
+
+                                                            <img src="https://maps.googleapis.com/maps/api/staticmap?center=${driver.commune}&zoom=11&size=600x300&maptype=roadmap&markers=color:blue|label:A|${driver.lieu_travail_adresse}&markers=color:red|label:B|${driver.adresse},${driver.commune}&path=${driver.lieu_travail_adresse}|${driver.adresse},${driver.commune}" class="img-responsive gmpreview" alt="google map preview">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -188,15 +196,20 @@
             </div>
 
         </div>
-    <div class="container">
- 
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="../../assets/js/docs.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+        <div class="container">
+
+            <!-- Bootstrap core JavaScript
+            ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script src="../../assets/js/docs.min.js"></script>
+            <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+            <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+            <script>
+            $('.dropdown-inverse li > a').click(function (e) {
+                $('.btnStatus').text(this.innerHTML);
+            });
+            </script>
     </body>
 </html>
