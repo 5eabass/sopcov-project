@@ -9,11 +9,11 @@ import database.DB;
 import database.DBInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jdk.nashorn.internal.parser.JSONParser;
 
 /**
  *
@@ -37,16 +37,18 @@ public class GetReportServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DBInterface dbi = new DB();
+        response.setContentType("application/json");
+        PrintWriter pw = response.getWriter();
+        
         
         if (request.getParameter("rapport") != null) {
             if (request.getParameter("rapport").equals(RAPPORTS[0])) {
                 System.out.println("Demande de rapport : " + RAPPORTS[0]);
                 int nbrCond = dbi.getNumberOfDrivers();
-                System.out.println("Renvoie : " + nbrCond);
-                PrintWriter pw = response.getWriter();
-                pw.println(nbrCond);
-            }
-            else {
+                String reponse = "{ \"nombre_conducteurs\":\""+nbrCond+"\" }";
+                System.out.println("Renvoie : " + reponse);
+                pw.println(reponse);
+            } else {
                 System.err.println("In GetReport : " + request.getParameter("rapport") + " inconnu ");
             }
         }

@@ -101,8 +101,9 @@
                                         xhr.send(null);
                                         element.innerHTML = 'Nombre de conducteurs : Demande au serveur...';
                                         xhr.addEventListener('readystatechange', function () {
-                                            if (xhr.readyState == xhr.DONE) {
-                                                element.innerHTML = 'Nombre de conducteurs : ' + xhr.responseText;
+                                            if (xhr.readyState === xhr.DONE) {
+                                                obj = JSON.parse(xhr.responseText);
+                                                element.innerHTML = 'Nombre de conducteurs : ' + obj.nombre_conducteurs;
                                             }
                                         }, false);
                                     }
