@@ -68,37 +68,37 @@
                                         <label class="email required control-label" for="nom">
                                             <abbr title="Obligatoire">*</abbr> Nom
                                         </label>
-                                        <input class="string email required form-control" id="nom" name="nom" placeholder="Nom" type="email" />
+                                        <input class="string email required form-control" id="nom" name="nom" placeholder="Nom" type="text" />
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="prenom">
                                             <abbr title="Obligatoire">*</abbr> Prénom
                                         </label>
-                                        <input class="string email required form-control" id="prenom" name="prenom" placeholder="Prénom" type="email" />
+                                        <input class="string email required form-control" id="prenom" name="prenom" placeholder="Prénom" type="text" />
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="addr">
                                             <abbr title="Obligatoire">*</abbr> Adresse
                                         </label>
-                                        <input class="string email required form-control" id="addr" name="adresse" placeholder="Addresse" type="email" />
+                                        <input class="string email required form-control" id="addr" name="adresse" placeholder="Addresse" type="text" />
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="commune">
                                             <abbr title="Obligatoire">*</abbr> Commune
                                         </label>
-                                        <input class="string email required form-control" id="commune" name="commune" placeholder="Commune" type="email" />
+                                        <input class="string email required form-control" id="commune" name="commune" placeholder="Commune" type="text" />
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="cp">
                                             <abbr title="Obligatoire">*</abbr> Code Postal
                                         </label>
-                                        <input class="string email required form-control" id="cp" name="code_postal" placeholder="ex: 31400" type="email" />
+                                        <input class="string email required form-control" id="cp" name="code_postal" placeholder="ex: 31400" type="text" />
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="tel">
                                             <abbr title="Obligatoire">*</abbr> Téléphone
                                         </label>
-                                        <input class="string email required form-control" id="tel" name="tel" placeholder="ex: 06*******" type="email" />
+                                        <input class="string email required form-control" id="tel" name="tel" placeholder="ex: 06*******" type="text" />
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="wplace">
@@ -123,13 +123,13 @@
                                         <label class="email required control-label" for="user_basic_email">
                                             <abbr title="Obligatoire">*</abbr> Heure de départ
                                         </label>
-                                        <input class="string email required form-control" id="user_basic_email" name="heure_depart" placeholder="Heure de départ" type="email" />
+                                        <input class="string email required form-control" id="user_basic_email" name="heure_depart" placeholder="Heure de départ" type="text" />
                                     </div>
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="heure_dep">
                                             <abbr title="Obligatoire">*</abbr> Heure de retour
                                         </label>
-                                        <input class="string email required form-control" id="heure_dep" name="heure_retour" placeholder="Heure de retour" type="email" />
+                                        <input class="string email required form-control" id="heure_dep" name="heure_retour" placeholder="Heure de retour" type="text" />
                                     </div>
                                     <div>
                                         <label class="email required control-label" for="wdays">

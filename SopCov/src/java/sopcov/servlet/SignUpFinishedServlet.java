@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sopcov.mail.MailSender;
 
 /**
  *
@@ -21,6 +22,9 @@ import javax.servlet.http.HttpSession;
  */
 public class SignUpFinishedServlet extends HttpServlet {
 
+    
+    MailSender mail ;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -111,6 +115,10 @@ public class SignUpFinishedServlet extends HttpServlet {
         switch (creationMarche) {
             case 0:
                 destination = "userWelcome.jsp";
+                // mail working 
+            /*  mail = new MailSender();
+                mail.init();
+                mail.sendNotificationEmail("sebastienneumann78@gmail.com");*/
                 dbi.rememberUserLogIn(email);
                 break;
             case -1:

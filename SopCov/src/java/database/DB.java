@@ -12,14 +12,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sopcov.mail.MailSender;
 
 /**
  *
  * @author root
  */
 public class DB implements DBInterface {
+    
+    private  MailSender mailSender = new MailSender(); // observer like 
+    
     
     // JDBC conducteur prenom and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
