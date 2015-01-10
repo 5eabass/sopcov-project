@@ -64,12 +64,12 @@
                             <h3 class="masthead-brand">SopCov</h3>
                             <nav>
                                 <ul class="nav masthead-nav">
-                                    <li><a href="index.jsp">Accueil</a></li>
+                                    <li class="active"><a href="#">Page Principale</a></li>
                                     <li><a href="trajettype.jsp">Trajets</a></li>
+                                    <li><a href="/SopCov/EditProfile.do">Profil</a></li>
                                         <% if (admin) {%>
                                     <li><a href="management.jsp">Administration</a></li>
                                         <% }%>
-                                    <li><a href="/SopCov/EditProfile.do">Profil</a></li>
                                     <li><a href="/SopCov/SignOutServlet.do">Se déconnecter</a></li>
                                 </ul>
                             </nav>

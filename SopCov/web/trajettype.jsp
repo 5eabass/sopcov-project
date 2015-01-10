@@ -75,6 +75,26 @@
     </head>
 
     <body>
+        <%!
+            String login = "";
+            String email = "";
+            String pswd = "";
+            boolean admin = false;
+            HttpSession s = null;
+        %>
+        <%
+            s = request.getSession();
+            if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("password") != null) {
+                email = (String) s.getAttribute("email");
+                login = email.split("@")[0];
+                pswd = (String) s.getAttribute("password");
+            }
+            if (request.getParameter("admin") != null) {
+                admin = Boolean.getBoolean(request.getParameter("admin"));
+            }
+            //ATTENTION POUR LA PHASE DE TEST SEULEMENT
+            admin = true;
+        %>
 
         <div class="site-wrapper">
 
@@ -87,9 +107,13 @@
                             <h3 class="masthead-brand">SopCov</h3>
                             <nav>
                                 <ul class="nav masthead-nav">
-                                    <li><a href="#">Accueil</a></li>
+                                    <li><a href="userWelcome.jsp"> Page Principale</a></li>
                                     <li class="active"><a href="#">Trajets</a></li>
-                                    <li><a href="#">Profil</a></li>
+                                    <li><a href="/SopCov/EditProfile.do"> Profil</a></li>
+                                        <% if (admin) {%>
+                                    <li><a href="management.jsp">Administration</a></li>
+                                        <% }%>
+                                    <li><a href="/SopCov/SignOutServlet.do">Se déconnecter</a></li>
                                 </ul>
                             </nav>
                         </div>

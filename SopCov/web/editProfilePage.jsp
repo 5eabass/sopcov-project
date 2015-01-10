@@ -53,6 +53,7 @@
                 //Boolean Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche = false;      
                 int conducteur;
                 int notif;
+                boolean admin = false;
             %>
 
             <%
@@ -72,6 +73,11 @@
                 conducteur = user.getConducteur();
                 notif = user.getNotif();
 
+                if (request.getParameter("admin") != null) {
+                admin = Boolean.getBoolean(request.getParameter("admin"));
+                }
+                //ATTENTION POUR LA PHASE DE TEST SEULEMENT
+                admin = true;
             %>
         
         <div class="site-wrapper">
@@ -85,7 +91,13 @@
                             <h3 class="masthead-brand">SopCov</h3>
                             <nav>
                                 <ul class="nav masthead-nav">
-                                    <li><a href="index.html">Accueil</a></li>
+                                    <li><a href="userWelcome.jsp"> Page Principale</a></li>
+                                    <li><a href="trajettype.jsp">Trajets</a></li>
+                                    <li class="active"><a href="#">Profil</a></li>
+                                        <% if (admin) {%>
+                                    <li><a href="management.jsp">Administration</a></li>
+                                        <% }%>
+                                    <li><a href="/SopCov/SignOutServlet.do">Se déconnecter</a></li>
                                 </ul>
                             </nav>
                         </div>
