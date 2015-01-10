@@ -4,6 +4,7 @@
     Author     : gb
 --%>
 
+<%@page import="sopcov.servlet.GetReportServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="fr">
@@ -38,6 +39,8 @@
             String pswd = "";
             boolean admin = false;
             HttpSession s = null;
+            String[] RAPPORTS = GetReportServlet.RAPPORTS;
+            String[] REPONSES = GetReportServlet.REPONSES;
         %>
         <%
             s = request.getSession();
@@ -87,22 +90,44 @@
                                         Generation de rapports
                                     </h3>
                                 </center>
-                                <div id='get_all_drivers' onclick="demandeRapport('getNumberDrivers')">
-                                    Nombre de conducteurs
+                                <div id='<%=RAPPORTS[0]%>' onclick="demandeRapport('<%=RAPPORTS[0]%>')">
+                                    Nombre de conducteurs ?
                                 </div>
+                                <div id='<%=RAPPORTS[1]%>' onclick="demandeRapport('<%=RAPPORTS[1]%>')">
+                                    Nombre de non conducteurs ?
+                                </div>
+                                <div id='<%=RAPPORTS[2]%>' onclick="demandeRapport('<%=RAPPORTS[2]%>')">
+                                    Pourcentage de conducteurs ?
+                                </div>
+                                <div id='<%=RAPPORTS[3]%>' onclick="demandeRapport('<%=RAPPORTS[3]%>')">
+                                    Nombre d'utilisateurs de SopCov?
+                                </div>
+
+
 
                                 <script>
                                     function demandeRapport(rapport) {
-                                        var element = document.getElementById('get_all_drivers');
+                                        var element = document.getElementById(rapport);
                                         //alert('Vous avez demandez le rapport : ' + rapport);
                                         var xhr = new XMLHttpRequest();
                                         xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport);
                                         xhr.send(null);
-                                        element.innerHTML = 'Nombre de conducteurs : Demande au serveur...';
+                                        element.innerHTML += ' Demande au serveur...';
                                         xhr.addEventListener('readystatechange', function () {
                                             if (xhr.readyState === xhr.DONE) {
-                                                obj = JSON.parse(xhr.responseText);
-                                                element.innerHTML = 'Nombre de conducteurs : ' + obj.nombre_conducteurs;
+                                                obj = JSON.parse(xhr.responseText);                                                
+                                                if (rapport=='<%=RAPPORTS[0]%>') {
+                                                    element.innerHTML = 'Nombre de conducteurs : ' + obj.<%=REPONSES[0]%>;
+                                                }                                                
+                                                else if (rapport=='<%=RAPPORTS[1]%>') {
+                                                    element.innerHTML = 'Nombre de non conducteurs : ' + obj.<%=REPONSES[1]%>;
+                                                }                                                
+                                                else if (rapport=='<%=RAPPORTS[2]%>') {
+                                                    element.innerHTML = 'Pourcentage de conducteurs : ' + obj.<%=REPONSES[2]%> + '%';
+                                                }                                                
+                                                else if (rapport=='<%=RAPPORTS[3]%>') {
+                                                    element.innerHTML = 'Nombre d\'utilisateurs de SopCov : ' + obj.<%=REPONSES[3]%>;
+                                                }
                                             }
                                         }, false);
                                     }

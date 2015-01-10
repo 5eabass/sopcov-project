@@ -21,8 +21,8 @@ import jdk.nashorn.internal.parser.JSONParser;
  */
 public class GetReportServlet extends HttpServlet {
 
-    public static String[] RAPPORTS = {"getNumberDrivers"};
-    public static String RAPPORT_REPONSE = "reponse";
+    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers"};
+    public static String[] REPONSES = {"nombre_conducteurs", "nombre_non_conducteurs", "pourcentage_conducteurs", "nombre_utilisateurs"};
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -39,17 +39,39 @@ public class GetReportServlet extends HttpServlet {
         DBInterface dbi = new DB();
         response.setContentType("application/json");
         PrintWriter pw = response.getWriter();
-        
-        
+
         if (request.getParameter("rapport") != null) {
             if (request.getParameter("rapport").equals(RAPPORTS[0])) {
                 System.out.println("Demande de rapport : " + RAPPORTS[0]);
                 int nbrCond = dbi.getNumberOfDrivers();
-                String reponse = "{ \"nombre_conducteurs\":\""+nbrCond+"\" }";
+                String reponse = "{ \"" + this.REPONSES[0] + "\":\"" + nbrCond + "\" }";
                 System.out.println("Renvoie : " + reponse);
                 pw.println(reponse);
+                pw.flush();
+            } else if (request.getParameter("rapport").equals(RAPPORTS[1])) {
+                System.out.println("Demande de rapport : " + RAPPORTS[1]);
+                int nbrPasCond = dbi.getNumberOfNonDrivers();
+                String reponse = "{ \"" + this.REPONSES[1] + "\":\"" + nbrPasCond + "\" }";
+                System.out.println("Renvoie : " + reponse);
+                pw.println(reponse);
+                pw.flush();
+            } else if (request.getParameter("rapport").equals(RAPPORTS[2])) {
+                System.out.println("Demande de rapport : " + RAPPORTS[2]);
+                double percent = dbi.getPercentOfDrivers();
+                String reponse = "{ \"" + this.REPONSES[2] + "\":\"" + percent + "\" }";
+                System.out.println("Renvoie : " + reponse);
+                pw.println(reponse);
+                pw.flush();
+            } else if (request.getParameter("rapport").equals(RAPPORTS[3])) {
+                System.out.println("Demande de rapport : " + RAPPORTS[3]);
+                int nbrUtilisateurs = dbi.getNumberOfUsers();
+                String reponse = "{ \"" + this.REPONSES[3] + "\":\"" + nbrUtilisateurs + "\" }";
+                System.out.println("Renvoie : " + reponse);
+                pw.println(reponse);
+                pw.flush();
             } else {
                 System.err.println("In GetReport : " + request.getParameter("rapport") + " inconnu ");
+
             }
         }
     }
