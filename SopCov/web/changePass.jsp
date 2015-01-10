@@ -38,6 +38,7 @@
             String npwd = "";
             String rnpwd = "";
             String msgErreur="";
+            boolean admin=false;
             HttpSession s = null;
         %>
         <%
@@ -51,6 +52,11 @@
             if (s.getAttribute("msgErreur") != null) {
                 msgErreur = (String) s.getAttribute("msgErreur");
             }
+            if (request.getParameter("admin") != null) {
+                admin = Boolean.getBoolean(request.getParameter("admin"));
+            }
+            //ATTENTION POUR LA PHASE DE TEST SEULEMENT
+            admin = true;
         %>
 
         <div class="site-wrapper">
@@ -64,9 +70,13 @@
                             <h3 class="masthead-brand">SopCov</h3>
                             <nav>
                                 <ul class="nav masthead-nav">
-                                    <li><a href="index.jsp">Accueil</a></li>
+                                    <li><a href="userWelcome.jsp">Page Principale</a></li>
                                     <li><a href="trajettype.jsp">Trajets</a></li>
-                                    <li class="active"><a href="#">Profil</a></li>
+                                    <li class="active"><a href="/SopCov/EditProfile.do">Profil</a></li>
+                                        <% if (admin) {%>
+                                    <li><a href="management.jsp">Administration</a></li>
+                                        <% }%>
+                                    <li><a href="/SopCov/SignOutServlet.do">Se déconnecter</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -124,7 +134,7 @@
                                         <input class="password required form-control" id="user_basic_password" name="rnpwd" placeholder="Mot de Passe" type="password" />
                                     </div>
                                     <center>
-                                        <input class="btn btn-success" name="commit" type="submit" value="Modifier" />
+                                        <input class="btn btn-success" name="BoutonIndex" type="submit" value="Modifier" />
                                     </center>
                                     
                                 </form>

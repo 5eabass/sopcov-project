@@ -63,9 +63,9 @@ public class ChangePassword extends HttpServlet {
                     }
                     else{
                         database.setPassword(mail, npwd);
+                        }
                     }
                 }
-            }
             
             final RequestDispatcher rd = request.getRequestDispatcher("/changePass.jsp" );
             rd.forward(request, response);
