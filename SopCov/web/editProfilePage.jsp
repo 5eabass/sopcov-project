@@ -92,7 +92,7 @@
                             <nav>
                                 <ul class="nav masthead-nav">
                                     <li><a href="userWelcome.jsp"> Page Principale</a></li>
-                                    <li><a href="trajettype.jsp">Trajets</a></li>
+                                    <li><a href="/SopCov/ShowCovoiturage">Trajets</a></li>
                                     <li class="active"><a href="#">Profil</a></li>
                                         <% if (admin) {%>
                                     <li><a href="management.jsp">Administration</a></li>

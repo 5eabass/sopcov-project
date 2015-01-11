@@ -65,7 +65,7 @@
                             <nav>
                                 <ul class="nav masthead-nav">
                                     <li class="active"><a href="#">Page Principale</a></li>
-                                    <li><a href="trajettype.jsp">Trajets</a></li>
+                                    <li><a href="/SopCov/ShowCovoiturage">Trajets</a></li>
                                     <li><a href="/SopCov/EditProfile.do">Profil</a></li>
                                         <% if (admin) {%>
                                     <li><a href="management.jsp">Administration</a></li>
@@ -101,7 +101,7 @@
                                     <tr>
                                         <td>
                                     <center>
-                                        <a href="trajettype.jsp" class="btn btn-success">Rechercher Trajet</a>
+                                        <a href="/SopCov/ShowCovoiturage" class="btn btn-success">Rechercher Trajet</a>
                                     </center>
                                     </td>
                                     <td>

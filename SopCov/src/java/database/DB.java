@@ -916,6 +916,31 @@ public class DB implements DBInterface {
     }
     
 //test addUser, ShowDatabase,deleteUSer...
+    
+  
+        
+   
+    @Override
+    public ArrayList<Commune> getAllCommunes() {
+        String nomLieu = "commune";
+        
+        ArrayList<Commune> res = new ArrayList<Commune>() {
+        };
+        //SELECT distinct name FROM info WHERE status = 1 ORDER BY id
+        String sql = "SELECT distinct code_postal," + nomLieu + " FROM " +TABLE_UTILISATEURS;
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                res.add(new Commune(rs.getString(nomLieu),rs.getString("code_postal")));
+            }
+        } catch (SQLException ex) {
+            System.err.println("In DB - getAllWorkplaces : pas pu lire les résultats de la requete " + sql + "\nerreur : " + ex.getLocalizedMessage());
+        }
+        
+        return res;
+    }
+    
     public static void main(String[] args) {
         //testGetNumberOfConnectionBetween();
         //testGetAllNumberOfUserByCoupleCommuneAndWorkplace();
@@ -931,9 +956,10 @@ public class DB implements DBInterface {
         //dbHelper.setPassword("adminuser@test.com","adminuser");
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
-        //dbHelper.addNewUser(0, "omar", "ghader", "pass", "07", "omar@insa.fr", "135 avenue de Rangueil", "Toulouse", 31400, 1, "08:00:00", "17:00:00", "L,M,M,J,V", 1, 1);
+        //dbHelper.addNewUser(false, "omar", "ghader", "pass", "07", "oma@insa.fr", "135 avenue de Rangueil", "Labege", "31400", "Sopra_Group_Ent1", "08:00:00", "17:00:00", "L,M,M,J,V", true, true);
+        //dbHelper.addNewUser(true, DB_URL, USER, DB_URL, USER, USER, DB_URL, DB_URL, PASS, TABLE_VISITES, JDBC_DRIVER, DB_URL, JDBC_DRIVER, true, true)
         //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
-        System.out.println(Boolean.valueOf(dbHelper.isUSerAdmin("o@insa.f")));
+        System.out.println(dbHelper.getAllCommunes().toString());
         dbHelper.listData();
         dbHelper.closeConnection();
     }//end main
