@@ -131,34 +131,47 @@ public class DB implements DBInterface {
         
         // on récupère les info qui sont utiles : la commune et le lieu de travail pour trouver le trajet
         // mais aussi si le user est conducteur , (si non alors il n'apporte rien de plus)
-        String query = "SELECT conducteur,commune,lieu_travailID FROM TABLE_UTILISATEURS WHERE email='"+email+"'";
+        String query = "SELECT conducteur,commune,lieu_travail_id FROM " + TABLE_UTILISATEURS + " WHERE email='"+email+"'";
         ResultSet rs;
+        int conducteur =0;
+        int id_lieu_travail = 0;
+        String commune = "";
         
-        try{
+        try{          
             // récupération des valeurs
             rs = stmt.executeQuery(query);
-            int conducteur = rs.getInt("conducteur");
-            String commune = rs.getString("commune");
-            int id_lieu_travail = rs.getInt("lieu_travailID");
+            rs.next();
+            conducteur = rs.getInt("conducteur");
+            commune = rs.getString("commune");
+            id_lieu_travail = rs.getInt("lieu_travail_id");
             
-            // on cherche le nom du lieu de travail (on a que sont id)
-            String queryLieuTravail = "SELECT nom_lieu FROM TABLE_LIEUX_TRAVAIL WHERE id=" + id_lieu_travail;
-            ResultSet resTravail = stmt.executeQuery(queryLieuTravail);
-            String nomLieuTravail = resTravail.getString("nom_lieu");
-            
-            System.out.println("IN DB NOTIFY USERS nomLieuTravail =" + nomLieuTravail);
-            
-            //si le user est un conducteur on envoit les messages nécessaires
-            if (conducteur==1){
-                MailSender mailSender = new MailSender();
-                // on choisit la notification en fonction de si le user à été rajouté ou supprimé
-                mailSender.setEmailText(isAdded);
-                mailSender.setList(getEmailToBeNotified(commune,nomLieuTravail));
-                mailSender.start();
-            }
         }catch(Exception e){
-            System.err.println("In DB : could not send the query : error "+e);
+            System.err.println("In DB  - notify users: could not send the query 1 : error "+e);
         }
+        
+        //si le user est un conducteur on envoit les messages nécessaires 
+        if (conducteur==1){          
+            String nomLieuTravail = "";
+            // on cherche le nom du lieu de travail (on a que sont id)
+            String queryLieuTravail = "SELECT nom_lieu FROM " + TABLE_LIEUX_TRAVAIL + " WHERE id=" + id_lieu_travail;
+            
+            try{
+                rs = stmt.executeQuery(queryLieuTravail);
+                rs.next();
+                nomLieuTravail = rs.getString("nom_lieu");
+            }catch(Exception e){
+                System.err.println("In DB  - notify users: could not send the query 2 : error "+e);
+            }
+                       
+                      
+            MailSender mailSender = new MailSender();
+            // on choisit la notification en fonction de si le user à été rajouté ou supprimé
+            mailSender.setEmailText(isAdded);
+            mailSender.setList(getEmailToBeNotified(commune,nomLieuTravail));
+            mailSender.start();
+        }
+        
+        
     }
     
     @Override
@@ -337,6 +350,8 @@ public class DB implements DBInterface {
     @Override
     public void deleteUser(String email, String prenom, String nom) {
         try {
+            // on notifie avant la deletion car sinon on ne trouve plus les info nécessaire
+            notifyUsers(email,false);
             
             String query = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE email=" + email + " AND nom='" + nom + "' AND prenom='" + prenom + "' ;";
             
@@ -645,20 +660,19 @@ public class DB implements DBInterface {
     }
     
     public List<String> getEmailToBeNotified(String source ,String dest){
-       List<String> resultEnd = new ArrayList<>();
-       
-       // on récupère les info du lieu de travail       
-       String sqlLieuTravail = "SELECT id FROM " + TABLE_LIEUX_TRAVAIL + " Where nom_lieu='" + dest + "'";  
-       ResultSet rs;
-       
-       try{
+        List<String> resultEnd = new ArrayList<>();
+        // on récupère les info du lieu de travail
+        String sqlLieuTravail = "SELECT id FROM " + TABLE_LIEUX_TRAVAIL + " Where nom_lieu='" + dest + "'";
+        ResultSet rs;
+        
+        try{
             rs = stmt.executeQuery(sqlLieuTravail);
             rs.next();
             //on récupère l'ID du lieu de travail en entée de fonction (dest)
             int lieu_travail_id = rs.getInt("id");
-           
+            
             //on cherche les emails des personnes qui sont sur le trajet (commune->lieu travail)
-            String sqlEmail = "SELECT email FROM " + TABLE_UTILISATEURS + "  commune='" + source + "' AND lieu_travail_id='" + lieu_travail_id + "'";
+            String sqlEmail = "SELECT email FROM " + TABLE_UTILISATEURS + " WHERE commune='" + source + "' AND lieu_travail_id='" + lieu_travail_id + "' AND notif='1'";
             ResultSet resEmails;
             resEmails = stmt.executeQuery(sqlEmail);
             
@@ -666,10 +680,10 @@ public class DB implements DBInterface {
             while (resEmails.next()) {
                 resultEnd.add(resEmails.getString("email"));
             }
-       }catch(Exception ex){
-           System.err.println("In DB - getEmailToBeNotified : could not process query, error :"+ex);
-       }
-             
+            
+        }catch(Exception ex){
+            System.err.println("In DB - getEmailToBeNotified : could not process query, error :"+ex);
+        }
         return resultEnd;
     }
     

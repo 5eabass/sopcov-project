@@ -1,5 +1,6 @@
 package sopcov.mail;
 import database.DB;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
@@ -22,23 +23,25 @@ public class MailSender extends Thread{
     String host ;
     Properties props;
     Message message ;
-    List<String> receivers;
+    List<String> receivers = new ArrayList<>();
     
     public MailSender(){
-        init();
+        System.out.println("avant initialisation");
+        initialize();
+        System.out.println("après initialisation");
     }
     
-    public void init() {
+    public void initialize() {
         // initialization
         dbmanager = new DB();
         
         // Sender's email ID needs to be mentioned
-        from = "neumann@etud.insa-toulouse.com";
-        username = "neumann@etud.insa-toulouse.fr";//should be static ( the application send a email
-        password = "G0tCr4ck3d";//should be static it's the application that send a email
+        from = "teamsopcov@gmail.com";
+        username = "teamsopcov@gmail.com";//should be static ( the application send a email
+        password = "sopcov123";//should be static it's the application that send a email
         
         // Assuming you are sending email through etud-mel.insa-toulouse.fr
-        host = "etud-mel.insa-toulouse.fr";
+        host = "smtp.gmail.com";
         
         props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -56,7 +59,7 @@ public class MailSender extends Thread{
                 });
         
         // Create a default MimeMessage object.
-        Message message = new MimeMessage(session);
+        message = new MimeMessage(session);
         
         try{
             // Set Subject: header field + from (are always the same)
@@ -68,14 +71,14 @@ public class MailSender extends Thread{
     }
     
     public void setEmailText(boolean isAdded){
-        try{
+        try{           
             if (isAdded){
                 // si un nouveau covoiturage est possible
                 message.setText("Bonjour,\n\n"
                         + "Nous sommes heureux de vous annoncer qu'il y a un nouveau conducteur susceptible de vous proposer un covoiturage sur votre trajet.\n"
                         + "Pour plus d'information veuillez vous rendre sur notre site SopCov : http://localhost:8080/SopCov/index.jsp\n"
                         + "Bonne journée.\n"
-                        + "L'équipe SopCov");
+                        + "L'équipe SopCov");                
             }else{
                 // si un possible covoiturage nous est supprimé
                 message.setText("Bonjour,\n\n"
@@ -110,11 +113,13 @@ public class MailSender extends Thread{
     }
     
     @Override
-    public void run(){       
+    public void run(){  
         //pour tous les @mail de notre list ( rempli par la DB )
-        for (String email : receivers){
-            // envoie a l'utilisateur
-            sendNotificationEmail(email);
-        }        
+        if (receivers != null){
+            for (String email : receivers){
+                // envoie a l'utilisateur
+                sendNotificationEmail(email);
+            }        
+        }
     }
 }
