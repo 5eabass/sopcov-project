@@ -21,4 +21,8 @@ public class Commune {
     public String toString(){
         return "\n"+commune+ ", "+code_postal;
     }
+    
+    public String toOptionString(){
+        return commune+ "/"+code_postal;
+    }
 }

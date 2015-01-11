@@ -4,6 +4,8 @@
     Author     : gb
 --%>
 
+<%@page import="database.Commune"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="sopcov.servlet.GetReportServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -41,6 +43,8 @@
             HttpSession s = null;
             String[] RAPPORTS = GetReportServlet.RAPPORTS;
             String[] REPONSES = GetReportServlet.REPONSES;
+            ArrayList<Commune> communes = GetReportServlet.getCommunes();
+            ArrayList<String> lieuTravail = GetReportServlet.getWorplaces();
         %>
         <%
             s = request.getSession();
@@ -112,8 +116,9 @@
                                                 <abbr title="Obligatoire">*</abbr> Commune
                                             </label>
                                             <select id="commune" name="commune">
-                                                <option>Toulouse/31400</option>
-                                                <option>Toulouse/31100</option>
+                                                <% for (Commune c : communes) { %>
+                                                    <option><%=c.toOptionString()%></option>
+                                                <% } %>
                                             </select>
                                         </div>
                                         <div class="form-group text required user_basic_email">
@@ -121,8 +126,9 @@
                                                 <abbr title="Obligatoire">*</abbr> Lieu de travail
                                             </label>                                            
                                             <select id="lieu_travail" name="lieu_travail">
-                                                <option>Sopra_Group_Ent1</option>
-                                                <option>Sopra_Group_Ent2</option>
+                                                <% for (String s : lieuTravail) { %>
+                                                    <option><%=s%></option>
+                                                <% } %>
                                             </select>
                                         </div>
                                     </form>

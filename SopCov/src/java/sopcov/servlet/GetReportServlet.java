@@ -5,10 +5,12 @@
  */
 package sopcov.servlet;
 
+import database.Commune;
 import database.DB;
 import database.DBInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -95,4 +97,21 @@ public class GetReportServlet extends HttpServlet {
         return "Servlet qui doit renvoyer les rapports qui lui sont demandés.";
     }// </editor-fold>
 
+    /**
+     * Permet à la vue management d'avoir accès à la liste des communes présentes dans la DB
+     * @return la liste des communes présentes dans la DB
+     */
+    public static ArrayList<Commune> getCommunes() {
+        DBInterface db = new DB();
+        return db.getAllCommunes();
+    }
+    
+    /**
+     * Permet à la vue management d'avoir accès à la liste des lieux de travail présents dans la DB
+     * @return la liste des lieux de travail présents dans la DB
+     */
+    public static ArrayList<String> getWorplaces() {
+        DBInterface db = new DB();
+        return db.getAllWorkplaces();
+    }
 }
