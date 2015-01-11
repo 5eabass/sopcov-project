@@ -45,12 +45,8 @@
                 email = (String) s.getAttribute("email");
                 login = email.split("@")[0];
                 pswd = (String) s.getAttribute("password");
+                admin = (Boolean) s.getAttribute("admin");
             }
-            if (request.getParameter("admin") != null) {
-                admin = Boolean.getBoolean(request.getParameter("admin"));
-            }
-            //ATTENTION POUR LA PHASE DE TEST SEULEMENT
-            admin = true;
         %>
 
         <div class="site-wrapper">

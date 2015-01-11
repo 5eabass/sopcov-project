@@ -53,6 +53,8 @@ public class SignInServlet extends HttpServlet {
             if (dbi.userExists(email, pswd)) {
                 System.out.println("In SignInServlet : Login correct.");
                 dbi.rememberUserLogIn(email);
+                boolean admin = dbi.isUSerAdmin(email);
+                s.setAttribute("admin", admin);
                 destination = "userWelcome.jsp";
             } else {
                 System.out.println("In SignInServlet : Login ou mot de passe incorrect.");
