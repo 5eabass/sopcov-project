@@ -16,7 +16,7 @@
         <meta name="author" content="">
         <link rel="icon" href="img/favicon.ico">
 
-        <title>SopCov - Page d'utilisateur</title>
+        <title>SopCov - Page d'administrateur</title>
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -138,6 +138,16 @@
                                     <h3>
                                         Modification des comptes
                                     </h3>
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                                          <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Modifier</a></li>
+                                            <li><a href="#">Supprimer</a></li>
+                                          </ul>
+                                        </div><!-- /btn-group -->
+                                        <input type="text" class="form-control" aria-label="..." placeholder="Entrez une addresse mail">
+                                    </div>
                                 </center>
 
                             </div>

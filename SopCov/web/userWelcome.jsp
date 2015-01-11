@@ -82,6 +82,7 @@
                                 <h3 class="panel-title">Bienvenue <%=login%> !</h3>
                             </div>
                             <div class="panel-body modeltype">
+                                
                                 <center>
                                     <h3>
                                         Vous pouvez dès à présent voir les trajets disponibles ou modifier votre profil.

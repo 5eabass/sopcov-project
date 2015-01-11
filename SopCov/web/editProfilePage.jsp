@@ -17,7 +17,7 @@
         <meta name="author" content="">
         <link rel="icon" href="img/favicon.ico">
 
-        <title>SopCov - Modification du profile</title>
+        <title>SopCov - Modification du Profil</title>
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
