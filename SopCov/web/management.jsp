@@ -210,17 +210,46 @@
                                         var heureDeb = document.getElementById('heure_deb').value;
                                         var dateFin = document.getElementById('date_fin').value;
                                         var heureFin = document.getElementById('heure_fin').value;
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&date_deb=" + dateDeb + "&heure_deb=" + heureDeb + "&date_fin=" + dateFin + "&heure_fin=" + heureFin);
-                                        xhr.send(null);
-                                        xhr.addEventListener('readystatechange', function () {
-                                            var obj = JSON.parse(xhr.responseText);
-                                            if (xhr.readyState === xhr.DONE) {
-                                                element.innerHTML = '<h4>Nombre de connection entre les dates suivantes :</h4><p>' + dateDeb + ' ' + heureDeb + ' et ' + dateFin + ' ' + heureFin + ' : ' + obj.<%=REPONSES[5]%> + '</p>';
-                                            }
-                                        }, false);
+                                        if ((testDate('date_deb')) && (testDate('date_fin')) && testHeure('heure_deb') && testHeure('heure_fin')) {
+                                            var xhr = new XMLHttpRequest();
+                                            xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&date_deb=" + dateDeb + "&heure_deb=" + heureDeb + "&date_fin=" + dateFin + "&heure_fin=" + heureFin);
+                                            xhr.send(null);
+                                            xhr.addEventListener('readystatechange', function () {
+                                                var obj = JSON.parse(xhr.responseText);
+                                                if (xhr.readyState === xhr.DONE) {
+                                                    element.innerHTML = '<h4>Nombre de connection entre les dates suivantes :</h4><p>' + dateDeb + ' ' + heureDeb + ' et ' + dateFin + ' ' + heureFin + ' : ' + obj.<%=REPONSES[5]%> + '</p>';
+                                                }
+                                            }, false);
+                                        }
                                     }
+                                    function testDate(date_id) {
+                                        var element = document.getElementById(date_id);
+                                        var date = element.value;
+                                        var dateType = new RegExp("[1-3][0-9]{3}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])", "i");
 
+                                        if (date.match(dateType)) {
+                                            element.style.borderColor = "initial";
+                                            return true;
+                                        }
+                                        else {
+                                            element.style.borderColor = "red";
+                                            return false;
+                                        }
+                                    }
+                                    function testHeure(heure_id) {
+                                        var element = document.getElementById(heure_id);
+                                        var heure = element.value;
+                                        var heureType = new RegExp("(0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]", "i");
+
+                                        if (heure.match(heureType)) {
+                                            element.style.borderColor = "initial";
+                                            return true;
+                                        }
+                                        else {
+                                            element.style.borderColor = "red";
+                                            return false;
+                                        }
+                                    }
                                 </script>
 
 
