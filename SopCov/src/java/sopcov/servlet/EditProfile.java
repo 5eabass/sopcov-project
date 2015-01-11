@@ -54,7 +54,6 @@ public class EditProfile extends HttpServlet {
             
             // recuperation des infos
             User userInfo = dbmanager.queryInfo(email);
-            System.out.println(userInfo.getLieu_travail_nom());
             ArrayList<String> lieuxTravail = dbmanager.getAllWorkplaces();
             request.setAttribute("lieuxTravail", lieuxTravail);
             
@@ -70,30 +69,24 @@ public class EditProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+             
+        String destination = "userWelcome.jsp";
         
-         String destination = "userWelcome.jsp";
-         
-       // Récupération session
-       HttpSession s = request.getSession();
-       String email = (String) s.getAttribute("email");
-       ArrayList<String> field = new ArrayList<String>();
-       
-       field.add("nom");
-       field.add("prenom");
-       field.add("tel");
-       field.add("adresse");
-       field.add("commune");
-       field.add("code_postal");
-       field.add("lieu_travail");
-       field.add("heure_depart");
-       field.add("heure_retour");
-       field.add("conducteur");      
-       field.add("notif");
-       field.add("nom");
-       
-       for (String f : field){
-           dbmanager.setUserField(email,f,(String) request.getParameter(f) );
-       }
+        // Récupération session
+        HttpSession s = request.getSession();
+        String email = (String) s.getAttribute("email");   
+        
+        String nom = (String) request.getParameter("nom");
+        String prenom = (String) request.getParameter("prenom");
+        String adresse = (String) request.getParameter("adresse");
+        String tel = (String) request.getParameter("tel");
+        String commune = (String) request.getParameter("commune");
+        String code_postal = (String) request.getParameter("code_postal");
+        String lieu_travail = (String) request.getParameter("lieu_travail");
+        String heure_depart = (String) request.getParameter("heure_depart");
+        String heure_retour = (String) request.getParameter("heure_retour");
+        String conducteur = (String) request.getParameter("conducteur");
+        String notif = (String) request.getParameter("notif");    
        
         //Récupère les jours de travail de la requete
         //Lundi Mardi Mercredi devient Lun,Mar,Mer
@@ -109,10 +102,14 @@ public class EditProfile extends HttpServlet {
                 }
             }
         }
-        dbmanager.setUserField(email,"jours_travail",joursTravail);
+             
+        dbmanager.editUserProfile(email,nom,prenom,adresse,
+                    tel,commune,code_postal,lieu_travail,
+                    heure_depart,heure_retour,joursTravail,
+                    conducteur,notif);
         
         RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
-        rd.forward(request, response);    
+        rd.forward(request, response);
         
     }
     

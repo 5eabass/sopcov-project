@@ -16,7 +16,6 @@ import javax.mail.internet.MimeMessage;
  */
 public class MailSender extends Thread{
     
-    protected DB dbmanager;
     String from ;
     String username ;
     String password ;
@@ -25,15 +24,12 @@ public class MailSender extends Thread{
     Message message ;
     List<String> receivers = new ArrayList<>();
     
-    public MailSender(){
-        System.out.println("avant initialisation");
+    public MailSender(){      
         initialize();
-        System.out.println("après initialisation");
     }
     
     public void initialize() {
         // initialization
-        dbmanager = new DB();
         
         // Sender's email ID needs to be mentioned
         from = "teamsopcov@gmail.com";
@@ -101,10 +97,10 @@ public class MailSender extends Thread{
             // on envoit le mail
             Transport.send(message);
             
-            System.out.println("Sent message successfully....");
+            System.out.println("In mailSender - Sent message successfully to : "+ to);
             
         } catch (MessagingException e) {
-            System.err.println("Could not send the message");
+            System.err.println("In mailSender - Could not send the message "+ e);
         }
     }
     

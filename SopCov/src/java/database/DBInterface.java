@@ -27,7 +27,7 @@ public interface DBInterface {
     public User queryInfo(String email);
 
     public String printHTML();
-
+    
     //public int addNewUser(int admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, int code_postal, int lieu_travail_id, String heure_depart, String heure_retour, String jours_travail, int conducteur, int notif);
 
     /**
@@ -69,7 +69,9 @@ public interface DBInterface {
 
     public void setPassword(String email, String password);
 
-    public void setUserField(String email,String field,String value);
+    public void editUserProfile(String email, String nom, String prenom, String adresse,
+            String tel, String commune, String code_postal, String lieu_travail, 
+            String heure_depart, String heure_retour, String jours_travail, String conducteur, String notif);
     
     public boolean emailAlreadyUsed(String email);
     

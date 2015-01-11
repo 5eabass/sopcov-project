@@ -40,6 +40,8 @@ public class DB implements DBInterface {
     Connection connTravail = null;
     Statement stmtTravail = null;
     
+    
+    
     public DB() {
         connect();
     }
@@ -126,7 +128,7 @@ public class DB implements DBInterface {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+        
     public void notifyUsers(String email, boolean isAdded){
         
         // on récupère les info qui sont utiles : la commune et le lieu de travail pour trouver le trajet
@@ -137,7 +139,7 @@ public class DB implements DBInterface {
         int id_lieu_travail = 0;
         String commune = "";
         
-        try{          
+        try{
             // récupération des valeurs
             rs = stmt.executeQuery(query);
             rs.next();
@@ -149,8 +151,8 @@ public class DB implements DBInterface {
             System.err.println("In DB  - notify users: could not send the query 1 : error "+e);
         }
         
-        //si le user est un conducteur on envoit les messages nécessaires 
-        if (conducteur==1){          
+        //si le user est un conducteur on envoit les messages nécessaires
+        if (conducteur==1){
             String nomLieuTravail = "";
             // on cherche le nom du lieu de travail (on a que sont id)
             String queryLieuTravail = "SELECT nom_lieu FROM " + TABLE_LIEUX_TRAVAIL + " WHERE id=" + id_lieu_travail;
@@ -162,8 +164,8 @@ public class DB implements DBInterface {
             }catch(Exception e){
                 System.err.println("In DB  - notify users: could not send the query 2 : error "+e);
             }
-                       
-                      
+            
+            
             MailSender mailSender = new MailSender();
             // on choisit la notification en fonction de si le user à été rajouté ou supprimé
             mailSender.setEmailText(isAdded);
@@ -422,8 +424,6 @@ public class DB implements DBInterface {
     @Override
     public void setPassword(String email, String password) {
         
-        setUserField(email, "password", password);
-        /*
         String sql;
         
         sql = "UPDATE " + TABLE_UTILISATEURS + " SET password='" + password + "' WHERE email='" + email + "'";
@@ -431,47 +431,120 @@ public class DB implements DBInterface {
         //  System.out.println(sql);
         int rs;
         try {
-        rs = stmt.executeUpdate(sql);
-        
+            rs = stmt.executeUpdate(sql);
+            
         } catch (Exception e) {
-        // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
-        }*/
+            // Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
     
     @Override
-    public void setUserField(String email, String field, String value) {
-        String sql;
+    public void editUserProfile(String email, String nom, String prenom, String adresse,
+            String tel, String commune, String code_postal, String lieu_travail,
+            String heure_depart, String heure_retour, String jours_travail, String conducteur, String notif){
+        
+        // récupération des bonnes valeurs par rapport à la DB : string -> int ...
         
         // cas des boolean
-        if (field.equals("conducteur") || field.equals("notif")) {
-            int val;
-            if (value != null) {
-                val = 1;
-            } else {
-                val = 0;
-            }
-            sql = "UPDATE " + TABLE_UTILISATEURS + " SET " + field + "='" + val + "' WHERE email='" + email + "'";
-            
-        } else if (field.equals("lieu_travail")){
-            String newField = "lieu_travail_id";
-            int lieuTravailID;
-            if (value.contains("Ent2")) {
-                lieuTravailID = 2;
-            } else {
-                lieuTravailID = 1;
-            }
-            sql = "UPDATE " + TABLE_UTILISATEURS + " SET " + newField + "='" + lieuTravailID + "' WHERE email='" + email + "'";
+        int valConducteur;
+        int valNotif;
+        
+        if (conducteur != null) {
+            valConducteur = 1;
         } else {
-            sql = "UPDATE " + TABLE_UTILISATEURS + " SET " + field + "='" + value + "' WHERE email='" + email + "'";
+            valConducteur = 0;
         }
         
-        int rs;
-        try {
-            rs = stmt.executeUpdate(sql);
-        } catch (Exception e) {
-            System.err.println("In db  : could not update value");
+        if (notif != null){
+            valNotif = 1;
+        } else {
+            valNotif = 0;
         }
         
+        // cas du lieu de travail
+        int lieuTravailID;
+        if (lieu_travail.contains("Ent2")) {
+            lieuTravailID = 2;
+        } else {
+            lieuTravailID = 1;
+        }
+        
+        // récupération des anciennes données utiles pour savoir si on envoie un mail :
+        
+        String oldDataSql ;
+        ResultSet result ;
+        int oldConducteur;
+        String oldCommune;
+        int oldLieu_travail;
+       
+        oldDataSql = "SELECT commune,lieu_travail_id,conducteur FROM " + TABLE_UTILISATEURS + " WHERE email ='" + email + "'";
+        
+        try{
+            result = stmt.executeQuery(oldDataSql);
+            result.next();
+            oldConducteur = result.getInt("conducteur");
+            oldCommune = result.getString("commune");
+            oldLieu_travail = result.getInt("lieu_travail_id");
+            
+            // gestion mail 
+            
+            boolean toNotify = false ;
+            if (oldConducteur != valConducteur){
+               if(valConducteur != 1){                 
+                    // si on est plus conducteur : on notifie le groupe impliqué par notre ancien trajet
+                    notifyUsers(email, false);                  
+                }else {
+                    // sinon on devient conducteur donc on devra notifier le nouveau groupe impliqué par notre trajet
+                    toNotify = true;
+                }
+            }else {
+                // si la valeur conducteur n'a pas changé ( on regarde juste les lieux -> et on notifie)
+                // a noter que si conducteur = 0 alors dans notifyUsers on ne fait rien
+                // car cela n'apporte rien à la communauté
+                System.out.println("entered in : conducteur =");
+                System.out.println("les communes : " + oldCommune +  " /  " + commune + " ///// les lieuTravailID : "+ oldLieu_travail + " / " + lieuTravailID);
+                if ( !(oldCommune.equals(commune)) || (lieuTravailID!=oldLieu_travail)){
+                    System.out.println("entered in commune =! or lieuTravail !=");
+                    // on notifie au groupe impliqué par notre ancien trajet qu'on est plus sur ce trajet                 
+                    notifyUsers(email, false);
+                    //on devra notifier notre nouveau groupe qu'on est conducteur sur leur trajet
+                    toNotify = true;
+                }
+            }
+            
+            
+            
+           // on fait nos changement
+            
+            String sqlUpdate;
+            
+            sqlUpdate = "UPDATE " + TABLE_UTILISATEURS + " SET "
+                    + "nom='"+nom+"' , "
+                    + "prenom='"+prenom+"' , "
+                    + "adresse='"+adresse+"' , "
+                    + "tel='"+tel+"' , "
+                    + "commune='"+commune+"' , "
+                    + "code_postal='"+code_postal+"' , "
+                    + "lieu_travail_id='"+lieuTravailID+"' , "
+                    + "heure_depart='"+heure_depart+"' , "
+                    + "heure_retour='"+heure_retour+"' , "
+                    + "jours_travail='"+jours_travail+"' , "
+                    + "conducteur='"+valConducteur+"' , "
+                    + "notif='"+valNotif+"' "
+                    + "WHERE email='" + email + "'";
+       
+        
+            int rs ;
+            rs = stmt.executeUpdate(sqlUpdate);
+ 
+            if (toNotify){
+                // on notifie le groupe impliqué par notre NOUVEAU trajet               
+                notifyUsers(email, true);
+            }
+            
+        }catch(Exception e){
+            System.err.println("In DB - setuserfield - could not query");
+        }
     }
     
     @Override
@@ -494,7 +567,7 @@ public class DB implements DBInterface {
         }
         return emailAlreadyUsed;
     }
-
+    
     /**
      *
      * @param email
