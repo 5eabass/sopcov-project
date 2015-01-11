@@ -52,12 +52,8 @@
                 email = (String) s.getAttribute("email");
                 login = email.split("@")[0];
                 pswd = (String) s.getAttribute("password");
+                admin = (Boolean) s.getAttribute("admin");
             }
-            if (request.getParameter("admin") != null) {
-                admin = Boolean.getBoolean(request.getParameter("admin"));
-            }
-            //ATTENTION POUR LA PHASE DE TEST SEULEMENT
-            admin = true;
         %>
 
         <div class="site-wrapper">
@@ -184,7 +180,7 @@
                                                     element.innerHTML = '<h4>Nombre de non conducteurs : </h4><p> ' + obj.<%=REPONSES[1]%> + '</p>';
                                                 }
                                                 else if (rapport == '<%=RAPPORTS[2]%>') {
-                                                    element.innerHTML = '<h4>Pourcentage de conducteurs : </h4><p> ' + obj.<%=REPONSES[2]%> + '%'+ '</p>';
+                                                    element.innerHTML = '<h4>Pourcentage de conducteurs : </h4><p> ' + obj.<%=REPONSES[2]%> + '%' + '</p>';
                                                 }
                                                 else if (rapport == '<%=RAPPORTS[3]%>') {
                                                     element.innerHTML = '<h4>Nombre d\'utilisateurs de SopCov : </h4><p> ' + obj.<%=REPONSES[3]%> + '</p>';
@@ -204,7 +200,7 @@
                                         xhr.addEventListener('readystatechange', function () {
                                             var obj = JSON.parse(xhr.responseText);
                                             if (xhr.readyState === xhr.DONE) {
-                                                element.innerHTML = '<h4>Nombre d\'utilisateurs intéressés par le trajet : </h4><p>' + commune + ' vers ' + lT + ' : ' + obj.<%=REPONSES[4]%>+ '</p>';
+                                                element.innerHTML = '<h4>Nombre d\'utilisateurs intéressés par le trajet : </h4><p>' + commune + ' vers ' + lT + ' : ' + obj.<%=REPONSES[4]%> + '</p>';
                                             }
                                         }, false);
                                     }
@@ -220,7 +216,7 @@
                                         xhr.addEventListener('readystatechange', function () {
                                             var obj = JSON.parse(xhr.responseText);
                                             if (xhr.readyState === xhr.DONE) {
-                                                element.innerHTML = '<h4>Nombre de connection entre les dates suivantes :</h4><p>' + dateDeb + ' ' + heureDeb + ' et ' + dateFin + ' ' + heureFin + ' : ' + obj.<%=REPONSES[5]%>+ '</p>';
+                                                element.innerHTML = '<h4>Nombre de connection entre les dates suivantes :</h4><p>' + dateDeb + ' ' + heureDeb + ' et ' + dateFin + ' ' + heureFin + ' : ' + obj.<%=REPONSES[5]%> + '</p>';
                                             }
                                         }, false);
                                     }
