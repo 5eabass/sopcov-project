@@ -88,215 +88,109 @@
                                 <h3 class="panel-title">Panneau d'Administration!</h3>
                             </div>
                             <div class="panel-body modeltype">
-                                <center>
-                                    <h3>
-                                        Generation de rapports
-                                    </h3>
-                                </center>
-                                <div id='<%=RAPPORTS[0]%>' onclick="demandeRapport('<%=RAPPORTS[0]%>')">
-                                    <h4>Nombre de conducteurs ?</h4>
-                                </div>
-                                <div id='<%=RAPPORTS[1]%>' onclick="demandeRapport('<%=RAPPORTS[1]%>')">
-                                    <h4>Nombre de non conducteurs ?</h4>
-                                </div>
-                                <div id='<%=RAPPORTS[2]%>' onclick="demandeRapport('<%=RAPPORTS[2]%>')">
-                                    <h4>Pourcentage de conducteurs ?</h4>
-                                </div>
-                                <div id='<%=RAPPORTS[3]%>' onclick="demandeRapport('<%=RAPPORTS[3]%>')">
-                                    <h4>Nombre d'utilisateurs de SopCov?</h4>
-                                </div>
-                                <div>
-                                    <div id='<%=RAPPORTS[4]%>' onclick="demandeRapportNbrUtilComLieuTrav('<%=RAPPORTS[4]%>')">
-                                        <h4>Nombre d'utilisateurs intéressés par le trajet entre les lieux suivants ?</h4>
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item disabled">
+                                        <h4>Generation de rapports</h4>
+                                    </a>
+
+                                    <a href="#" class="list-group-item" id='<%=RAPPORTS[0]%>' onclick="demandeRapport('<%=RAPPORTS[0]%>')">
+                                        <h5>Nombre de conducteurs ?</h5>
+                                    </a>
+
+                                    <a href="#" class="list-group-item" id='<%=RAPPORTS[1]%>' onclick="demandeRapport('<%=RAPPORTS[1]%>')">
+                                        <h5>Nombre de non conducteurs ?</h5>
+                                    </a>
+                                    <a href="#" class="list-group-item" id='<%=RAPPORTS[2]%>' onclick="demandeRapport('<%=RAPPORTS[2]%>')">
+                                        <h5>Pourcentage de conducteurs ?</h5>
+                                    </a>
+                                    <a href="#" class="list-group-item" id='<%=RAPPORTS[3]%>' onclick="demandeRapport('<%=RAPPORTS[3]%>')">
+                                        <h5>Nombre d'utilisateurs de SopCov?</h5>
+                                    </a>
+                                    <a href="#" class="list-group-item" id='<%=RAPPORTS[4]%>' onclick="demandeRapportNbrUtilComLieuTrav('<%=RAPPORTS[4]%>')">
+                                        <h5>Nombre d'utilisateurs intéressés par le trajet entre les lieux suivants ?</h5>
+                                    </a>
+                                    <div class="list-group-item">
+                                        <form accept-charset="UTF-8">
+                                            <div class="form-group text required">
+                                                <label class="text required control-label">
+                                                    <abbr title="Obligatoire">*</abbr> Commune
+                                                </label>
+                                                <select id="commune" name="commune">
+                                                    <% for (Commune c : communes) {%>
+                                                    <option><%=c.toOptionString()%></option>
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                            <div class="form-group text required">
+                                                <label class="text required control-label">
+                                                    <abbr title="Obligatoire">*</abbr> Lieu de travail
+                                                </label>                                            
+                                                <select id="lieu_travail" name="lieu_travail">
+                                                    <% for (String s : lieuTravail) {%>
+                                                    <option><%=s%></option>
+                                                    <% }%>
+                                                </select>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <form accept-charset="UTF-8">
-                                        <div class="form-group text required">
-                                            <label class="text required control-label">
-                                                <abbr title="Obligatoire">*</abbr> Commune
-                                            </label>
-                                            <select id="commune" name="commune">
-                                                <% for (Commune c : communes) {%>
-                                                <option><%=c.toOptionString()%></option>
-                                                <% } %>
-                                            </select>
-                                        </div>
-                                        <div class="form-group text required">
-                                            <label class="text required control-label">
-                                                <abbr title="Obligatoire">*</abbr> Lieu de travail
-                                            </label>                                            
-                                            <select id="lieu_travail" name="lieu_travail">
-                                                <% for (String s : lieuTravail) {%>
-                                                <option><%=s%></option>
-                                                <% }%>
-                                            </select>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div>
-                                    <div id='<%=RAPPORTS[5]%>' onclick="demandeRapportNbrConnections('<%=RAPPORTS[5]%>')">
-                                        <h4>Nombre de connection entre les dates suivantes ?</h4>
+                                    <a href="#" class="list-group-item" id='<%=RAPPORTS[5]%>' onclick="demandeRapportNbrConnections('<%=RAPPORTS[5]%>')">
+                                        <h5>Nombre de connection entre les dates suivantes ?</h5>
+                                    </a>
+                                    <div class="list-group-item">
+                                        <form accept-charset="UTF-8">
+                                            <div class="form-group text required">
+                                                <label class="text required control-label">
+                                                    <abbr title="Obligatoire">*</abbr> Date de debut
+                                                </label>
+                                                <input class="string text required form-control" id="date_deb" name="date_deb" placeholder="AAAA-MM-JJ" type="text" />
+                                            </div>
+                                            <div class="form-group text required">
+                                                <label class="text required control-label">
+                                                    <abbr title="Obligatoire">*</abbr> Heure de debut
+                                                </label>
+                                                <input class="string text required form-control" id="heure_deb" name="heure_deb" placeholder="HH:MM:SS" type="text" />
+                                            </div>
+                                            <div class="form-group text required">
+                                                <label class="text required control-label">
+                                                    <abbr title="Obligatoire">*</abbr> Date de fin
+                                                </label>
+                                                <input class="string text required form-control" id="date_fin" name="date_fin" placeholder="AAAA-MM-JJ" type="text" />
+                                            </div>
+                                            <div class="form-group text required">
+                                                <label class="text required control-label">
+                                                    <abbr title="Obligatoire">*</abbr> Heure de fin
+                                                </label>
+                                                <input class="string text required form-control" id="heure_fin" name="heure_fin" placeholder="HH:MM:SS" type="text" />
+                                            </div>
+                                        </form>
+                                    </div>                                
+                                    <a href="#" class="list-group-item" id='<%=RAPPORTS[6]%>' onclick="demandeRapport('<%=RAPPORTS[6]%>')">
+                                        <h5>Liste des trajets et du nombre de personnes intéressées ?</h5>
+                                    </a>
+                                    <div class="list-group-item">
+                                        <table data-toggle="table" id='reponse_demande_rapport_6'></table>
                                     </div>
-                                    <form accept-charset="UTF-8">
-                                        <div class="form-group text required">
-                                            <label class="text required control-label">
-                                                <abbr title="Obligatoire">*</abbr> Date de debut
-                                            </label>
-                                            <input class="string text required form-control" id="date_deb" name="date_deb" placeholder="AAAA-MM-JJ" type="text" />
+
+
+                                    <a href="#" class="list-group-item disabled">
+                                        <h4>
+                                            Modification des comptes
+                                        </h4>
+                                    </a>
+                                    <div class="list-group-item">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-success dropdown-toggle btn-success1" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">Modifier</a></li>
+                                                    <li><a href="#">Supprimer</a></li>
+                                                </ul>
+                                            </div><!-- /btn-group -->
+                                            <input type="text" class="form-control" aria-label="..." placeholder="Entrez une addresse mail">
                                         </div>
-                                        <div class="form-group text required">
-                                            <label class="text required control-label">
-                                                <abbr title="Obligatoire">*</abbr> Heure de debut
-                                            </label>
-                                            <input class="string text required form-control" id="heure_deb" name="heure_deb" placeholder="HH:MM:SS" type="text" />
-                                        </div>
-                                        <div class="form-group text required">
-                                            <label class="text required control-label">
-                                                <abbr title="Obligatoire">*</abbr> Date de fin
-                                            </label>
-                                            <input class="string text required form-control" id="date_fin" name="date_fin" placeholder="AAAA-MM-JJ" type="text" />
-                                        </div>
-                                        <div class="form-group text required">
-                                            <label class="text required control-label">
-                                                <abbr title="Obligatoire">*</abbr> Heure de fin
-                                            </label>
-                                            <input class="string text required form-control" id="heure_fin" name="heure_fin" placeholder="HH:MM:SS" type="text" />
-                                        </div>
-                                    </form>
-                                </div>                                
-                                <div id='<%=RAPPORTS[6]%>' onclick="demandeRapport('<%=RAPPORTS[6]%>')">
-                                    <h4>Liste des trajets et du nombre de personnes intéressées ?</h4>
-                                </div>
-                                <div>
-                                    <table data-toggle="table" id='reponse_demande_rapport_6'></table>
-                                </div>
-
-                                <script>
-                                    function demandeRapport(rapport) {
-                                        var element = document.getElementById(rapport);
-                                        //alert('Vous avez demandez le rapport : ' + rapport);
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport);
-                                        xhr.send(null);
-                                        element.innerHTML += ' Demande au serveur...';
-                                        xhr.addEventListener('readystatechange', function () {
-                                            if (xhr.readyState === xhr.DONE) {
-                                                var obj = JSON.parse(xhr.responseText);
-                                                if (rapport == '<%=RAPPORTS[0]%>') {
-                                                    element.innerHTML = '<h4>Nombre de conducteurs : </h4><p> ' + obj.<%=REPONSES[0]%> + '</p>';
-                                                }
-                                                else if (rapport == '<%=RAPPORTS[1]%>') {
-                                                    element.innerHTML = '<h4>Nombre de non conducteurs : </h4><p> ' + obj.<%=REPONSES[1]%> + '</p>';
-                                                }
-                                                else if (rapport == '<%=RAPPORTS[2]%>') {
-                                                    element.innerHTML = '<h4>Pourcentage de conducteurs : </h4><p> ' + obj.<%=REPONSES[2]%> + '%' + '</p>';
-                                                }
-                                                else if (rapport == '<%=RAPPORTS[3]%>') {
-                                                    element.innerHTML = '<h4>Nombre d\'utilisateurs de SopCov : </h4><p> ' + obj.<%=REPONSES[3]%> + '</p>';
-                                                }
-                                                else if (rapport == '<%=RAPPORTS[6]%>') {
-                                                    element.innerHTML = '<h4>Liste des trajets et du nombre de personnes intéressées : </h4>';
-                                                    var tableReponse = document.getElementById('reponse_demande_rapport_6');
-                                                    var tab = '<thead>';
-                                                    tab += '<tr>';
-                                                    tab += '<th> nbr intéressés </th>';
-                                                    tab += '<th> commune/code postal </th>';
-                                                    tab += '<th> nom lieu de travail </th>';
-                                                    tab += '</tr>';
-                                                    tab += '</thead>';
-                                                    for (var i = 0; i < obj.length; i++) {
-                                                        tab += '<tr>';
-                                                        tab += '<td>' + obj[i].nbrUtilisateurs + '</td>';
-                                                        tab += '<td>' + obj[i].commune + '/' + obj[i].codePostal + '</td>';
-                                                        tab += '<td>' + obj[i].nomLieuTravail + '</td>';
-                                                        tab += '</tr>';
-                                                    }
-                                                    tableReponse.innerHTML = tab;
-                                                }
-                                            }
-                                        }, false);
-                                    }
-                                    function demandeRapportNbrUtilComLieuTrav(rapport) {
-                                        var element = document.getElementById(rapport);
-                                        var communeList = document.getElementById('commune');
-                                        var commune = communeList.options[communeList.selectedIndex].text;
-                                        var lTList = document.getElementById('lieu_travail');
-                                        var lT = lTList.options[lTList.selectedIndex].text;
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&commune=" + commune + "&lT=" + lT);
-                                        xhr.send(null);
-                                        xhr.addEventListener('readystatechange', function () {
-                                            var obj = JSON.parse(xhr.responseText);
-                                            if (xhr.readyState === xhr.DONE) {
-                                                element.innerHTML = '<h4>Nombre d\'utilisateurs intéressés par le trajet : </h4><p>' + commune + ' vers ' + lT + ' : ' + obj.<%=REPONSES[4]%> + '</p>';
-                                            }
-                                        }, false);
-                                    }
-                                    function demandeRapportNbrConnections(rapport) {
-                                        var element = document.getElementById(rapport);
-                                        var dateDeb = document.getElementById('date_deb').value;
-                                        var heureDeb = document.getElementById('heure_deb').value;
-                                        var dateFin = document.getElementById('date_fin').value;
-                                        var heureFin = document.getElementById('heure_fin').value;
-                                        if ((testDate('date_deb')) && (testDate('date_fin')) && testHeure('heure_deb') && testHeure('heure_fin')) {
-                                            var xhr = new XMLHttpRequest();
-                                            xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&date_deb=" + dateDeb + "&heure_deb=" + heureDeb + "&date_fin=" + dateFin + "&heure_fin=" + heureFin);
-                                            xhr.send(null);
-                                            xhr.addEventListener('readystatechange', function () {
-                                                var obj = JSON.parse(xhr.responseText);
-                                                if (xhr.readyState === xhr.DONE) {
-                                                    element.innerHTML = '<h4>Nombre de connection entre les dates suivantes :</h4><p>' + dateDeb + ' ' + heureDeb + ' et ' + dateFin + ' ' + heureFin + ' : ' + obj.<%=REPONSES[5]%> + '</p>';
-                                                }
-                                            }, false);
-                                        }
-                                    }
-                                    function testDate(date_id) {
-                                        var element = document.getElementById(date_id);
-                                        var date = element.value;
-                                        var dateType = new RegExp("[1-3][0-9]{3}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])", "i");
-
-                                        if (date.match(dateType)) {
-                                            element.style.borderColor = "initial";
-                                            return true;
-                                        }
-                                        else {
-                                            element.style.borderColor = "red";
-                                            return false;
-                                        }
-                                    }
-                                    function testHeure(heure_id) {
-                                        var element = document.getElementById(heure_id);
-                                        var heure = element.value;
-                                        var heureType = new RegExp("(0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]", "i");
-
-                                        if (heure.match(heureType)) {
-                                            element.style.borderColor = "initial";
-                                            return true;
-                                        }
-                                        else {
-                                            element.style.borderColor = "red";
-                                            return false;
-                                        }
-                                    }
-                                </script>
-
-
-                                <center>
-                                    <h3>
-                                        Modification des comptes
-                                    </h3>
-                                    <div class="input-group">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-success dropdown-toggle btn-success1" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">Modifier</a></li>
-                                                <li><a href="#">Supprimer</a></li>
-                                            </ul>
-                                        </div><!-- /btn-group -->
-                                        <input type="text" class="form-control" aria-label="..." placeholder="Entrez une addresse mail">
+                                        <a href="#" id= "continuer" class="btn btn-success">Continuer</a>
                                     </div>
-                                    <a href="#" id= "continuer" class="btn btn-success">Continuer</a>
-                                </center>
-
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -323,5 +217,117 @@
         <script src="../../assets/js/docs.min.js"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+        <!-- Management JavaScript -->
+
+
+        <script>
+                                        function demandeRapport(rapport) {
+                                            var element = document.getElementById(rapport);
+                                            //alert('Vous avez demandez le rapport : ' + rapport);
+                                            var xhr = new XMLHttpRequest();
+                                            xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport);
+                                            xhr.send(null);
+                                            element.innerHTML += ' Demande au serveur...';
+                                            xhr.addEventListener('readystatechange', function () {
+                                                if (xhr.readyState === xhr.DONE) {
+                                                    var obj = JSON.parse(xhr.responseText);
+                                                    if (rapport == '<%=RAPPORTS[0]%>') {
+                                                        element.innerHTML = '<h5>Nombre de conducteurs : </h5><p> ' + obj.<%=REPONSES[0]%> + '</p>';
+                                                    }
+                                                    else if (rapport == '<%=RAPPORTS[1]%>') {
+                                                        element.innerHTML = '<h5>Nombre de non conducteurs : </h5><p> ' + obj.<%=REPONSES[1]%> + '</p>';
+                                                    }
+                                                    else if (rapport == '<%=RAPPORTS[2]%>') {
+                                                        element.innerHTML = '<h5>Pourcentage de conducteurs : </h5><p> ' + obj.<%=REPONSES[2]%> + '%' + '</p>';
+                                                    }
+                                                    else if (rapport == '<%=RAPPORTS[3]%>') {
+                                                        element.innerHTML = '<h5>Nombre d\'utilisateurs de SopCov : </h5><p> ' + obj.<%=REPONSES[3]%> + '</p>';
+                                                    }
+                                                    else if (rapport == '<%=RAPPORTS[6]%>') {
+                                                        element.innerHTML = '<h5>Liste des trajets et du nombre de personnes intéressées : </h5>';
+                                                        var tableReponse = document.getElementById('reponse_demande_rapport_6');
+                                                        var tab = '<thead>';
+                                                        tab += '<tr>';
+                                                        tab += '<th> nbr intéressés </th>';
+                                                        tab += '<th> commune/code postal </th>';
+                                                        tab += '<th> nom lieu de travail </th>';
+                                                        tab += '</tr>';
+                                                        tab += '</thead>';
+                                                        for (var i = 0; i < obj.length; i++) {
+                                                            tab += '<tr>';
+                                                            tab += '<td>' + obj[i].nbrUtilisateurs + '</td>';
+                                                            tab += '<td>' + obj[i].commune + '/' + obj[i].codePostal + '</td>';
+                                                            tab += '<td>' + obj[i].nomLieuTravail + '</td>';
+                                                            tab += '</tr>';
+                                                        }
+                                                        tableReponse.innerHTML = tab;
+                                                    }
+                                                }
+                                            }, false);
+                                        }
+                                        function demandeRapportNbrUtilComLieuTrav(rapport) {
+                                            var element = document.getElementById(rapport);
+                                            var communeList = document.getElementById('commune');
+                                            var commune = communeList.options[communeList.selectedIndex].text;
+                                            var lTList = document.getElementById('lieu_travail');
+                                            var lT = lTList.options[lTList.selectedIndex].text;
+                                            var xhr = new XMLHttpRequest();
+                                            xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&commune=" + commune + "&lT=" + lT);
+                                            xhr.send(null);
+                                            xhr.addEventListener('readystatechange', function () {
+                                                var obj = JSON.parse(xhr.responseText);
+                                                if (xhr.readyState === xhr.DONE) {
+                                                    element.innerHTML = '<h5>Nombre d\'utilisateurs intéressés par le trajet : </h5><p>' + commune + ' vers ' + lT + ' : ' + obj.<%=REPONSES[4]%> + '</p>';
+                                                }
+                                            }, false);
+                                        }
+                                        function demandeRapportNbrConnections(rapport) {
+                                            var element = document.getElementById(rapport);
+                                            var dateDeb = document.getElementById('date_deb').value;
+                                            var heureDeb = document.getElementById('heure_deb').value;
+                                            var dateFin = document.getElementById('date_fin').value;
+                                            var heureFin = document.getElementById('heure_fin').value;
+                                            if ((testDate('date_deb')) && (testDate('date_fin')) && testHeure('heure_deb') && testHeure('heure_fin')) {
+                                                var xhr = new XMLHttpRequest();
+                                                xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&date_deb=" + dateDeb + "&heure_deb=" + heureDeb + "&date_fin=" + dateFin + "&heure_fin=" + heureFin);
+                                                xhr.send(null);
+                                                xhr.addEventListener('readystatechange', function () {
+                                                    var obj = JSON.parse(xhr.responseText);
+                                                    if (xhr.readyState === xhr.DONE) {
+                                                        element.innerHTML = '<h5>Nombre de connection entre les dates suivantes :</h5><p>' + dateDeb + ' ' + heureDeb + ' et ' + dateFin + ' ' + heureFin + ' : ' + obj.<%=REPONSES[5]%> + '</p>';
+                                                    }
+                                                }, false);
+                                            }
+                                        }
+                                        function testDate(date_id) {
+                                            var element = document.getElementById(date_id);
+                                            var date = element.value;
+                                            var dateType = new RegExp("[1-3][0-9]{3}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])", "i");
+
+                                            if (date.match(dateType)) {
+                                                element.style.borderColor = "initial";
+                                                return true;
+                                            }
+                                            else {
+                                                element.style.borderColor = "red";
+                                                return false;
+                                            }
+                                        }
+                                        function testHeure(heure_id) {
+                                            var element = document.getElementById(heure_id);
+                                            var heure = element.value;
+                                            var heureType = new RegExp("(0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]", "i");
+
+                                            if (heure.match(heureType)) {
+                                                element.style.borderColor = "initial";
+                                                return true;
+                                            }
+                                            else {
+                                                element.style.borderColor = "red";
+                                                return false;
+                                            }
+                                        }
+        </script>
     </body>
 </html>
