@@ -26,6 +26,9 @@
         <!-- Custom styles for this template -->
         <link href="css/style.css" rel="stylesheet">
 
+        <!-- Table de bootstrap -->
+        <link rel="stylesheet" href="bootstrap-table.css">
+
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -159,8 +162,13 @@
                                             <input class="string text required form-control" id="heure_fin" name="heure_fin" placeholder="HH:MM:SS" type="text" />
                                         </div>
                                     </form>
+                                </div>                                
+                                <div id='<%=RAPPORTS[6]%>' onclick="demandeRapport('<%=RAPPORTS[6]%>')">
+                                    <h4>Liste des trajets et du nombre de personnes intéressées ?</h4>
                                 </div>
-
+                                <div>
+                                    <table data-toggle="table" id='reponse_demande_rapport_6'></table>
+                                </div>
 
                                 <script>
                                     function demandeRapport(rapport) {
@@ -184,6 +192,25 @@
                                                 }
                                                 else if (rapport == '<%=RAPPORTS[3]%>') {
                                                     element.innerHTML = '<h4>Nombre d\'utilisateurs de SopCov : </h4><p> ' + obj.<%=REPONSES[3]%> + '</p>';
+                                                }
+                                                else if (rapport == '<%=RAPPORTS[6]%>') {
+                                                    element.innerHTML = '<h4>Liste des trajets et du nombre de personnes intéressées : </h4>';
+                                                    var tableReponse = document.getElementById('reponse_demande_rapport_6');
+                                                    var tab = '<thead>';
+                                                    tab += '<tr>';
+                                                    tab += '<th> nbr intéressés </th>';
+                                                    tab += '<th> commune/code postal </th>';
+                                                    tab += '<th> nom lieu de travail </th>';
+                                                    tab += '</tr>';
+                                                    tab += '</thead>';
+                                                    for (var i = 0; i < obj.length; i++) {
+                                                        tab += '<tr>';
+                                                        tab += '<td>' + obj[i].nbrUtilisateurs + '</td>';
+                                                        tab += '<td>' + obj[i].commune + '/' + obj[i].codePostal + '</td>';
+                                                        tab += '<td>' + obj[i].nomLieuTravail + '</td>';
+                                                        tab += '</tr>';
+                                                    }
+                                                    tableReponse.innerHTML = tab;
                                                 }
                                             }
                                         }, false);
@@ -291,6 +318,7 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-table.js"></script>
         <script src="js/buttonSelected.js"></script>
         <script src="../../assets/js/docs.min.js"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

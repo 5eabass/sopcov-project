@@ -5,7 +5,9 @@
  */
 package sopcov.servlet;
 
+import com.google.gson.*;
 import database.Commune;
+import database.CoupleCommuneLieuTravail;
 import database.DB;
 import database.DBInterface;
 import java.io.IOException;
@@ -15,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import com.google.gson.*;
 
 /**
  *
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GetReportServlet extends HttpServlet {
 
-    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers","getNumberOfUserForCoupleCommuneAndWorkplace","getNumberOfConnectionBetween"};
+    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers","getNumberOfUserForCoupleCommuneAndWorkplace","getNumberOfConnectionBetween","getAllNumberOfUserByCoupleCommuneAndWorkplace"};
     public static String[] REPONSES = {"nombre_conducteurs", "nombre_non_conducteurs", "pourcentage_conducteurs", "nombre_utilisateurs","nombre_utilisateur_couple_c_lt","nombre_connections"};
 
     /**
@@ -89,6 +90,15 @@ public class GetReportServlet extends HttpServlet {
                 int nbrConnections = dbi.getNumberOfConnectionBetween(dateDeb, heureDeb, dateFin, heureFin);
                 //int nbrConnections = 1;
                 String reponse = "{ \"" + this.REPONSES[5] + "\":\"" + nbrConnections + "\" }";
+                System.out.println("Renvoie : " + reponse);
+                pw.println(reponse);
+                pw.flush();
+            } else if (request.getParameter("rapport").equals(RAPPORTS[6])) {
+                System.out.println("Demande de rapport : " + RAPPORTS[6]);
+                ArrayList<CoupleCommuneLieuTravail> couples = dbi.getAllNumberOfUserByCoupleCommuneAndWorkplace();
+                Gson gson = new Gson();
+                //int nbrConnections = 1;
+                String reponse = gson.toJson(couples);
                 System.out.println("Renvoie : " + reponse);
                 pw.println(reponse);
                 pw.flush();
