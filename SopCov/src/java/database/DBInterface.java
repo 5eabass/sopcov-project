@@ -81,6 +81,7 @@ public interface DBInterface {
 
     public boolean userExists(String email, String password);
 
+    public boolean isUSerAdmin(String email);
     public List<User> getAllDrivers();
 
     public List<User> searchRoute(String mCity, String mWorkplace);

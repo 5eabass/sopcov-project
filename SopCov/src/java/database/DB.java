@@ -479,6 +479,37 @@ public class DB implements DBInterface {
         }
         return emailAlreadyUsed;
     }
+
+    /**
+     *
+     * @param email
+     * @return
+     */
+    @Override
+    public boolean isUSerAdmin(String email) {
+        boolean isAdmin = false;
+        
+        String sql;
+        sql = "SELECT admin FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "'";
+        ResultSet rs;
+        
+        try {
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                if(rs.getInt("admin")==1){
+                    isAdmin = true;
+                }
+                
+            }
+            rs.close();
+            
+        } catch (SQLException e) {
+            return false;
+            //System.err.println("In DB - emailAlreadyUsed : N'a pas pu voir si l'utilisateur existait ou non : " + e.getLocalizedMessage());
+        }
+        return isAdmin;
+    }
+    
     
     @Override
     public void rememberUserLogIn(String email) {
@@ -888,7 +919,7 @@ public class DB implements DBInterface {
         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
         //dbHelper.addNewUser(0, "omar", "ghader", "pass", "07", "omar@insa.fr", "135 avenue de Rangueil", "Toulouse", 31400, 1, "08:00:00", "17:00:00", "L,M,M,J,V", 1, 1);
         //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
-        
+        System.out.println(Boolean.valueOf(dbHelper.isUSerAdmin("o@insa.f")));
         dbHelper.listData();
         dbHelper.closeConnection();
     }//end main
