@@ -178,6 +178,7 @@
                                             }
                                         }, false);
                                     }
+                                    
                                 </script>
 
 
@@ -187,7 +188,7 @@
                                     </h3>
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                                            <button type="button" class="btn btn-success dropdown-toggle btn-success1" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li><a href="#">Modifier</a></li>
                                                 <li><a href="#">Supprimer</a></li>
@@ -195,6 +196,7 @@
                                         </div><!-- /btn-group -->
                                         <input type="text" class="form-control" aria-label="..." placeholder="Entrez une addresse mail">
                                     </div>
+                                    <a href="#" id= "continuer" class="btn btn-success">Continuer</a>
                                 </center>
 
                             </div>
@@ -218,6 +220,7 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/buttonSelected.js"></script>
         <script src="../../assets/js/docs.min.js"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
