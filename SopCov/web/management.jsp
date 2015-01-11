@@ -95,41 +95,72 @@
                                     </h3>
                                 </center>
                                 <div id='<%=RAPPORTS[0]%>' onclick="demandeRapport('<%=RAPPORTS[0]%>')">
-                                    Nombre de conducteurs ?
+                                    <h4>Nombre de conducteurs ?</h4>
                                 </div>
                                 <div id='<%=RAPPORTS[1]%>' onclick="demandeRapport('<%=RAPPORTS[1]%>')">
-                                    Nombre de non conducteurs ?
+                                    <h4>Nombre de non conducteurs ?</h4>
                                 </div>
                                 <div id='<%=RAPPORTS[2]%>' onclick="demandeRapport('<%=RAPPORTS[2]%>')">
-                                    Pourcentage de conducteurs ?
+                                    <h4>Pourcentage de conducteurs ?</h4>
                                 </div>
                                 <div id='<%=RAPPORTS[3]%>' onclick="demandeRapport('<%=RAPPORTS[3]%>')">
-                                    Nombre d'utilisateurs de SopCov?
+                                    <h4>Nombre d'utilisateurs de SopCov?</h4>
                                 </div>
                                 <div>
                                     <div id='<%=RAPPORTS[4]%>' onclick="demandeRapportNbrUtilComLieuTrav('<%=RAPPORTS[4]%>')">
-                                        Nombre d'utilisateurs intéressés par le trajet entre les lieux suivants ?
+                                        <h4>Nombre d'utilisateurs intéressés par le trajet entre les lieux suivants ?</h4>
                                     </div>
                                     <form accept-charset="UTF-8">
-                                        <div class="form-group text required user_basic_email">
+                                        <div class="form-group text required">
                                             <label class="text required control-label">
                                                 <abbr title="Obligatoire">*</abbr> Commune
                                             </label>
                                             <select id="commune" name="commune">
-                                                <% for (Commune c : communes) { %>
-                                                    <option><%=c.toOptionString()%></option>
+                                                <% for (Commune c : communes) {%>
+                                                <option><%=c.toOptionString()%></option>
                                                 <% } %>
                                             </select>
                                         </div>
-                                        <div class="form-group text required user_basic_email">
+                                        <div class="form-group text required">
                                             <label class="text required control-label">
                                                 <abbr title="Obligatoire">*</abbr> Lieu de travail
                                             </label>                                            
                                             <select id="lieu_travail" name="lieu_travail">
-                                                <% for (String s : lieuTravail) { %>
-                                                    <option><%=s%></option>
-                                                <% } %>
+                                                <% for (String s : lieuTravail) {%>
+                                                <option><%=s%></option>
+                                                <% }%>
                                             </select>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div>
+                                    <div id='<%=RAPPORTS[5]%>' onclick="demandeRapportNbrConnections('<%=RAPPORTS[5]%>')">
+                                        <h4>Nombre de connection entre les dates suivantes ?</h4>
+                                    </div>
+                                    <form accept-charset="UTF-8">
+                                        <div class="form-group text required">
+                                            <label class="text required control-label">
+                                                <abbr title="Obligatoire">*</abbr> Date de debut
+                                            </label>
+                                            <input class="string text required form-control" id="date_deb" name="date_deb" placeholder="AAAA-MM-JJ" type="text" />
+                                        </div>
+                                        <div class="form-group text required">
+                                            <label class="text required control-label">
+                                                <abbr title="Obligatoire">*</abbr> Heure de debut
+                                            </label>
+                                            <input class="string text required form-control" id="heure_deb" name="heure_deb" placeholder="HH:MM:SS" type="text" />
+                                        </div>
+                                        <div class="form-group text required">
+                                            <label class="text required control-label">
+                                                <abbr title="Obligatoire">*</abbr> Date de fin
+                                            </label>
+                                            <input class="string text required form-control" id="date_fin" name="date_fin" placeholder="AAAA-MM-JJ" type="text" />
+                                        </div>
+                                        <div class="form-group text required">
+                                            <label class="text required control-label">
+                                                <abbr title="Obligatoire">*</abbr> Heure de fin
+                                            </label>
+                                            <input class="string text required form-control" id="heure_fin" name="heure_fin" placeholder="HH:MM:SS" type="text" />
                                         </div>
                                     </form>
                                 </div>
@@ -147,16 +178,16 @@
                                             if (xhr.readyState === xhr.DONE) {
                                                 var obj = JSON.parse(xhr.responseText);
                                                 if (rapport == '<%=RAPPORTS[0]%>') {
-                                                    element.innerHTML = 'Nombre de conducteurs : ' + obj.<%=REPONSES[0]%>;
+                                                    element.innerHTML = '<h4>Nombre de conducteurs : </h4><p> ' + obj.<%=REPONSES[0]%> + '</p>';
                                                 }
                                                 else if (rapport == '<%=RAPPORTS[1]%>') {
-                                                    element.innerHTML = 'Nombre de non conducteurs : ' + obj.<%=REPONSES[1]%>;
+                                                    element.innerHTML = '<h4>Nombre de non conducteurs : </h4><p> ' + obj.<%=REPONSES[1]%> + '</p>';
                                                 }
                                                 else if (rapport == '<%=RAPPORTS[2]%>') {
-                                                    element.innerHTML = 'Pourcentage de conducteurs : ' + obj.<%=REPONSES[2]%> + '%';
+                                                    element.innerHTML = '<h4>Pourcentage de conducteurs : </h4><p> ' + obj.<%=REPONSES[2]%> + '%'+ '</p>';
                                                 }
                                                 else if (rapport == '<%=RAPPORTS[3]%>') {
-                                                    element.innerHTML = 'Nombre d\'utilisateurs de SopCov : ' + obj.<%=REPONSES[3]%>;
+                                                    element.innerHTML = '<h4>Nombre d\'utilisateurs de SopCov : </h4><p> ' + obj.<%=REPONSES[3]%> + '</p>';
                                                 }
                                             }
                                         }, false);
@@ -167,18 +198,33 @@
                                         var commune = communeList.options[communeList.selectedIndex].text;
                                         var lTList = document.getElementById('lieu_travail');
                                         var lT = lTList.options[lTList.selectedIndex].text;
-                                        element.innerHTML += 'selected ' + commune + ' ' + lT;
                                         var xhr = new XMLHttpRequest();
                                         xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&commune=" + commune + "&lT=" + lT);
                                         xhr.send(null);
                                         xhr.addEventListener('readystatechange', function () {
                                             var obj = JSON.parse(xhr.responseText);
                                             if (xhr.readyState === xhr.DONE) {
-                                                element.innerHTML = 'Nombre d\'utilisateurs intéressés par le trajet entre '+commune+' et '+lT+' : ' + obj.<%=REPONSES[4]%>;
+                                                element.innerHTML = '<h4>Nombre d\'utilisateurs intéressés par le trajet : </h4><p>' + commune + ' vers ' + lT + ' : ' + obj.<%=REPONSES[4]%>+ '</p>';
                                             }
                                         }, false);
                                     }
-                                    
+                                    function demandeRapportNbrConnections(rapport) {
+                                        var element = document.getElementById(rapport);
+                                        var dateDeb = document.getElementById('date_deb').value;
+                                        var heureDeb = document.getElementById('heure_deb').value;
+                                        var dateFin = document.getElementById('date_fin').value;
+                                        var heureFin = document.getElementById('heure_fin').value;
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&date_deb=" + dateDeb + "&heure_deb=" + heureDeb + "&date_fin=" + dateFin + "&heure_fin=" + heureFin);
+                                        xhr.send(null);
+                                        xhr.addEventListener('readystatechange', function () {
+                                            var obj = JSON.parse(xhr.responseText);
+                                            if (xhr.readyState === xhr.DONE) {
+                                                element.innerHTML = '<h4>Nombre de connection entre les dates suivantes :</h4><p>' + dateDeb + ' ' + heureDeb + ' et ' + dateFin + ' ' + heureFin + ' : ' + obj.<%=REPONSES[5]%>+ '</p>';
+                                            }
+                                        }, false);
+                                    }
+
                                 </script>
 
 

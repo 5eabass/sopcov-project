@@ -15,7 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import org.json.*;
+//import com.google.gson.*;
 
 /**
  *
@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GetReportServlet extends HttpServlet {
 
-    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers","getNumberOfUserForCoupleCommuneAndWorkplace"};
-    public static String[] REPONSES = {"nombre_conducteurs", "nombre_non_conducteurs", "pourcentage_conducteurs", "nombre_utilisateurs","nombre_utilisateur_couple_c_lt"};
+    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers","getNumberOfUserForCoupleCommuneAndWorkplace","getNumberOfConnectionBetween"};
+    public static String[] REPONSES = {"nombre_conducteurs", "nombre_non_conducteurs", "pourcentage_conducteurs", "nombre_utilisateurs","nombre_utilisateur_couple_c_lt","nombre_connections"};
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -80,7 +80,20 @@ public class GetReportServlet extends HttpServlet {
                 System.out.println("Renvoie : " + reponse);
                 pw.println(reponse);
                 pw.flush();
-            }else {
+            } else if (request.getParameter("rapport").equals(RAPPORTS[5])) {
+                System.out.println("Demande de rapport : " + RAPPORTS[5]);
+                String dateDeb = request.getParameter("date_deb");
+                String dateFin = request.getParameter("date_fin");
+                String heureDeb = request.getParameter("heure_deb");
+                String heureFin = request.getParameter("heure_fin");
+                int nbrConnections = dbi.getNumberOfConnectionBetween(dateDeb, heureDeb, dateFin, heureFin);
+                //int nbrConnections = 1;
+                String reponse = "{ \"" + this.REPONSES[5] + "\":\"" + nbrConnections + "\" }";
+                System.out.println("Renvoie : " + reponse);
+                pw.println(reponse);
+                pw.flush();
+            }
+            else {
                 System.err.println("In GetReport : " + request.getParameter("rapport") + " inconnu ");
 
             }
