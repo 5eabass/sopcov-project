@@ -102,7 +102,31 @@
                                 <div id='<%=RAPPORTS[3]%>' onclick="demandeRapport('<%=RAPPORTS[3]%>')">
                                     Nombre d'utilisateurs de SopCov?
                                 </div>
-
+                                <div>
+                                    <div id='<%=RAPPORTS[4]%>' onclick="demandeRapportNbrUtilComLieuTrav('<%=RAPPORTS[4]%>')">
+                                        Nombre d'utilisateurs intéressés par le trajet entre les lieux suivants ?
+                                    </div>
+                                    <form accept-charset="UTF-8">
+                                        <div class="form-group text required user_basic_email">
+                                            <label class="text required control-label">
+                                                <abbr title="Obligatoire">*</abbr> Commune
+                                            </label>
+                                            <select id="commune" name="commune">
+                                                <option>Toulouse/31400</option>
+                                                <option>Toulouse/31100</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group text required user_basic_email">
+                                            <label class="text required control-label">
+                                                <abbr title="Obligatoire">*</abbr> Lieu de travail
+                                            </label>                                            
+                                            <select id="lieu_travail" name="lieu_travail">
+                                                <option>Sopra_Group_Ent1</option>
+                                                <option>Sopra_Group_Ent2</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
 
 
                                 <script>
@@ -115,19 +139,36 @@
                                         element.innerHTML += ' Demande au serveur...';
                                         xhr.addEventListener('readystatechange', function () {
                                             if (xhr.readyState === xhr.DONE) {
-                                                obj = JSON.parse(xhr.responseText);                                                
-                                                if (rapport=='<%=RAPPORTS[0]%>') {
+                                                var obj = JSON.parse(xhr.responseText);
+                                                if (rapport == '<%=RAPPORTS[0]%>') {
                                                     element.innerHTML = 'Nombre de conducteurs : ' + obj.<%=REPONSES[0]%>;
-                                                }                                                
-                                                else if (rapport=='<%=RAPPORTS[1]%>') {
+                                                }
+                                                else if (rapport == '<%=RAPPORTS[1]%>') {
                                                     element.innerHTML = 'Nombre de non conducteurs : ' + obj.<%=REPONSES[1]%>;
-                                                }                                                
-                                                else if (rapport=='<%=RAPPORTS[2]%>') {
+                                                }
+                                                else if (rapport == '<%=RAPPORTS[2]%>') {
                                                     element.innerHTML = 'Pourcentage de conducteurs : ' + obj.<%=REPONSES[2]%> + '%';
-                                                }                                                
-                                                else if (rapport=='<%=RAPPORTS[3]%>') {
+                                                }
+                                                else if (rapport == '<%=RAPPORTS[3]%>') {
                                                     element.innerHTML = 'Nombre d\'utilisateurs de SopCov : ' + obj.<%=REPONSES[3]%>;
                                                 }
+                                            }
+                                        }, false);
+                                    }
+                                    function demandeRapportNbrUtilComLieuTrav(rapport) {
+                                        var element = document.getElementById(rapport);
+                                        var communeList = document.getElementById('commune');
+                                        var commune = communeList.options[communeList.selectedIndex].text;
+                                        var lTList = document.getElementById('lieu_travail');
+                                        var lT = lTList.options[lTList.selectedIndex].text;
+                                        element.innerHTML += 'selected ' + commune + ' ' + lT;
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&commune=" + commune + "&lT=" + lT);
+                                        xhr.send(null);
+                                        xhr.addEventListener('readystatechange', function () {
+                                            var obj = JSON.parse(xhr.responseText);
+                                            if (xhr.readyState === xhr.DONE) {
+                                                element.innerHTML = 'Nombre d\'utilisateurs intéressés par le trajet entre '+commune+' et '+lT+' : ' + obj.<%=REPONSES[4]%>;
                                             }
                                         }, false);
                                     }
@@ -140,11 +181,11 @@
                                     </h3>
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
-                                          <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Modifier</a></li>
-                                            <li><a href="#">Supprimer</a></li>
-                                          </ul>
+                                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">Modifier</a></li>
+                                                <li><a href="#">Supprimer</a></li>
+                                            </ul>
                                         </div><!-- /btn-group -->
                                         <input type="text" class="form-control" aria-label="..." placeholder="Entrez une addresse mail">
                                     </div>

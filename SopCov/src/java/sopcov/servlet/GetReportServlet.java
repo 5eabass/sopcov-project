@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.*;
 
 /**
  *
@@ -20,10 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GetReportServlet extends HttpServlet {
 
-    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers"};
-    public static String[] REPONSES = {"nombre_conducteurs", "nombre_non_conducteurs", "pourcentage_conducteurs", "nombre_utilisateurs"};
+    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers","getNumberOfUserForCoupleCommuneAndWorkplace"};
+    public static String[] REPONSES = {"nombre_conducteurs", "nombre_non_conducteurs", "pourcentage_conducteurs", "nombre_utilisateurs","nombre_utilisateur_couple_c_lt"};
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -68,7 +68,17 @@ public class GetReportServlet extends HttpServlet {
                 System.out.println("Renvoie : " + reponse);
                 pw.println(reponse);
                 pw.flush();
-            } else {
+            } else if (request.getParameter("rapport").equals(RAPPORTS[4])) {
+                System.out.println("Demande de rapport : " + RAPPORTS[4]);
+                String commune = request.getParameter("commune").split("/")[0];
+                String codePostal = request.getParameter("commune").split("/")[1];
+                String lieuTravail = request.getParameter("lT");
+                int nbrUtilisateurs = dbi.getNumberOfUserForCoupleCommuneAndWorkplace(commune, codePostal, lieuTravail);
+                String reponse = "{ \"" + this.REPONSES[4] + "\":\"" + nbrUtilisateurs + "\" }";
+                System.out.println("Renvoie : " + reponse);
+                pw.println(reponse);
+                pw.flush();
+            }else {
                 System.err.println("In GetReport : " + request.getParameter("rapport") + " inconnu ");
 
             }
