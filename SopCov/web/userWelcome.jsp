@@ -78,25 +78,30 @@
                                 <h3 class="panel-title">Bienvenue <%=login%> !</h3>
                             </div>
                             <div class="panel-body modeltype">
-                                
+
                                 <center>
                                     <h3>
                                         Vous pouvez dès à présent voir les trajets disponibles ou modifier votre profil.
                                     </h3>
                                 </center>
-                                
-                                    <center><img class="pull-left" src="img/trajet.JPG" width="300" height="150" alt="Mon Image"></center>
-                                   
-                                    <center><img class="pull-right" src="img/edit.JPG" width="300" height="150" alt="Mon Image 2"></center>
-                                    
+                                <div class="pull-left">
+                                    <div style="width:100%">
+                                        <img src="img/trajet.JPG" width="300" height="150" alt="Mon Image">
+                                    </div>
                                     <center>
-                                        <a href="/SopCov/ShowCovoiturage" class="btn btn-success pull-left">Rechercher Trajet</a>
+                                        <a href="/SopCov/ShowCovoiturage" class="btn btn-success">Rechercher Trajet</a>
                                     </center>
-                                    
+                                </div>
+                                <div class="pull-right">
+
+                                    <div style="width:100%">
+                                        <img src="img/edit.JPG" width="300" height="150" alt="Mon Image 2">
+                                    </div>
                                     <center>
-                                        <a href="/SopCov/EditProfile.do" class="btn btn-success pull-right">Modifier Profil</a>
+                                        <a href="/SopCov/EditProfile.do" class="btn btn-success">Modifier Profil</a>
                                     </center>
-                                    
+                                </div>
+
                             </div>
                         </div>
                     </div>
