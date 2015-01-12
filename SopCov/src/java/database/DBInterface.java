@@ -66,6 +66,8 @@ public interface DBInterface {
     public boolean editLocation(String email, int lieu_travail_id);
 
     public boolean deleteLocation(String email, String newlieu_travail_id);
+    public boolean editWorkLocation(int lieu_travail_id, String newNom_lieu, String adresse,String commune, String code_postal);
+    public boolean deleteWorkLocation(int id, String newlieu_travail_nom) ;
 
     public void setPassword(String email, String password);
 

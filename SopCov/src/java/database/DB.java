@@ -435,6 +435,40 @@ public class DB implements DBInterface {
         return true;
     }
     
+    
+    @Override
+    public boolean editWorkLocation(int lieu_travail_id, String newNom_lieu, String adresse,String commune, String code_postal) {
+        
+        String sql = "UPDATE " + TABLE_LIEUX_TRAVAIL + " SET nom_lieu='" + newNom_lieu + "' , adresse='"+ adresse+ "', code_postal='"+code_postal +"'  , commune='"+ commune +"'  WHERE id=" + lieu_travail_id + "";
+        
+        int rs;
+        try {
+            rs = stmt.executeUpdate(sql);
+            
+        } catch (Exception e) {
+             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public boolean deleteWorkLocation(int id, String newlieu_travail_nom) {
+        
+      String sql = "DELETE FROM " + TABLE_LIEUX_TRAVAIL + " WHERE nom_lieu='" + newlieu_travail_nom + "' AND id='"+ id+"';";
+        
+        int rs;
+        try {
+            rs = stmt.executeUpdate(sql);
+            
+        } catch (Exception e) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+        return true;
+    }
+    
+    
     @Override
     public void setPassword(String email, String password) {
         
@@ -1046,6 +1080,8 @@ public class DB implements DBInterface {
         //dbHelper.addNewUser(false, "omar", "ghader", "pass", "07", "oma@insa.fr", "135 avenue de Rangueil", "Labege", "31400", "Sopra_Group_Ent1", "08:00:00", "17:00:00", "L,M,M,J,V", true, true);
         //dbHelper.addNewUser(true, DB_URL, USER, DB_URL, USER, USER, DB_URL, DB_URL, PASS, TABLE_VISITES, JDBC_DRIVER, DB_URL, JDBC_DRIVER, true, true)
         //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
+        //dbHelper.editWorkLocation(1, "Sopra_Group_Ent1", "37 Chemin des Ramassier", "Colomiers", "31770");
+        dbHelper.deleteWorkLocation(1, "Sopra_Group_Ent1");
         System.out.println(dbHelper.getAllCommunes().toString());
         dbHelper.listData();
         dbHelper.closeConnection();
