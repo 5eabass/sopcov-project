@@ -271,21 +271,12 @@
                                             Je souhaite être notifié.
                                         </label>
                                     </div>
-                                    
-                                    <table width=100%>
-                                        <tr>
-                                            <td>
                                                 <center>
-                                                    <input class="btn btn-success" name="BoutonProf" type="submit" value="Modifier Profil" />
+                                                    <input class="btn btn-success pull-left" name="BoutonProf" type="submit" value="Modifier Profil" />
                                                 </center>
-                                            </td>
-                                            <td>
                                                 <center>
-                                                    <a href="changePass.jsp" class="btn btn-success">Modifier Mot de Passe</a>
+                                                    <a href="changePass.jsp" class="btn btn-success pull-right">Modifier Mot de Passe</a>
                                                 </center>
-                                            </td>
-                                        </tr>
-                                    </table>
                                     
                                 </form>
                             </div>
