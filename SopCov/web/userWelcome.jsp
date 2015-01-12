@@ -84,30 +84,19 @@
                                         Vous pouvez dès à présent voir les trajets disponibles ou modifier votre profil.
                                     </h3>
                                 </center>
-                                <table>
-                                    <tr>
-                                        <td>
-                                    <center><img src="img/trajet.JPG" width="300" height="150" alt="Mon Image"></center>
-                                    </td>
-                                    <td>
-                                    <center><img src="img/edit.JPG" width="300" height="150" alt="Mon Image 2"></center>
-                                    </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
+                                
+                                    <center><img class="pull-left" src="img/trajet.JPG" width="300" height="150" alt="Mon Image"></center>
+                                   
+                                    <center><img class="pull-right" src="img/edit.JPG" width="300" height="150" alt="Mon Image 2"></center>
+                                    
                                     <center>
-                                        <a href="/SopCov/ShowCovoiturage" class="btn btn-success">Rechercher Trajet</a>
+                                        <a href="/SopCov/ShowCovoiturage" class="btn btn-success pull-left">Rechercher Trajet</a>
                                     </center>
-                                    </td>
-                                    <td>
+                                    
                                     <center>
-                                        <a href="/SopCov/EditProfile.do" class="btn btn-success">Modifier Profil</a>
+                                        <a href="/SopCov/EditProfile.do" class="btn btn-success pull-right">Modifier Profil</a>
                                     </center>
-                                    </td>
-                                    </tr>
-
-                                </table>
+                                    
                             </div>
                         </div>
                     </div>
