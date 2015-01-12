@@ -1,14 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package sopcov.servlet;
 
 import database.DB;
-import database.User;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +19,20 @@ import javax.servlet.http.HttpSession;
  *
  * @author Ayoub
  */
-@WebServlet(name = "ChangePassword", urlPatterns = {"/ChangePassword"})
+@WebServlet(name = "ChangePassword", urlPatterns = {"/ChangePassword.do"})
 public class ChangePassword extends HttpServlet {
+    
+    DB dbmanager;
+    
+    String emailToBeModified = "";
+    String oldpwd = "";
+    String isAdmin = "";
+    
+    @Override
+    public void init() {
+        // initialization
+        dbmanager = new DB();
+    }
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,42 +45,6 @@ public class ChangePassword extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            
-            // Get the parameters to change password
-            String mail= request.getParameter("emailToBeModified");
-            String apwd = request.getParameter("apwd");
-            String npwd = request.getParameter("npwd");
-            String rnpwd = request.getParameter("rnpwd");
-            HttpSession s = request.getSession();
-
-            DB database=new DB();
-            System.out.println("PASS: "+mail);
-            if(!database.getPassword(mail).equals(apwd)){
-                s.setAttribute("msgErreur", "Ancien mot de passe incorrect!");
-                System.out.println("Old Password not correct!");
-            }
-            else{
-                //The old password is correct
-                if(npwd.length()<8){
-                    //Password length < 8 carachters
-                    s.setAttribute("msgErreur", "Mot de passe doit contenir au moins 8 caractères.");
-                    System.out.println("New Password not correct!");
-                }
-                else{
-                    if(!npwd.equals(rnpwd)){
-                        //Not same repeated Password
-                        s.setAttribute("msgErreur", "Veuillez entrer le même mot de passe deux fois.");
-                        System.out.println("Please enter the same password twice!");
-                    }
-                    else{
-                        database.setPassword(mail, npwd);
-                        }
-                    }
-                }
-            
-            final RequestDispatcher rd = request.getRequestDispatcher("/changePass.jsp" );
-            rd.forward(request, response);
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -85,36 +59,31 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        
-        DB dbmanager=new DB();
-        String emailToBeModified = "";
         
         String destination = "changePass.jsp";
-        System.out.println("entered servlet");
-        if (request.getParameter("emailToBeModified") != null){
-            System.out.println("entered email param!= null");
-            emailToBeModified = (String) request.getParameter("emailToBeModified");
-            System.out.println("emailtobemodified :" + emailToBeModified);
-        }else {
-            System.out.println("entered email param = null");
-            HttpSession s = request.getSession();
-            
-            if (s != null) {
-                emailToBeModified = (String) s.getAttribute("email");
-                
-                
-                
-            }else{
-                destination = "index.jsp";
-            }
-        }
-        if (!emailToBeModified.equals("")){
-        // recuperation des infos
-                User userInfo = dbmanager.queryInfo(emailToBeModified);
-                request.setAttribute("emailToBeModified", emailToBeModified);
-        }
+        HttpSession s = request.getSession();
+        String sessionEmail =(String) s.getAttribute("email");
+        System.out.println("entered  change password, session mail = " + sessionEmail);
         
+        if ((String) s.getAttribute("emailToBeModified") != null){
+            System.out.println("entered  change passwordemail param!= null");
+            emailToBeModified = (String) s.getAttribute("emailToBeModified");
+            System.out.println("emailtobemodified :" + emailToBeModified);
+        }
+              
+        if(!sessionEmail.equals(emailToBeModified)){
+            System.out.println("entered email to modify :  != email : " +emailToBeModified + " / " + sessionEmail);
+            isAdmin = "true";           
+        } else {
+            isAdmin = "false";
+            System.out.println("entered email to modify = session email : " +emailToBeModified + " / " + sessionEmail);
+            
+            oldpwd = dbmanager.getPassword(emailToBeModified);
+        }
+        request.setAttribute("isAdmin", isAdmin);
+        System.out.println(" go to jsp");
+            
+        request.setAttribute("emailToBeModified", emailToBeModified);
         RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
         rd.forward(request, response);
     }
@@ -128,45 +97,77 @@ public class ChangePassword extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        
+        String destination = "";
+        System.out.println("entered  change password POST");
+        HttpSession s = request.getSession();
         // Get the parameters to change password
-            String mail= request.getParameter("emailToBeModified");
-            String apwd = request.getParameter("apwd");
-            String npwd = request.getParameter("npwd");
-            String rnpwd = request.getParameter("rnpwd");
-            HttpSession s = request.getSession();
-
-            DB database=new DB();
-            System.out.println("PASS: "+mail);
-            if(!database.getPassword(mail).equals(apwd)){
-                s.setAttribute("msgErreur", "Ancien mot de passe incorrect!");
-                System.out.println("Old Password not correct!");
+        String apwd = "";
+        String npwd = request.getParameter("npwd");
+        String rnpwd = request.getParameter("rnpwd");
+        
+        if(isAdmin.equals("true")){
+            destination = "management.jsp";
+            // si on est admin on a que le nouveau et sa répétition à tester
+            System.out.println("entered  change password POST - is admin true !");
+            if(npwd.length()<8){
+                // si longueur du mdp < 8 : erreur
+                s.setAttribute("msgErreur", "Mot de passe doit contenir au moins 8 caractères.");
+                System.out.println("New Password not correct!");
             }
             else{
-                //The old password is correct
+                if(!npwd.equals(rnpwd)){
+                    //si le password n'est pas correctement répété : erreur
+                    s.setAttribute("msgErreur", "Veuillez entrer le même mot de passe deux fois.");
+                    System.out.println("Please enter the same password twice!");
+                }
+                else{
+                    System.out.println("entered  change password POST - is admin true password correct -> query");
+                    dbmanager.setPassword(emailToBeModified, npwd);
+                }
+            }
+            
+            
+        } else {
+            // si c'est pas l'admin qui change le mdp alors c'est un utilisateur ( qui peut etre admin à noter )
+            // mais dans tous les cas il doit connaitre son ancien mdp
+            System.out.println("entered  change password POST - not admin request !");
+            destination = "userWelcome.jsp";
+            apwd = (String) request.getParameter("apwd");
+            
+            if(!oldpwd.equals(apwd)){
+                s.setAttribute("msgErreur", "Ancien mot de passe incorrect!");
+                System.out.println("Old Password not correct!");
+            }else{
+                System.out.println("old password is correct");
                 if(npwd.length()<8){
-                    //Password length < 8 carachters
+                    // si longueur du mdp < 8 : erreur
                     s.setAttribute("msgErreur", "Mot de passe doit contenir au moins 8 caractères.");
                     System.out.println("New Password not correct!");
                 }
                 else{
                     if(!npwd.equals(rnpwd)){
-                        //Not same repeated Password
+                        //si le password n'est pas correctement répété : erreur
                         s.setAttribute("msgErreur", "Veuillez entrer le même mot de passe deux fois.");
                         System.out.println("Please enter the same password twice!");
                     }
                     else{
-                        database.setPassword(mail, npwd);
-                        }
+                        System.out.println("old password is correct , new password are correct - > query");
+                        dbmanager.setPassword(emailToBeModified, npwd);
                     }
                 }
+                
+            }
             
-            final RequestDispatcher rd = request.getRequestDispatcher("/changePass.jsp" );
-            rd.forward(request, response);
+        }
+        
+        
+        final RequestDispatcher rd = request.getRequestDispatcher("/"+destination );
+        rd.forward(request, response);
     }
     
     /**

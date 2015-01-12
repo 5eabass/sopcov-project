@@ -62,6 +62,8 @@ public interface DBInterface {
     public void deleteUser(String email);
 
     public String getPassword(String email);
+    
+    public void setAdminRight(String email,String admin);
 
     public boolean editLocation(String email, int lieu_travail_id);
 

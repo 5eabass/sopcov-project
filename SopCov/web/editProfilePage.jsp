@@ -36,10 +36,12 @@
         <%!
                 HttpSession s = null;
                 String emailToBeModified = "";
-                ArrayList<String> lieuxTravail = null;
-
-                // valeur précedente de l'utilisateur
+                ArrayList<String> lieuxTravail = null;   
+                String isAdminRequest = "";
+                
+                // valeur précedente de l'utilisateur               
                 User user = null;
+                int userAdmin;
                 String nom = "";
                 String prenom = "";
                 String adresse = "";
@@ -53,15 +55,18 @@
                 //Boolean Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche = false;      
                 int conducteur;
                 int notif;
-                boolean admin = false;
+                
             %>
 
-            <%
-                
+            <%       
+                s = request.getSession();
                 emailToBeModified = (String) request.getAttribute("emailToBeModified");
+                s.setAttribute("emailToBeModified", emailToBeModified);
+                isAdminRequest = (String) request.getAttribute("isAdminRequest");
                 // données courante de l'utilisateur
                 user = (User) request.getAttribute("user");
-
+                
+                userAdmin = user.getAdmin();
                 nom = user.getNom();
                 prenom = user.getPrenom();
                 adresse = user.getAdresse();
@@ -73,13 +78,7 @@
                 heure_retour = user.getHeure_retour();
                 jours_travail = user.getJours_travail();
                 conducteur = user.getConducteur();
-                notif = user.getNotif();
-
-                if (request.getParameter("admin") != null) {
-                admin = Boolean.getBoolean(request.getParameter("admin"));
-                }
-                //ATTENTION POUR LA PHASE DE TEST SEULEMENT
-                admin = true;
+                notif = user.getNotif();               
             %>
         
         <div class="site-wrapper">
@@ -96,7 +95,7 @@
                                     <li><a href="userWelcome.jsp"> Page Principale</a></li>
                                     <li><a href="/SopCov/ShowCovoiturage">Trajets</a></li>
                                     <li class="active"><a href="#">Profil</a></li>
-                                        <% if (admin) {%>
+                                    <% if (isAdminRequest.equals("true")) {%>
                                     <li><a href="management.jsp">Administration</a></li>
                                         <% }%>
                                     <li><a href="/SopCov/SignOutServlet.do">Se déconnecter</a></li>
@@ -271,11 +270,26 @@
                                             Je souhaite être notifié.
                                         </label>
                                     </div>
+                                               
+                                    <% if(isAdminRequest.equals("true")){
+                                         out.println("<div>\n"
+                                                 + "<input type=\"checkbox\" name=\"admin\" \n");
+                                             if (userAdmin != 0){
+                                                 out.println("checked");                                                
+                                             }
+                                          out.println("> \n"  
+                                                 + "<label>\n"
+                                                 + "droit administrateur.\n"
+                                                 + "</label>\n"
+                                                 + "</div>\n");
+
+                                        }
+                                    %>  
                                                 <center>
                                                     <input class="btn btn-success pull-left" name="BoutonProf" type="submit" value="Modifier Profil" />
                                                 </center>
                                                 <center>
-                                                    <a href="changePass.jsp" class="btn btn-success pull-right">Modifier Mot de Passe</a>
+                                                    <a href="/SopCov/ChangePassword.do" class="btn btn-success pull-right">Modifier Mot de Passe</a>
                                                 </center>
                                     
                                 </form>

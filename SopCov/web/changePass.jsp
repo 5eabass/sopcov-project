@@ -38,26 +38,20 @@
             String npwd = "";
             String rnpwd = "";
             String msgErreur="";
-            boolean admin=false;
+            String admin="";
             HttpSession s = null;
         %>
         <%
+            admin =(String) request.getAttribute("isAdmin");
             emailToBeModified = (String) request.getAttribute("emailToBeModified");
             s = request.getSession();
-            if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("password") != null) {
-                //emailToBeModified = (String) s.getAttribute("email");
-                apwd = (String) s.getAttribute("apwd");
-                npwd = (String) s.getAttribute("npwd");
-                rnpwd = (String) s.getAttribute("rnpwd");
-            }
+            
             if (s.getAttribute("msgErreur") != null) {
                 msgErreur = (String) s.getAttribute("msgErreur");
             }
-            if (request.getParameter("admin") != null) {
-                admin = Boolean.getBoolean(request.getParameter("admin"));
-            }
+           
             //ATTENTION POUR LA PHASE DE TEST SEULEMENT
-            admin = true;
+           System.out.println("fin setting valeur : " + admin+ " / " + emailToBeModified);
         %>
 
         <div class="site-wrapper">
@@ -74,7 +68,7 @@
                                     <li><a href="userWelcome.jsp">Page Principale</a></li>
                                     <li><a href="/SopCov/ShowCovoiturage">Trajets</a></li>
                                     <li class="active"><a href="/SopCov/EditProfile.do">Profil</a></li>
-                                        <% if (admin) {%>
+                                        <% if (admin.equals("true")) {%>
                                     <li><a href="management.jsp">Administration</a></li>
                                         <% }%>
                                     <li><a href="/SopCov/SignOutServlet.do">Se déconnecter</a></li>
@@ -106,21 +100,26 @@
                                         %>
                                     </div>
                                     <% }%>
+                                    
                                     <div class="form-group email required user_basic_email">
                                         <label class="email required control-label" for="user_basic_email">
-                                            <abbr title="Obligatoire">*</abbr> Email
+                                            Adresse Mail
                                         </label>
-                                        <input class="string email required form-control" id="user_basic_email" name="email" value="<%=emailToBeModified%>" placeholder="Adresse Mail" type="email" disabled/>
-                                        <p class="help-block">Veuillez entrer votre adresse mail.</p>
+                                        <input class="string email required form-control" id="user_basic_email" name="email" placeholder="<%=emailToBeModified%>" type="text" disabled />
                                     </div>
-
-                                    <div class="form-group password required user_basic_password">
-                                        <label class="password required control-label" for="user_basic_password">
-                                            <abbr title="Obligatoire">*</abbr> Mot de Passe actuel
-                                        </label>
-                                        <input class="password required form-control" id="user_basic_password" name="apwd" placeholder="Mot de Passe" type="password" />
-                                        <p class="help-block">Veuillez entrer votre mot de passe actuel.</p>
-                                    </div>
+                                        
+                                        
+                                    <% if(!admin.equals("true")){
+                                         out.println("<div class=\"form-group password required user_basic_password\">\n"
+                                                 + "<label class=\"password required control-label\" for=\"user_basic_password\">\n"
+                                                 + "<abbr title=\"Obligatoire\">*</abbr> Mot de Passe actuel\n"
+                                                 + "</label>\n"
+                                                 + "<input class=\"password required form-control\" id=\"user_basic_password\" name=\"apwd\" placeholder=\"Mot de Passe\" type=\"password\" />\n"
+                                                 + "<p class=\"help-block\">Veuillez entrer votre mot de passe actuel.</p>\n"
+                                                 + "</div>\n");
+                                    }
+                                    %>
+                                 
                                     <div class="form-group password required user_basic_password">
                                         <label class="password required control-label" for="user_basic_password">
                                             <abbr title="Obligatoire">*</abbr> Nouveau Mot de Passe

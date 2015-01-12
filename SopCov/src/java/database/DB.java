@@ -404,6 +404,25 @@ public class DB implements DBInterface {
     }
     
     @Override
+    public void setAdminRight(String email, String admin){      
+        int adminRight;
+        
+        if (admin != null) {
+            adminRight = 1;
+        } else {
+            adminRight = 0;
+        }
+        
+        String sql = "UPDATE " + TABLE_UTILISATEURS + " SET admin='" + adminRight + "' WHERE email='" + email + "'";
+         try {
+            int rs = stmt.executeUpdate(sql);
+            
+        } catch (Exception e) {   
+             System.err.println("IN dDB - setAdminRight - could not do the query error :" + e);
+        }
+    }
+    
+    @Override
     public boolean editLocation(String email, int lieu_travail_id) {
         
         String sql = "UPDATE " + TABLE_UTILISATEURS + " SET lieu_travail_id='" + lieu_travail_id + "' WHERE email='" + email + "'";

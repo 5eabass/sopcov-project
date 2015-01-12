@@ -49,7 +49,7 @@ public class ActionDispatcher extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String destination = "";
+        String destination = null;
         String action = (String) request.getParameter("action");
         if (action.equals("Modifier")){
             destination = "EditProfile.do";

@@ -44,36 +44,36 @@ public class EditProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String isAdminRequest = "" ;        
         String destination = "editProfilePage.jsp";
         System.out.println("entered servlet");
         if (request.getParameter("email") != null){
             System.out.println("entered email param!= null");
             emailToBeModified = (String) request.getParameter("email");
             System.out.println("emailtobemodified :" + emailToBeModified);
+            isAdminRequest  = "true";                      
         }else {
             System.out.println("entered email param = null");
             HttpSession s = request.getSession();
             
             if (s != null) {
+                System.out.println("entered s != null");
                 emailToBeModified = (String) s.getAttribute("email");
-                
-                
-                
             }else{
                 destination = "index.jsp";
             }
         }
-        if (!emailToBeModified.equals("")){
-        // recuperation des infos
-                User userInfo = dbmanager.queryInfo(emailToBeModified);
-                ArrayList<String> lieuxTravail = dbmanager.getAllWorkplaces();
-                request.setAttribute("lieuxTravail", lieuxTravail);
-                
-                request.setAttribute("user", userInfo);
-                request.setAttribute("emailToBeModified", emailToBeModified);
-        }
+        request.setAttribute("isAdminRequest", isAdminRequest);
         
+        if (!emailToBeModified.equals("")){
+            // recuperation des infos
+            User userInfo = dbmanager.queryInfo(emailToBeModified);
+            ArrayList<String> lieuxTravail = dbmanager.getAllWorkplaces();
+            request.setAttribute("lieuxTravail", lieuxTravail);
+            
+            request.setAttribute("user", userInfo);
+            request.setAttribute("emailToBeModified", emailToBeModified);
+        }
         RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
         rd.forward(request, response);
     }
@@ -81,20 +81,21 @@ public class EditProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-             
         String destination = "";
-       // Récupération session
-       HttpSession s = request.getSession();
-       String emailSession = (String) s.getAttribute("email");
-       
-       if (emailSession != null){
-           if (emailSession.equals(emailToBeModified)){
-                destination = "userWelcome.jsp";
-               }else{
-               destination = "management.jsp";
-           }
-       }
+        // Récupération session
+        HttpSession s = request.getSession();
+        String emailSession = (String) s.getAttribute("email");
         
+        if (emailSession != null){
+            if (emailSession.equals(emailToBeModified)){
+                destination = "userWelcome.jsp";
+            }else{
+                destination = "management.jsp";
+                String admin = (String) request.getParameter("admin");
+                dbmanager.setAdminRight(emailToBeModified,admin);
+            }
+        }
+              
         String nom = (String) request.getParameter("nom");
         String prenom = (String) request.getParameter("prenom");
         String adresse = (String) request.getParameter("adresse");
@@ -105,8 +106,8 @@ public class EditProfile extends HttpServlet {
         String heure_depart = (String) request.getParameter("heure_depart");
         String heure_retour = (String) request.getParameter("heure_retour");
         String conducteur = (String) request.getParameter("conducteur");
-        String notif = (String) request.getParameter("notif");    
-       
+        String notif = (String) request.getParameter("notif");
+        
         //Récupère les jours de travail de la requete
         //Lundi Mardi Mercredi devient Lun,Mar,Mer
         String joursTravail = "";
@@ -121,14 +122,14 @@ public class EditProfile extends HttpServlet {
                 }
             }
         }
-             
+        
         dbmanager.editUserProfile(emailToBeModified,nom,prenom,adresse,
-                    tel,commune,code_postal,lieu_travail,
-                    heure_depart,heure_retour,joursTravail,
-                    conducteur,notif);
+                tel,commune,code_postal,lieu_travail,
+                heure_depart,heure_retour,joursTravail,
+                conducteur,notif);
         
         RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
-        rd.forward(request, response);      
+        rd.forward(request, response);
     }
     
     @Override
