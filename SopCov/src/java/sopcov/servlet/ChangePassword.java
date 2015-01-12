@@ -36,7 +36,7 @@ public class ChangePassword extends HttpServlet {
         
             
             // Get the parameters to change password
-            String mail= request.getParameter("email");
+            String mail= request.getParameter("emailToBeModified");
             String apwd = request.getParameter("apwd");
             String npwd = request.getParameter("npwd");
             String rnpwd = request.getParameter("rnpwd");

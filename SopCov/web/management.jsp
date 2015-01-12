@@ -176,19 +176,21 @@
                                         <h4>
                                             Modification des comptes
                                         </h4>
-                                    </a>
-                                    <div class="list-group-item">
-                                        <div class="input-group">
-                                            <div class="input-group-btn">
-                                                <button type="button" class="btn btn-success dropdown-toggle btn-success1" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="#">Modifier</a></li>
-                                                    <li><a href="#">Supprimer</a></li>
-                                                </ul>
-                                            </div><!-- /btn-group -->
-                                            <input type="text" class="form-control" aria-label="..." placeholder="Entrez une addresse mail">
-                                        </div>
-                                        <a href="#" id= "continuer" class="btn btn-success">Continuer</a>
+                                    </a>                                       
+                                        <div class="list-group-item">
+                                            <div class="input-group">              
+                                                <form accept-charset="UTF-8" action="/SopCov/ActionDispatcher.do" method="get">
+                                                    <input type="text" class="string email form-control" id="email" name="email"  placeholder="Entrez une addresse mail">           
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-success dropdown-toggle btn-success1" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <input class="btn btn-success" name="action" type="submit" value="Modifier" />
+                                                            <input class="btn btn-success" name="action" type="submit" value="Supprimer" />
+                                                        </ul>                  
+                                                    </div><!-- /btn-group -->
+                                                        
+                                                </form>
+                                            </div>                                                              
                                     </div>
                                 </div>
                             </div>

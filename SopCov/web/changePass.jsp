@@ -33,7 +33,7 @@
 
     <body>
         <%!
-            String email = "";
+            String emailToBeModified = "";
             String apwd = "";
             String npwd = "";
             String rnpwd = "";
@@ -44,7 +44,7 @@
         <%
             s = request.getSession();
             if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("password") != null) {
-                email = (String) s.getAttribute("email");
+                emailToBeModified = (String) s.getAttribute("email");
                 apwd = (String) s.getAttribute("apwd");
                 npwd = (String) s.getAttribute("npwd");
                 rnpwd = (String) s.getAttribute("rnpwd");
@@ -109,7 +109,7 @@
                                         <label class="email required control-label" for="user_basic_email">
                                             <abbr title="Obligatoire">*</abbr> Email
                                         </label>
-                                        <input class="string email required form-control" id="user_basic_email" name="email" value="<%=email%>" placeholder="Adresse Mail" type="email" disabled/>
+                                        <input class="string email required form-control" id="user_basic_email" name="email" value="<%=emailToBeModified%>" placeholder="Adresse Mail" type="email" disabled/>
                                         <p class="help-block">Veuillez entrer votre adresse mail.</p>
                                     </div>
 

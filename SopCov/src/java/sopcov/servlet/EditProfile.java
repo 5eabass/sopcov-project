@@ -29,6 +29,7 @@ public class EditProfile extends HttpServlet {
     
     DB dbmanager;
     //private String message;
+    String emailToBeModified = "";
     
     @Override
     public void init() {
@@ -45,21 +46,32 @@ public class EditProfile extends HttpServlet {
             throws ServletException, IOException {
         
         String destination = "editProfilePage.jsp";
-        String email = null;
-        HttpSession s = request.getSession();
-        
-        if (s != null) {
-            email = (String) s.getAttribute("email");
+        System.out.println("entered servlet");
+        if (request.getParameter("email") != null){
+            System.out.println("entered email param!= null");
+            emailToBeModified = (String) request.getParameter("email");
+            System.out.println("emailtobemodified :" + emailToBeModified);
+        }else {
+            System.out.println("entered email param = null");
+            HttpSession s = request.getSession();
             
-            
-            // recuperation des infos
-            User userInfo = dbmanager.queryInfo(email);
-            ArrayList<String> lieuxTravail = dbmanager.getAllWorkplaces();
-            request.setAttribute("lieuxTravail", lieuxTravail);
-            
-            request.setAttribute("user", userInfo);
-        }else{
-            destination = "index.jsp";
+            if (s != null) {
+                emailToBeModified = (String) s.getAttribute("email");
+                
+                
+                
+            }else{
+                destination = "index.jsp";
+            }
+        }
+        if (!emailToBeModified.equals("")){
+        // recuperation des infos
+                User userInfo = dbmanager.queryInfo(emailToBeModified);
+                ArrayList<String> lieuxTravail = dbmanager.getAllWorkplaces();
+                request.setAttribute("lieuxTravail", lieuxTravail);
+                
+                request.setAttribute("user", userInfo);
+                request.setAttribute("emailToBeModified", emailToBeModified);
         }
         
         RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
@@ -70,11 +82,18 @@ public class EditProfile extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
              
-        String destination = "userWelcome.jsp";
-        
-        // Récupération session
-        HttpSession s = request.getSession();
-        String email = (String) s.getAttribute("email");   
+        String destination = "";
+       // Récupération session
+       HttpSession s = request.getSession();
+       String emailSession = (String) s.getAttribute("email");
+       
+       if (emailSession != null){
+           if (emailSession.equals(emailToBeModified)){
+                destination = "userWelcome.jsp";
+               }else{
+               destination = "management.jsp";
+           }
+       }
         
         String nom = (String) request.getParameter("nom");
         String prenom = (String) request.getParameter("prenom");
@@ -103,14 +122,13 @@ public class EditProfile extends HttpServlet {
             }
         }
              
-        dbmanager.editUserProfile(email,nom,prenom,adresse,
+        dbmanager.editUserProfile(emailToBeModified,nom,prenom,adresse,
                     tel,commune,code_postal,lieu_travail,
                     heure_depart,heure_retour,joursTravail,
                     conducteur,notif);
         
         RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
-        rd.forward(request, response);
-        
+        rd.forward(request, response);      
     }
     
     @Override

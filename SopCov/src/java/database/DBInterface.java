@@ -59,7 +59,7 @@ public interface DBInterface {
      */
     public int addNewUser(boolean admin, String prenom, String nom, String password, String tel, String email, String adresse, String commune, String codePostal, String nomLieuTravail, String heureDepart, String heureRetour, String joursTravail, boolean conducteur, boolean notif);
 
-    public void deleteUser(String email, String prenom, String nom);
+    public void deleteUser(String email);
 
     public String getPassword(String email);
 

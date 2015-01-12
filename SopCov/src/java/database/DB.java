@@ -350,20 +350,34 @@ public class DB implements DBInterface {
     }
     
     @Override
-    public void deleteUser(String email, String prenom, String nom) {
+    public void deleteUser(String email) {
+        
+        String deleteVisiteQuery = "DELETE FROM " + TABLE_VISITES + " WHERE email_visiteur='" + email +"'";
+        String deleteUserQuery = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE email='" + email +"'";
+        
+        // on notifie avant la deletion car sinon on ne trouve plus les info nécessaire
+        notifyUsers(email,false);
+        int rs = 0;
+        
         try {
-            // on notifie avant la deletion car sinon on ne trouve plus les info nécessaire
-            notifyUsers(email,false);
-            
-            String query = "DELETE FROM " + TABLE_UTILISATEURS + " WHERE email=" + email + " AND nom='" + nom + "' AND prenom='" + prenom + "' ;";
-            
-            //System.out.println(querry);
-            int rs = stmt.executeUpdate(query);
-            
-        } catch (Exception ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+           //suppression des visites de l'user
+            rs = stmt.executeUpdate(deleteVisiteQuery);
+       } catch (Exception ex) {
+            System.err.println("could not delete visites :"+ ex);
             
         }
+        
+        try{
+         //suppression de l'user
+            rs = stmt.executeUpdate(deleteUserQuery);
+        } catch (Exception ex) {
+            System.err.println("could not delete user :" + ex);
+            
+        }
+        
+        
+        
+        
     }
     
     @Override

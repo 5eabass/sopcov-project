@@ -35,7 +35,7 @@
     <body>      
         <%!
                 HttpSession s = null;
-                String email = "";
+                String emailToBeModified = "";
                 ArrayList<String> lieuxTravail = null;
 
                 // valeur précedente de l'utilisateur
@@ -57,6 +57,8 @@
             %>
 
             <%
+                
+                emailToBeModified = (String) request.getAttribute("emailToBeModified");
                 // données courante de l'utilisateur
                 user = (User) request.getAttribute("user");
 
