@@ -42,9 +42,10 @@
             HttpSession s = null;
         %>
         <%
+            emailToBeModified = (String) request.getAttribute("emailToBeModified");
             s = request.getSession();
             if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("password") != null) {
-                emailToBeModified = (String) s.getAttribute("email");
+                //emailToBeModified = (String) s.getAttribute("email");
                 apwd = (String) s.getAttribute("apwd");
                 npwd = (String) s.getAttribute("npwd");
                 rnpwd = (String) s.getAttribute("rnpwd");

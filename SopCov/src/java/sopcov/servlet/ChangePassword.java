@@ -6,7 +6,9 @@
 package sopcov.servlet;
 
 import database.DB;
+import database.User;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -83,7 +85,38 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        
+        DB dbmanager=new DB();
+        String emailToBeModified = "";
+        
+        String destination = "changePass.jsp";
+        System.out.println("entered servlet");
+        if (request.getParameter("emailToBeModified") != null){
+            System.out.println("entered email param!= null");
+            emailToBeModified = (String) request.getParameter("emailToBeModified");
+            System.out.println("emailtobemodified :" + emailToBeModified);
+        }else {
+            System.out.println("entered email param = null");
+            HttpSession s = request.getSession();
+            
+            if (s != null) {
+                emailToBeModified = (String) s.getAttribute("email");
+                
+                
+                
+            }else{
+                destination = "index.jsp";
+            }
+        }
+        if (!emailToBeModified.equals("")){
+        // recuperation des infos
+                User userInfo = dbmanager.queryInfo(emailToBeModified);
+                request.setAttribute("emailToBeModified", emailToBeModified);
+        }
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/" + destination);
+        rd.forward(request, response);
     }
     
     
@@ -98,7 +131,42 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        
+        // Get the parameters to change password
+            String mail= request.getParameter("emailToBeModified");
+            String apwd = request.getParameter("apwd");
+            String npwd = request.getParameter("npwd");
+            String rnpwd = request.getParameter("rnpwd");
+            HttpSession s = request.getSession();
+
+            DB database=new DB();
+            System.out.println("PASS: "+mail);
+            if(!database.getPassword(mail).equals(apwd)){
+                s.setAttribute("msgErreur", "Ancien mot de passe incorrect!");
+                System.out.println("Old Password not correct!");
+            }
+            else{
+                //The old password is correct
+                if(npwd.length()<8){
+                    //Password length < 8 carachters
+                    s.setAttribute("msgErreur", "Mot de passe doit contenir au moins 8 caractères.");
+                    System.out.println("New Password not correct!");
+                }
+                else{
+                    if(!npwd.equals(rnpwd)){
+                        //Not same repeated Password
+                        s.setAttribute("msgErreur", "Veuillez entrer le même mot de passe deux fois.");
+                        System.out.println("Please enter the same password twice!");
+                    }
+                    else{
+                        database.setPassword(mail, npwd);
+                        }
+                    }
+                }
+            
+            final RequestDispatcher rd = request.getRequestDispatcher("/changePass.jsp" );
+            rd.forward(request, response);
     }
     
     /**
