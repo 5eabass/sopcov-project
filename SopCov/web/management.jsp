@@ -3,6 +3,7 @@
     Created on : 10 janv. 2015, 18:02:13
     Author     : gb
 --%>
+<%@page import="javax.management.RuntimeErrorException"%>
 <%@page import="database.Commune"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="sopcov.servlet.GetReportServlet"%>
@@ -42,7 +43,7 @@
             String login = "";
             String email = "";
             String pswd = "";
-            boolean admin = false;
+            Boolean admin = false;
             HttpSession s = null;
             String[] RAPPORTS = GetReportServlet.RAPPORTS;
             String[] REPONSES = GetReportServlet.REPONSES;
@@ -59,9 +60,16 @@
                 login = email.split("@")[0];
                 pswd = (String) s.getAttribute("password");
                 admin = (Boolean) s.getAttribute("admin");
+                if (admin == null) {
+                    admin = false;
+                }
                 if (s.getAttribute("msgErreur") != null) {
                     msgErreur = (String) s.getAttribute("msgErreur");
                 }               
+            }
+            
+            if (!admin) {
+                throw new RuntimeException("Accès interdit, vous n'êtes pas administrateur!");
             }
         %>
 

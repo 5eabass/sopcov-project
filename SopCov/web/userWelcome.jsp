@@ -47,6 +47,9 @@
                 pswd = (String) s.getAttribute("password");
                 admin = (Boolean) s.getAttribute("admin");
             }
+            else {
+                throw new RuntimeException("Accès interdit, vous n'êtes pas loggé!");
+            }
         %>
 
         <div class="site-wrapper">

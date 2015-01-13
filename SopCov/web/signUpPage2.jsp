@@ -34,6 +34,14 @@
     <body>
         <%!
             ArrayList<String> lieuxTravail = null;
+            HttpSession s;
+            String email;
+        %>
+        <%
+            s = request.getSession();
+            if (s == null || s.isNew() || s.getAttribute("email") == null || s.getAttribute("password") == null) {
+                throw new RuntimeException("Accès interdit, vous n'êtes pas loggé!");
+            }
         %>
 
         <div class="site-wrapper">
@@ -105,8 +113,7 @@
                                             <abbr title="Obligatoire">*</abbr> Lieu de travail
                                         </label>
                                         <select id="wplace" name="lieu_travail">
-                                            <%
-                                                //attrape la liste de lieux de travail
+                                            <%                                                //attrape la liste de lieux de travail
                                                 if (request.getAttribute("lieuxTravail") != null) {
                                                     lieuxTravail = (ArrayList<String>) request.getAttribute("lieuxTravail");
                                                 }
@@ -166,7 +173,7 @@
                                             Je souhaite être notifié.
                                         </label>
                                     </div>
-                                    
+
 
                                     <center>
                                         <input class="btn btn-success" name="commit" type="submit" value="S'inscrire" />
