@@ -329,7 +329,7 @@ public class DB implements DBInterface {
             queryCreeUtilisateur += "'" + password + "','" + email + "',";
             queryCreeUtilisateur += "'" + adresse + "','" + commune + "',";
             queryCreeUtilisateur += "'" + codePostal + "','" + lieuTravailID + "',";
-            queryCreeUtilisateur += "'" + heureDepart + "','" + heureRetour + "',";
+            queryCreeUtilisateur += "'" + heureDepart + ":00','" + heureRetour + ":00',";
             queryCreeUtilisateur += "'" + joursTravail + "','" + conducteurConv + "',";
             queryCreeUtilisateur += "'" + notifConv + "');";
             
@@ -1116,12 +1116,14 @@ public class DB implements DBInterface {
         //dbHelper.setPassword("adminuser@test.com","adminuser");
         //dbHelper.editLocation("ghader@etud.insa-toulouse.fr", "Balma");
         //System.out.println(dbHelper.userExists("adminuser@test.com", "adminuser"));
-        //dbHelper.addNewUser(false, "omar", "ghader", "pass", "07", "oma@insa.fr", "135 avenue de Rangueil", "Labege", "31400", "Sopra_Group_Ent1", "08:00:00", "17:00:00", "L,M,M,J,V", true, true);
+        //dbHelper.addNewUser(false, "omar", "ghader", "pass", "07", "omar@insa.fr", "135 avenue de Rangueil", "Labege", "31400", "Sopra_Group_Ent1", "08:00", "17:00", "L,M,M,J,V", true, true);
+        dbHelper.deleteUser("omar@insa.fr");
+        dbHelper.deleteUser("oma@insa.fr");
         //dbHelper.addNewUser(true, DB_URL, USER, DB_URL, USER, USER, DB_URL, DB_URL, PASS, TABLE_VISITES, JDBC_DRIVER, DB_URL, JDBC_DRIVER, true, true)
         //System.out.println(dbHelper.searchRoute("Toulouse", "Sopra_Group_Ent2").toString());
         //dbHelper.editWorkLocation(1, "Sopra_Group_Ent1", "37 Chemin des Ramassier", "Colomiers", "31770");
-        dbHelper.deleteWorkLocation(1, "Sopra_Group_Ent1");
-        System.out.println(dbHelper.getAllCommunes().toString());
+        //dbHelper.deleteWorkLocation(1, "Sopra_Group_Ent1");
+        //System.out.println(dbHelper.getAllCommunes().toString());
         dbHelper.listData();
         dbHelper.closeConnection();
     }//end main

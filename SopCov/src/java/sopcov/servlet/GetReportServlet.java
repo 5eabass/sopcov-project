@@ -5,7 +5,7 @@
  */
 package sopcov.servlet;
 
-import com.google.gson.*;
+//import com.google.gson.*;
 import database.Commune;
 import database.CoupleCommuneLieuTravail;
 import database.DB;
@@ -96,12 +96,12 @@ public class GetReportServlet extends HttpServlet {
             } else if (request.getParameter("rapport").equals(RAPPORTS[6])) {
                 System.out.println("Demande de rapport : " + RAPPORTS[6]);
                 ArrayList<CoupleCommuneLieuTravail> couples = dbi.getAllNumberOfUserByCoupleCommuneAndWorkplace();
-                Gson gson = new Gson();
+/*                Gson gson = new Gson();
                 //int nbrConnections = 1;
                 String reponse = gson.toJson(couples);
                 System.out.println("Renvoie : " + reponse);
                 pw.println(reponse);
-                pw.flush();
+                pw.flush();*/
             }
             else {
                 System.err.println("In GetReport : " + request.getParameter("rapport") + " inconnu ");

@@ -88,12 +88,8 @@
                 email = (String) s.getAttribute("email");
                 login = email.split("@")[0];
                 pswd = (String) s.getAttribute("password");
+                admin = (Boolean) s.getAttribute("admin");
             }
-            if (request.getParameter("admin") != null) {
-                admin = Boolean.getBoolean(request.getParameter("admin"));
-            }
-            //ATTENTION POUR LA PHASE DE TEST SEULEMENT
-            admin = true;
         %>
 
         <div class="site-wrapper">
@@ -135,7 +131,7 @@
                                                 <span class="icon-bar"></span>
                                                 <span class="icon-bar"></span>
                                             </button>
-                                            <a class="navbar-brand" href="#">CritÃ¨res</a>
+                                            <a class="navbar-brand" href="#">Critères</a>
                                         </div>
 
                                         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -167,9 +163,8 @@
                                                 </select>
                                                 
                                                 <select class="form-control" name="lieu_travail">
-                                                    <option value="Sopra_Group_Ent1">Toulouse Colomiers 1</option>
-                                                    <option value="Sopra_Group_Ent2">Toulouse Colomiers 2</option>
-                                                    <option value="Sopra_Group_Ent3">Toulouse Les Ramassiers</option>
+                                                    <option value="Sopra_Group_Ent1">Sopra_Group_Ent1</option>
+                                                    <option value="Sopra_Group_Ent2">Sopra_Group_Ent2</option>
                                                 </select>
                                                 <button type="submit" class="btn btn-success">Rechercher</button>
                                             </form>
@@ -184,19 +179,22 @@
                                                 <div class="panel-heading"><a href="#" id="example" >${driver.commune} > ${driver.lieu_travail_nom}</a></div>
                                                 <div class="panel-body">
                                                     <div class="row">
-                                                        <div class="col-md-5">
+                                                        <div class="col-md-7">
                                                             <h4 class="media-heading">${driver.nom}  ${driver.prenom}</h4>
                                                             <p>
-                                                                <span class="label label-info">DÃ©part</span> ${driver.adresse}, ${driver.code_postal} ${driver.commune}<br/>
-                                                                <span class="label label-info">ArrivÃ©e</span> ${driver.lieu_travail_adresse} <br/>
-                                                                <span class="label label-info">Horaire aller</span> ${driver.heure_depart}<br/>
-                                                                <span class="label label-info">Horaire retour</span> ${driver.heure_retour}<br/>
+                                                                <span class="label label-success">Départ</span> ${driver.adresse}, ${driver.code_postal} ${driver.commune}<br/>
+                                                                <span class="label label-warning">Arrivée</span> ${driver.lieu_travail_adresse} <br/>
+                                                                <span class="label label-info">Tel :  </span>  ${driver.tel}<br/>
+                                                            
+                                                                <span class="label label-info">Horaire Aller</span>  ${driver.heure_depart}
+                                                                <span class="label label-info">Horaire Retour</span> ${driver.heure_retour}<br/>
+                                                                
+                                                                <span class="label label-info">J. de Travail : </span>  ${driver.jours_travail}<br/>
                                                                 <span class="label label-warning">Places disponibles</span> 1/4
                                                             </p>
                                                         </div>
-                                                        <div class="col-md-7">
-
-                                                            <img src="https://maps.googleapis.com/maps/api/staticmap?center=${driver.commune}&zoom=11&size=600x300&maptype=roadmap&markers=color:blue|label:A|${driver.lieu_travail_adresse}&markers=color:red|label:B|${driver.adresse},${driver.commune}&path=${driver.lieu_travail_adresse}|${driver.adresse},${driver.commune}" class="img-responsive gmpreview" alt="google map preview">
+                                                        <div class="col-md-5">
+                                                            <img src="https://maps.googleapis.com/maps/api/staticmap?center=${driver.commune}&zoom=11&size=600x400&maptype=roadmap&markers=color:blue|label:A|${driver.lieu_travail_adresse}&markers=color:red|label:B|${driver.adresse},${driver.commune}&path=${driver.lieu_travail_adresse}|${driver.adresse},${driver.commune}" class="img-responsive gmpreview" alt="google map preview">
                                                         </div>
                                                     </div>
                                                 </div>
