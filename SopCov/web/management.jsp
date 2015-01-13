@@ -265,7 +265,7 @@
                                                         element.innerHTML = '<h5>Nombre de non conducteurs : </h5><p> ' + obj.<%=REPONSES[1]%> + '</p>';
                                                     }
                                                     else if (rapport == '<%=RAPPORTS[2]%>') {
-                                                        element.innerHTML = '<h5>Pourcentage de conducteurs : </h5><p> ' + obj.<%=REPONSES[2]%> + '%' + '</p>';
+                                                        element.innerHTML = '<h5>Pourcentage de conducteurs : </h5><p> ' + obj.<%=REPONSES[2]%>.substring(0,5) + '%' + '</p>';
                                                     }
                                                     else if (rapport == '<%=RAPPORTS[3]%>') {
                                                         element.innerHTML = '<h5>Nombre d\'utilisateurs de SopCov : </h5><p> ' + obj.<%=REPONSES[3]%> + '</p>';

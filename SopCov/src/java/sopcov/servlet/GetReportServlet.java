@@ -5,7 +5,7 @@
  */
 package sopcov.servlet;
 
-//import com.google.gson.*;
+import com.google.gson.*;
 import database.Commune;
 import database.CoupleCommuneLieuTravail;
 import database.DB;
@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GetReportServlet extends HttpServlet {
 
-    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers","getNumberOfUserForCoupleCommuneAndWorkplace","getNumberOfConnectionBetween","getAllNumberOfUserByCoupleCommuneAndWorkplace"};
-    public static String[] REPONSES = {"nombre_conducteurs", "nombre_non_conducteurs", "pourcentage_conducteurs", "nombre_utilisateurs","nombre_utilisateur_couple_c_lt","nombre_connections"};
+    public static String[] RAPPORTS = {"getNumberDrivers", "getNumberOfNonDrivers", "getPercentOfDrivers", "getNumberOfUsers", "getNumberOfUserForCoupleCommuneAndWorkplace", "getNumberOfConnectionBetween", "getAllNumberOfUserByCoupleCommuneAndWorkplace"};
+    public static String[] REPONSES = {"nombre_conducteurs", "nombre_non_conducteurs", "pourcentage_conducteurs", "nombre_utilisateurs", "nombre_utilisateur_couple_c_lt", "nombre_connections"};
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -96,14 +96,13 @@ public class GetReportServlet extends HttpServlet {
             } else if (request.getParameter("rapport").equals(RAPPORTS[6])) {
                 System.out.println("Demande de rapport : " + RAPPORTS[6]);
                 ArrayList<CoupleCommuneLieuTravail> couples = dbi.getAllNumberOfUserByCoupleCommuneAndWorkplace();
-/*                Gson gson = new Gson();
+                Gson gson = new Gson();
                 //int nbrConnections = 1;
                 String reponse = gson.toJson(couples);
                 System.out.println("Renvoie : " + reponse);
                 pw.println(reponse);
-                pw.flush();*/
-            }
-            else {
+                pw.flush();
+            } else {
                 System.err.println("In GetReport : " + request.getParameter("rapport") + " inconnu ");
 
             }
@@ -121,16 +120,20 @@ public class GetReportServlet extends HttpServlet {
     }// </editor-fold>
 
     /**
-     * Permet à la vue management d'avoir accès à la liste des communes présentes dans la DB
+     * Permet à la vue management d'avoir accès à la liste des communes
+     * présentes dans la DB
+     *
      * @return la liste des communes présentes dans la DB
      */
     public static ArrayList<Commune> getCommunes() {
         DBInterface db = new DB();
         return db.getAllCommunes();
     }
-    
+
     /**
-     * Permet à la vue management d'avoir accès à la liste des lieux de travail présents dans la DB
+     * Permet à la vue management d'avoir accès à la liste des lieux de travail
+     * présents dans la DB
+     *
      * @return la liste des lieux de travail présents dans la DB
      */
     public static ArrayList<String> getWorplaces() {
