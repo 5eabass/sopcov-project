@@ -87,6 +87,8 @@ public interface DBInterface {
 
     public boolean userExists(String email, String password);
 
+    public boolean isUserInDB(String email);
+    
     public boolean isUSerAdmin(String email);
     public ArrayList<Commune> getAllCommunes();
     public List<User> getAllDrivers();

@@ -39,6 +39,7 @@
                 ArrayList<String> lieuxTravail = null;   
                 String isAdminRequest = "";
                 
+                
                 // valeur précedente de l'utilisateur               
                 User user = null;
                 int userAdmin;
@@ -58,7 +59,7 @@
                 
             %>
 
-            <%       
+            <%                                   
                 s = request.getSession();
                 emailToBeModified = (String) request.getAttribute("emailToBeModified");
                 s.setAttribute("emailToBeModified", emailToBeModified);

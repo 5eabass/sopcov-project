@@ -3,7 +3,6 @@
     Created on : 10 janv. 2015, 18:02:13
     Author     : gb
 --%>
-
 <%@page import="database.Commune"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="sopcov.servlet.GetReportServlet"%>
@@ -39,6 +38,7 @@
     <body>
 
         <%!
+            String msgErreur= "";
             String login = "";
             String email = "";
             String pswd = "";
@@ -51,11 +51,17 @@
         %>
         <%
             s = request.getSession();
+             
+            
             if (s != null && !s.isNew() && s.getAttribute("email") != null && s.getAttribute("password") != null) {
                 email = (String) s.getAttribute("email");
                 login = email.split("@")[0];
                 pswd = (String) s.getAttribute("password");
                 admin = (Boolean) s.getAttribute("admin");
+                if (s.getAttribute("msgErreur") != null) {
+                    msgErreur = (String) s.getAttribute("msgErreur");
+                }
+                
             }
         %>
 
@@ -176,19 +182,37 @@
                                         <h4>
                                             Modification des comptes
                                         </h4>
-                                    </a>                                       
+                                    </a>                   
+                                         
                                         <div class="list-group-item">
+                                            <% if (msgErreur != "") {%>
+                                                         <div class ="alert alert-danger" role="alert">
+                                                                <span class ="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                                <span class ="sr-only">Error</span>
+                                                                <%=msgErreur%>
+                                                                <% 
+                                                                    s.removeAttribute("msgErreur");
+                                                                    msgErreur="";
+                                                                %>
+                                                        </div>
+                                                    <% }%>  
                                             <div class="input-group">              
                                                 <form accept-charset="UTF-8" action="/SopCov/ActionDispatcher.do" method="get">
-                                                    <input type="text" class="string email form-control" id="email" name="email"  placeholder="Entrez une addresse mail">           
+                                                                              
+                                                   <input type="text" class="string email form-control" id="email" name="email"  placeholder="Entrez une addresse mail">           
+                                                    
+                                                   
                                                     <div class="input-group-btn">
+                                                   
+                                                        
                                                         <button type="button" class="btn btn-success dropdown-toggle btn-success1" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
                                                         <ul class="dropdown-menu" role="menu">
                                                             <input class="btn btn-success" name="action" type="submit" value="Modifier" />
                                                             <input class="btn btn-success" name="action" type="submit" value="Supprimer" />
-                                                        </ul>                  
-                                                    </div><!-- /btn-group -->
+                                                        </ul>      
                                                         
+                                                    </div><!-- /btn-group -->
+                                                                                 
                                                 </form>
                                             </div>                                                              
                                     </div>

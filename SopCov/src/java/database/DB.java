@@ -702,6 +702,26 @@ public class DB implements DBInterface {
         return userExists;
     }
     
+    public boolean isUserInDB(String email){
+        boolean isUserInDB = false;
+        
+        String sql;
+        sql = "SELECT email FROM " + TABLE_UTILISATEURS + " WHERE email='" + email + "'";
+        // System.out.println(sql);
+        ResultSet rs;
+        try {
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                isUserInDB = true;
+            }
+            rs.close();
+            
+        } catch (Exception e) {
+            System.err.println("In DB - isUserExist - could not query error : " + e);
+        }
+        return isUserInDB;
+    }
+    
     @Override
     public List<User> getAllDrivers() {
         List<User> conducteurs = new ArrayList<>();
