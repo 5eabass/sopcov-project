@@ -168,8 +168,9 @@
                                     </div>
                                     
 
-
-                                    <input class="btn btn-success" name="commit" type="submit" value="S'inscrire" />
+                                    <center>
+                                        <input class="btn btn-success" name="commit" type="submit" value="S'inscrire" />
+                                    </center>
                                 </form>
                             </div>
                         </div>
