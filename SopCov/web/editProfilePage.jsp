@@ -301,7 +301,7 @@
 
                     <div class="mastfoot">
                         <div class="inner">
-                            <p>Application de covoiturage développé pour <a href="http://www.sopra.com/">Sopra</a>, par <a href="http://www.insa-toulouse.fr">INSA Toulouse</a>.</p>
+                            <p>Application de covoiturage développée pour <a href="http://www.sopra.com/">Sopra</a>, par <a href="http://www.insa-toulouse.fr">INSA Toulouse</a>.</p>
                         </div>
                     </div>
 

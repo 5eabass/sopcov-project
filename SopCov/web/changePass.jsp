@@ -123,7 +123,7 @@
                                             <abbr title="Obligatoire">*</abbr> Nouveau Mot de Passe
                                         </label>
                                         <input class="password required form-control" id="user_basic_password" name="npwd" placeholder="Mot de Passe" type="password" />
-                                        <p class="help-block">Votre nouveau mot de passe doit contenir au moins 8 caractÃ¨res.</p>
+                                        <p class="help-block">Votre nouveau mot de passe doit contenir au moins 8 caractères.</p>
                                     </div>
                                     <div class="form-group password required user_basic_password">
                                         <label class="password required control-label" for="user_basic_password">
@@ -142,7 +142,7 @@
 
                     <div class="mastfoot">
                         <div class="inner">
-                            <p>Application de covoiturage dÃ©veloppÃ© pour <a href="http://www.sopra.com/">Sopra</a>, par <a href="http://www.insa-toulouse.fr">INSA Toulouse</a>.</p>
+                            <p>Application de covoiturage développée pour <a href="http://www.sopra.com/">Sopra</a>, par <a href="http://www.insa-toulouse.fr">INSA Toulouse</a>.</p>
                         </div>
                     </div>
 
