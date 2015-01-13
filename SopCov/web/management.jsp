@@ -48,6 +48,7 @@
             String[] REPONSES = GetReportServlet.REPONSES;
             ArrayList<Commune> communes = GetReportServlet.getCommunes();
             ArrayList<String> lieuTravail = GetReportServlet.getWorplaces();
+            String serveur = "localhost";
         %>
         <%
             s = request.getSession();
@@ -252,7 +253,7 @@
                                             var element = document.getElementById(rapport);
                                             //alert('Vous avez demandez le rapport : ' + rapport);
                                             var xhr = new XMLHttpRequest();
-                                            xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport);
+                                            xhr.open('GET', 'http://<%=server%>:8080/SopCov/GetReportServlet.do?rapport=' + rapport);
                                             xhr.send(null);
                                             element.innerHTML += ' Demande au serveur...';
                                             xhr.addEventListener('readystatechange', function () {
@@ -299,7 +300,7 @@
                                             var lTList = document.getElementById('lieu_travail');
                                             var lT = lTList.options[lTList.selectedIndex].text;
                                             var xhr = new XMLHttpRequest();
-                                            xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&commune=" + commune + "&lT=" + lT);
+                                            xhr.open('GET', 'http://<%=server%>:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&commune=" + commune + "&lT=" + lT);
                                             xhr.send(null);
                                             xhr.addEventListener('readystatechange', function () {
                                                 var obj = JSON.parse(xhr.responseText);
@@ -316,7 +317,7 @@
                                             var heureFin = document.getElementById('heure_fin').value;
                                             if ((testDate('date_deb')) && (testDate('date_fin')) && testHeure('heure_deb') && testHeure('heure_fin')) {
                                                 var xhr = new XMLHttpRequest();
-                                                xhr.open('GET', 'http://localhost:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&date_deb=" + dateDeb + "&heure_deb=" + heureDeb + "&date_fin=" + dateFin + "&heure_fin=" + heureFin);
+                                                xhr.open('GET', 'http://<%=server%>:8080/SopCov/GetReportServlet.do?rapport=' + rapport + "&date_deb=" + dateDeb + "&heure_deb=" + heureDeb + "&date_fin=" + dateFin + "&heure_fin=" + heureFin);
                                                 xhr.send(null);
                                                 xhr.addEventListener('readystatechange', function () {
                                                     var obj = JSON.parse(xhr.responseText);

@@ -120,6 +120,7 @@ public class SignUpFinishedServlet extends HttpServlet {
                 mail.init();
                 mail.sendNotificationEmail("sebastienneumann78@gmail.com");*/
                 dbi.rememberUserLogIn(email);
+                s.setAttribute("admin", admin);
                 break;
             case -1:
                 s.setAttribute("msgErreur", "Création du profil impossible. Votre lieu de travail n'a pas été trouvé dans la base de données.");
