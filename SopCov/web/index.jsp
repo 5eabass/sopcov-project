@@ -6,12 +6,30 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8" session="false"%>
 <!DOCTYPE html>
-<html>
-    <%
-        request.setAttribute("titre", "SopCov - Bienvenue!");
-    %>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="img/favicon.ico">
 
-    <%@include file="globalhead.jsp" %>
+        <title>SopCov - Bienvenue!</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
 
     <body>
         <%!
@@ -37,7 +55,16 @@
 
                 <div class="cover-container">
 
-                    <%@include file="masterhead.jsp" %>
+                    <div class="masthead clearfix">
+                        <div class="inner">
+                            <h3 class="masthead-brand">SopCov</h3>
+                            <nav>
+                                <ul class="nav masthead-nav">
+                                    <li class="active"><a href="#">Accueil</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
 
                     <div class="inner cover">
                         <h1 class="cover-heading">Adoptez un trajet avec SopCov</h1>
@@ -50,9 +77,9 @@
                             <span class ="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                             <span class ="sr-only">Error</span>
                             <%=msgErreur%>
-                            <% 
+                            <%
                                 s.removeAttribute("msgErreur");
-                                msgErreur="";
+                                msgErreur = "";
                             %>
                         </div>
                         <% }%>
@@ -82,7 +109,12 @@
                     </div>
 
 
-                    <%@include file="masterfooter.jsp" %>
+
+                    <div class="mastfoot">
+                        <div class="inner">
+                            <p>Application de covoiturage développé pour <a href="http://www.sopra.com/">Sopra</a>, par <a href="http://www.insa-toulouse.fr">INSA Toulouse</a>.</p>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -90,7 +122,14 @@
 
         </div>
 
-        <%@include file="bootstrap_core_javascript.jsp" %>
+        <!-- Bootstrap core JavaScript
+================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="../../assets/js/docs.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 
     </body>
 </html>
