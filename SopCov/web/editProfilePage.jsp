@@ -38,7 +38,7 @@
                 String emailToBeModified = "";
                 ArrayList<String> lieuxTravail = null;   
                 String isAdminRequest = "";
-                
+                boolean isAdminSession = false ;
                 
                 // valeur précedente de l'utilisateur               
                 User user = null;
@@ -64,6 +64,7 @@
                 emailToBeModified = (String) request.getAttribute("emailToBeModified");
                 s.setAttribute("emailToBeModified", emailToBeModified);
                 isAdminRequest = (String) request.getAttribute("isAdminRequest");
+                isAdminSession = (Boolean) s.getAttribute("admin");
                 // données courante de l'utilisateur
                 user = (User) request.getAttribute("user");
                 
@@ -96,7 +97,7 @@
                                     <li><a href="userWelcome.jsp"> Page Principale</a></li>
                                     <li><a href="/SopCov/ShowCovoiturage">Trajets</a></li>
                                     <li class="active"><a href="#">Profil</a></li>
-                                    <% if (isAdminRequest.equals("true")) {%>
+                                    <% if (isAdminSession) {%>
                                     <li><a href="management.jsp">Administration</a></li>
                                         <% }%>
                                     <li><a href="/SopCov/SignOutServlet.do">Se déconnecter</a></li>

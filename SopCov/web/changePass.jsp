@@ -38,20 +38,18 @@
             String npwd = "";
             String rnpwd = "";
             String msgErreur="";
-            String admin="";
+            String isAdminRequest="";
+            boolean isAdminSession = false;
             HttpSession s = null;
         %>
         <%
-            admin =(String) request.getAttribute("isAdmin");
+            isAdminRequest =(String) request.getAttribute("isAdmin");
             emailToBeModified = (String) request.getAttribute("emailToBeModified");
             s = request.getSession();
-            
+            isAdminSession =(Boolean) s.getAttribute("admin");
             if (s.getAttribute("msgErreur") != null) {
                 msgErreur = (String) s.getAttribute("msgErreur");
-            }
-           
-            //ATTENTION POUR LA PHASE DE TEST SEULEMENT
-           System.out.println("fin setting valeur : " + admin+ " / " + emailToBeModified);
+            }           
         %>
 
         <div class="site-wrapper">
@@ -68,7 +66,7 @@
                                     <li><a href="userWelcome.jsp">Page Principale</a></li>
                                     <li><a href="/SopCov/ShowCovoiturage">Trajets</a></li>
                                     <li class="active"><a href="/SopCov/EditProfile.do">Profil</a></li>
-                                        <% if (admin.equals("true")) {%>
+                                        <% if (isAdminSession) {%>
                                     <li><a href="management.jsp">Administration</a></li>
                                         <% }%>
                                     <li><a href="/SopCov/SignOutServlet.do">Se déconnecter</a></li>
@@ -109,7 +107,7 @@
                                     </div>
                                         
                                         
-                                    <% if(!admin.equals("true")){
+                                    <% if(!isAdminRequest.equals("true")){
                                          out.println("<div class=\"form-group password required user_basic_password\">\n"
                                                  + "<label class=\"password required control-label\" for=\"user_basic_password\">\n"
                                                  + "<abbr title=\"Obligatoire\">*</abbr> Mot de Passe actuel\n"

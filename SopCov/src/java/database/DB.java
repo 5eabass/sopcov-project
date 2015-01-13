@@ -133,18 +133,18 @@ public class DB implements DBInterface {
         
         // on récupère les info qui sont utiles : la commune et le lieu de travail pour trouver le trajet
         // mais aussi si le user est conducteur , (si non alors il n'apporte rien de plus)
-        String query = "SELECT conducteur,commune,lieu_travail_id FROM " + TABLE_UTILISATEURS + " WHERE email='"+email+"'";
+        String query = "SELECT conducteur,code_postal,lieu_travail_id FROM " + TABLE_UTILISATEURS + " WHERE email='"+email+"'";
         ResultSet rs;
         int conducteur =0;
         int id_lieu_travail = 0;
-        String commune = "";
+        int code_postal = 0;
         
         try{
             // récupération des valeurs
             rs = stmt.executeQuery(query);
             rs.next();
             conducteur = rs.getInt("conducteur");
-            commune = rs.getString("commune");
+            code_postal = rs.getInt("code_postal");
             id_lieu_travail = rs.getInt("lieu_travail_id");
             
         }catch(Exception e){
@@ -169,7 +169,7 @@ public class DB implements DBInterface {
             MailSender mailSender = new MailSender();
             // on choisit la notification en fonction de si le user à été rajouté ou supprimé
             mailSender.setEmailText(isAdded);
-            mailSender.setList(getEmailToBeNotified(commune,nomLieuTravail));
+            mailSender.setList(getEmailToBeNotified(code_postal,nomLieuTravail));
             mailSender.start();
         }
         
@@ -819,7 +819,7 @@ public class DB implements DBInterface {
         return routes;
     }
     
-    public List<String> getEmailToBeNotified(String source ,String dest){
+    public List<String> getEmailToBeNotified(int code_postal ,String dest){
         List<String> resultEnd = new ArrayList<>();
         // on récupère les info du lieu de travail
         String sqlLieuTravail = "SELECT id FROM " + TABLE_LIEUX_TRAVAIL + " Where nom_lieu='" + dest + "'";
@@ -832,7 +832,7 @@ public class DB implements DBInterface {
             int lieu_travail_id = rs.getInt("id");
             
             //on cherche les emails des personnes qui sont sur le trajet (commune->lieu travail)
-            String sqlEmail = "SELECT email FROM " + TABLE_UTILISATEURS + " WHERE commune='" + source + "' AND lieu_travail_id='" + lieu_travail_id + "' AND notif='1'";
+            String sqlEmail = "SELECT email FROM " + TABLE_UTILISATEURS + " WHERE code_postal='" + code_postal + "' AND lieu_travail_id='" + lieu_travail_id + "' AND notif='1'";
             ResultSet resEmails;
             resEmails = stmt.executeQuery(sqlEmail);
             

@@ -61,8 +61,7 @@
                 admin = (Boolean) s.getAttribute("admin");
                 if (s.getAttribute("msgErreur") != null) {
                     msgErreur = (String) s.getAttribute("msgErreur");
-                }
-                
+                }               
             }
         %>
 
