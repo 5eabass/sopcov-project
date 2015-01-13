@@ -33,6 +33,7 @@ public class ShowCovoiturage extends HttpServlet {
     @Override
     public void doGet( HttpServletRequest request,  HttpServletResponse response) throws IOException, ServletException  {
         request.setAttribute("drivers", dbmanager.getAllDrivers());
+        request.setAttribute("Communes", dbmanager.getAllCommunes());
         final RequestDispatcher rd = request.getRequestDispatcher("/trajettype.jsp" );
         rd.forward(request, response);
        

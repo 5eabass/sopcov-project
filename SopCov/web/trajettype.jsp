@@ -157,9 +157,9 @@
                                             </ul-->
                                             <form class="navbar-form navbar-right"  action="/SopCov/SearchRoute" role="search">
                                                 <select class="form-control" name="commune">
-                                                    <option value="Toulouse">Toulouse</option>
-                                                    <option value="Labege">Labège</option>
-                                                    <option value="Colomiers">Colomiers</option>
+                                                    <c:forEach var="com" items="${Communes}" varStatus="loop">
+                                                         <option value="${com.code_postal}">${com.commune},${com.code_postal}</option>
+                                                    </c:forEach>
                                                 </select>
                                                 
                                                 <select class="form-control" name="lieu_travail">

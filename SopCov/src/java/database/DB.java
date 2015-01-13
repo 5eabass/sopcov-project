@@ -790,7 +790,7 @@ public class DB implements DBInterface {
             String lieu_travail_nom = rs.getString("nom_lieu");
             String lieu_travail_adresse = rs.getString("adresse");
             System.out.println(lieu_travail + "," + lieu_travail_id);
-            String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where conducteur=1 AND commune='" + mCity + "' AND lieu_travail_id='" + lieu_travail_id + "'";
+            String sql = "SELECT * FROM " + TABLE_UTILISATEURS + " Where conducteur=1 AND code_postal='" + mCity + "' AND lieu_travail_id='" + lieu_travail_id + "'";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 //Retrieve by column prenom

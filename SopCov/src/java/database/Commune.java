@@ -25,4 +25,22 @@ public class Commune {
     public String toOptionString(){
         return commune+ "/"+code_postal;
     }
+
+    public String getCommune() {
+        return commune;
+    }
+
+    public void setCommune(String commune) {
+        this.commune = commune;
+    }
+
+    public String getCode_postal() {
+        return code_postal;
+    }
+
+    public void setCode_postal(String code_postal) {
+        this.code_postal = code_postal;
+    }
+    
+    
 }

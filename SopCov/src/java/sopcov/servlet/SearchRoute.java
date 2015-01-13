@@ -47,6 +47,7 @@ public class SearchRoute extends HttpServlet {
         System.out.println(request.getParameter("commune")+ request.getParameter("lieu_travail"));
         List<User> routes=dbmanager.searchRoute(request.getParameter("commune"), request.getParameter("lieu_travail"));
         request.setAttribute("drivers", routes);
+        request.setAttribute("Communes", dbmanager.getAllCommunes());
         final RequestDispatcher rd = request.getRequestDispatcher("/trajettype.jsp" );
         rd.forward(request, response);
        
@@ -58,6 +59,7 @@ public class SearchRoute extends HttpServlet {
         PrintWriter out = response.getWriter();
         List<User> routes=dbmanager.searchRoute(request.getParameter("commune"), request.getParameter("wPlace"));
         request.setAttribute("drivers", routes);
+        request.setAttribute("Communes", dbmanager.getAllCommunes());
         final RequestDispatcher rd = request.getRequestDispatcher("/trajettype.jsp" );
         rd.forward(request, response);
            
