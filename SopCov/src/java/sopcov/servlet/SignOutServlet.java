@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
 public class SignOutServlet extends HttpServlet {
 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -35,6 +34,10 @@ public class SignOutServlet extends HttpServlet {
         //First let's invalidate the session
         HttpSession s = request.getSession();
         if (s!=null) {
+            System.out.println("Shutting down session");
+            s.removeAttribute("email");
+            s.removeAttribute("password");
+            s.removeAttribute("admin");
             s.invalidate();
         }
         //Then let's forward to the main page
